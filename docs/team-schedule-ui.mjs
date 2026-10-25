@@ -1,4 +1,4 @@
-import {parseTeamCalendar,selectTeamEvents,formatTeamEventTime,scheduleDateKey,teamCalendarMonth,teamEventOnDate} from './team-schedule.mjs';
+import {parseTeamCalendar,selectTeamEvents,formatTeamEventTime,scheduleDateKey,teamCalendarMonth,teamEventOnDate} from './team-schedule.mjs?v=combined-workouts-20261025';
 export function startTeamSchedule({config,element:$,download,readRemote,fetcher=globalThis.fetch,now=()=>Date.now(),storage=globalThis.localStorage}){
  const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;},zone='America/Toronto';let calendar=null,payload=null,busy=false,checked=false,layout='grid',selectedDate=scheduleDateKey(now(),zone),monthKey=selectedDate.slice(0,7);let [year,month]=monthKey.split('-').map(Number);month--;
  const hasFeed=config&&/^https:\/\/ical-cdn\.teamsnap\.com\/team_schedule\/[a-zA-Z0-9-]+\.ics$/.test(config.feed_url),valid=hasFeed||config?.remote===true;

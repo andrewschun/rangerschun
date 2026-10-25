@@ -1,8 +1,8 @@
-import { validateOverSpeedSession } from './overspeed-progression.mjs';
-import { validatePulseRecord } from './pulse.mjs';
-import { validateBlastPcrSession, blastPcrJournalLabel, BLAST_SESSION_METRICS } from './blast-pcr.mjs';
-import { BLAST_METRICS, validateBlastRecord, validateWorkout, validateBaseballSession, summarizeThrows } from './engine.mjs';
-import { validateBatSpeedSet, summarizeBatSpeeds } from './overspeed.mjs';
+import { validateOverSpeedSession } from './overspeed-progression.mjs?v=combined-workouts-20261025';
+import { validatePulseRecord } from './pulse.mjs?v=combined-workouts-20261025';
+import { validateBlastPcrSession, blastPcrJournalLabel, BLAST_SESSION_METRICS } from './blast-pcr.mjs?v=combined-workouts-20261025';
+import { BLAST_METRICS, validateBlastRecord, validateWorkout, validateBaseballSession, summarizeThrows } from './engine.mjs?v=combined-workouts-20261025';
+import { validateBatSpeedSet, summarizeBatSpeeds } from './overspeed.mjs?v=combined-workouts-20261025';
 
 export const ENTRY_HEADERS = Object.freeze(['event_id','received_at','entry_type','operation','record_id','player','session_date','title_or_drill','bat_or_radar',...BLAST_METRICS.map(m=>m.key),...Array.from({length:8},(_,i)=>'throw_'+(i+1)),'maximum_mph','average_top_5_mph','valid_throw_count','distance_ft','duration_minutes','effort','notes','record_json_1','record_json_2','record_json_3']);
 export function validateJournalEvent(event,players){

@@ -1,4 +1,4 @@
-import {THROWING_OFF_DAY_SOURCE} from './workout-record-tools.mjs';
+import {THROWING_OFF_DAY_SOURCE} from './workout-record-tools.mjs?v=combined-workouts-20261025';
 const velocity='Velocity OR PlyoCare Velo';
 const standard=['Hybrid A','Off','Hybrid B',velocity,'Recovery','Hybrid B','Recovery'];
 const recovery=['Hybrid A','Off','Recovery',velocity,'Recovery','Hybrid B','Recovery'];

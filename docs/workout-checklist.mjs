@@ -1,8 +1,8 @@
-import { WORKOUT_LIBRARY } from './library.mjs';
-import { workoutPrescriptionLines } from './library-tools.mjs';
+import { WORKOUT_TEMPLATES, workoutPrescriptionLines } from './library-tools.mjs?v=combined-workouts-20261025';
 
 /** Loads marked n/a need no weight entry. Blank lifting loads are actual-weight fields, not targets. */
 export function checklistWeightRequired(exercise,category){
+  category=exercise.source_category??category;
   const loads=(exercise.prescriptions??[]).map(p=>p.load).filter(v=>v!==null&&v!==undefined&&String(v).trim());
   if(loads.some(v=>/\b(?:lb|lbs|kg)\b/i.test(String(v).replace(/(\d)([a-z])/ig,'$1 $2'))))return true;
   if(loads.length&&loads.every(v=>/^(?:n\/?a|bw|bodyweight|none)$/i.test(String(v).trim())))return false;
@@ -22,7 +22,7 @@ export function workoutChecklistProgress(record){
   const recorded=[...groups.values()].filter(Boolean).length;return {recorded,total:groups.size,all:recorded===groups.size};
 }
 export function validateWorkoutChecklist(record){
-  const template=WORKOUT_LIBRARY.templates.find(t=>t.id===record.source_template_id);
+  const template=WORKOUT_TEMPLATES.find(t=>t.id===record.source_template_id);
   if(!template||template.log_enabled===false)throw new TypeError('Choose an available workout or throwing routine.');
   const expected=workoutChecklistDraft(template);
   if(record.category!==expected.category||record.title!==expected.title)throw new TypeError('Keep the selected workout name and type with its checklist.');

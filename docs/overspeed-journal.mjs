@@ -1,5 +1,5 @@
-import { ENTRY_HEADERS } from './journal.mjs';
-import { validateOverSpeedSession,validateOverSpeedSessions,upsertOverSpeedSession } from './overspeed-progression.mjs';
+import { ENTRY_HEADERS } from './journal.mjs?v=combined-workouts-20261025';
+import { validateOverSpeedSession,validateOverSpeedSessions,upsertOverSpeedSession } from './overspeed-progression.mjs?v=combined-workouts-20261025';
 
 export function overSpeedSessionsFromJournal(rows,players){
   const col=Object.fromEntries(ENTRY_HEADERS.map((k,i)=>[k,i])),records=new Map(),seen=new Set();

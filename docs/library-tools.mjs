@@ -1,4 +1,20 @@
-import { WORKOUT_LIBRARY } from './library.mjs';
+import { WORKOUT_LIBRARY } from './library.mjs?v=combined-workouts-20261025';
+
+// Team weekly Day 4 is source Lift Day 3. Keep original workbook plans intact
+// so older sessions still reopen with their original exercises and identity.
+const combinedPrograms=[],combinedTemplates=[];
+for(const cycle of [1,2,3]){
+  const med=WORKOUT_LIBRARY.programs.find(p=>p.id===`med-ball-cycle-${cycle}`),lift=WORKOUT_LIBRARY.programs.find(p=>p.category==='strength'&&p.id.endsWith(`-cycle-${cycle}`));
+  const program={id:`med-ball-lift-cycle-${cycle}`,name:`Med Ball + Lift Cycle ${cycle}`,category:'strength',week_count:4,days:[{number:1,label:'Day 1 · Med Ball + Heavy Lower'},{number:4,label:'Day 4 · Med Ball + Light Lower'}],notes:lift.notes};
+  combinedPrograms.push(program);
+  for(const [day,medDay,liftDay] of [[1,1,1],[4,2,3]])for(const week of [1,2,3,4]){
+    const find=(id,d)=>WORKOUT_LIBRARY.templates.find(t=>t.program_id===id&&t.day===d&&t.week===week),medPlan=find(med.id,medDay),liftPlan=find(lift.id,liftDay);
+    if(!medPlan||!liftPlan)throw Error('A combined workout is missing its source plan.');
+    combinedTemplates.push({id:`${program.id}-day-${day}-week-${week}`,program_id:program.id,name:`Med Ball + Lift · Cycle ${cycle} · Day ${day} · ${liftPlan.week_label}`,category:'strength',day,day_label:program.days.find(d=>d.number===day).label,week,week_label:liftPlan.week_label,source_template_ids:[medPlan.id,liftPlan.id],exercises:[...medPlan.exercises.map(e=>({...e,source_category:medPlan.category,section:'Med Ball · '+(e.section||'')})),...liftPlan.exercises.map(e=>({...e,source_category:liftPlan.category,section:'Lift · '+(e.section||'')}))]});
+  }
+}
+export const WORKOUT_PROGRAMS=[...WORKOUT_LIBRARY.programs,...combinedPrograms];
+export const WORKOUT_TEMPLATES=[...WORKOUT_LIBRARY.templates,...combinedTemplates];
 
 /** Navigation only: existing source IDs and prescriptions remain unchanged. */
 export function workoutCycleForProgram(programId) {
@@ -6,13 +22,14 @@ export function workoutCycleForProgram(programId) {
 }
 export function workoutTypeForProgram(programId) {
   if(programId==='custom')return 'custom';
+  if(/^med-ball-lift-cycle-[123]$/.test(programId))return 'med_ball_lift';
   const program=WORKOUT_LIBRARY.programs.find(item=>item.id===programId);
   return program?.category==='strength'?'lift':program?.category==='speed'?'conditioning':program?.id==='throwing-routine'?'throwing':program?.id.startsWith('med-ball-')?'med_ball':null;
 }
 export function workoutProgramChoices(cycle) {
   if(!['1','2','3'].includes(String(cycle)))return [];
-  const types=[['med_ball','Med Ball'],['lift','Lift'],['conditioning','Conditioning']];
-  return [...types.flatMap(([type,label])=>WORKOUT_LIBRARY.programs.filter(program=>workoutTypeForProgram(program.id)===type&&(type==='throwing'||workoutCycleForProgram(program.id)===String(cycle))).map(program=>({id:program.id,type,label}))),{id:'custom',type:'custom',label:'Custom workout / detailed entry'}];
+  const types=[['med_ball_lift','Med Ball + Lift'],['med_ball','Med Ball'],['lift','Lift'],['conditioning','Conditioning']];
+  return [...types.flatMap(([type,label])=>WORKOUT_PROGRAMS.filter(program=>workoutTypeForProgram(program.id)===type&&workoutCycleForProgram(program.id)===String(cycle)).map(program=>({id:program.id,type,label}))),{id:'custom',type:'custom',label:'Custom workout / detailed entry'}];
 }
 
 export function isWorkoutVideoUrl(value) {

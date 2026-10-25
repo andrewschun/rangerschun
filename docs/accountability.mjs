@@ -1,6 +1,6 @@
-import { validateWorkout } from './engine.mjs';
-import { ENTRY_HEADERS } from './journal.mjs';
-import { workoutExerciseRecorded, workoutChecklistProgress } from './workout-checklist.mjs';
+import { validateWorkout } from './engine.mjs?v=combined-workouts-20261025';
+import { ENTRY_HEADERS } from './journal.mjs?v=combined-workouts-20261025';
+import { workoutExerciseRecorded, workoutChecklistProgress } from './workout-checklist.mjs?v=combined-workouts-20261025';
 
 function activityDate(value){
   const time=typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(value)?Date.parse(value+'T12:00:00Z'):NaN;

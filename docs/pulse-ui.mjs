@@ -1,4 +1,4 @@
-import { PULSE_METRICS, validatePulseRecords, upsertPulseRecord, latestPulseRecords, pulseRecordsToCsv } from './pulse.mjs';
+import { PULSE_METRICS, validatePulseRecords, upsertPulseRecord, latestPulseRecords, pulseRecordsToCsv } from './pulse.mjs?v=combined-workouts-20261025';
 
 export function startPulse({players,scope,element:$,download,onChange}){
   const node=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};

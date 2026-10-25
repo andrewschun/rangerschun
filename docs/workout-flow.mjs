@@ -1,11 +1,11 @@
-import { isThrowingWorkout, isThrowingOffDay, THROWING_OFF_DAY_SOURCE, previousWorkoutLoad, previousWorkoutLoadText } from './workout-record-tools.mjs';
-import { createWorkoutLoadFields } from './workout-load-ui.mjs';
-import { plateLoadDescription } from './workout-load.mjs';
-import { WORKOUT_LIBRARY } from './library.mjs';
-import { appendDrivelineBallText } from './driveline-colors.mjs';
-import { findWorkoutDemo, isWorkoutVideoUrl, workoutPrescriptionLines, workoutCycleForProgram, workoutTypeForProgram, workoutProgramChoices, formatWeightedBaseballOunces } from './library-tools.mjs';
-import { workoutChecklistDraft, workoutExerciseRecorded, workoutChecklistProgress } from './workout-checklist.mjs';
-import { WORKOUT_CATEGORIES, validateWorkout, upsertWorkout, summarizeWorkouts, workoutsToCsv } from './engine.mjs';
+import { isThrowingWorkout, isThrowingOffDay, THROWING_OFF_DAY_SOURCE, previousWorkoutLoad, previousWorkoutLoadText } from './workout-record-tools.mjs?v=combined-workouts-20261025';
+import { createWorkoutLoadFields } from './workout-load-ui.mjs?v=combined-workouts-20261025';
+import { plateLoadDescription } from './workout-load.mjs?v=combined-workouts-20261025';
+import { WORKOUT_LIBRARY } from './library.mjs?v=combined-workouts-20261025';
+import { appendDrivelineBallText } from './driveline-colors.mjs?v=combined-workouts-20261025';
+import { WORKOUT_PROGRAMS, WORKOUT_TEMPLATES, findWorkoutDemo, isWorkoutVideoUrl, workoutPrescriptionLines, workoutCycleForProgram, workoutTypeForProgram, workoutProgramChoices, formatWeightedBaseballOunces } from './library-tools.mjs?v=combined-workouts-20261025';
+import { workoutChecklistDraft, workoutExerciseRecorded, workoutChecklistProgress } from './workout-checklist.mjs?v=combined-workouts-20261025';
+import { WORKOUT_CATEGORIES, validateWorkout, upsertWorkout, summarizeWorkouts, workoutsToCsv } from './engine.mjs?v=combined-workouts-20261025';
 
 export function startWorkoutFlow({players,scope,element:$,download,onChange,variant='workouts',sharedStore=null,onNavigate}){
   const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
@@ -71,25 +71,25 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
       rows.forEach((row,i)=>{row.querySelector('.exercise-number').textContent=String(i+1).padStart(2,'0');row.querySelectorAll('[data-exercise]').forEach(input=>input.setAttribute('aria-label',`Exercise ${i+1} ${input.dataset.exercise.replaceAll('_',' ')}`));const remove=row.querySelector('.workout-remove-exercise');remove.disabled=rows.length===1;remove.setAttribute('aria-label',`Remove exercise ${i+1}`);});$('workout-exercise-count').textContent=`${rows.length} / 30`;$('workout-add-exercise').disabled=rows.length>=30;
     }else $('workout-exercise-count').textContent=mode==='reference'?'Reference only':'Choose a workout';
   }
-  function pickedTemplate(){return WORKOUT_LIBRARY.templates.find(t=>t.program_id===$('library-program').value&&t.day===Number($('library-day').value)&&t.week===Number($('library-week').value));}
+  function pickedTemplate(){return WORKOUT_TEMPLATES.find(t=>t.program_id===$('library-program').value&&t.day===Number($('library-day').value)&&t.week===Number($('library-week').value));}
   function captureSelection(){selection={cycle:$('library-cycle').value,program:$('library-program').value,day:$('library-day').value,week:$('library-week').value};}
   function fillPrograms(cycle,preferred=''){
     const choices=throwing?[{id:'throwing-routine',type:'throwing',label:'Throwing Routine'}]:workoutProgramChoices(cycle).filter(choice=>choice.type!=='throwing'),select=$('library-program');select.replaceChildren(option('','Choose a workout type'),...choices.map(choice=>option(choice.id,choice.label)));
     const match=choices.find(choice=>choice.id===preferred)??choices.find(choice=>choice.type===workoutTypeForProgram(preferred));if(match)select.value=match.id;else if(throwing)select.value='throwing-routine';
   }
   function fillDays(day){
-    const program=WORKOUT_LIBRARY.programs.find(p=>p.id===$('library-program').value),select=$('library-day');select.replaceChildren();select.disabled=!program;
+    const program=WORKOUT_PROGRAMS.find(p=>p.id===$('library-program').value),select=$('library-day');select.replaceChildren();select.disabled=!program;
     if(program){for(const d of program.days)select.append(option(String(d.number),d.label));if(day&&program.days.some(d=>String(d.number)===day))select.value=day;}else select.append(option('','Choose a day'));
   }
   function fillWeeks(week){
-    const templates=WORKOUT_LIBRARY.templates.filter(t=>t.program_id===$('library-program').value&&t.day===Number($('library-day').value)),select=$('library-week');select.replaceChildren();
+    const templates=WORKOUT_TEMPLATES.filter(t=>t.program_id===$('library-program').value&&t.day===Number($('library-day').value)),select=$('library-week');select.replaceChildren();
     if(templates.length){for(const t of templates)select.append(option(String(t.week),t.week_label));if(week&&templates.some(t=>String(t.week)===week))select.value=week;}else select.append(option('','Choose a week'));select.disabled=templates.length<=1;
   }
   function restoreSelection(){$('library-cycle').value=selection.cycle;fillPrograms(selection.cycle,selection.program);fillDays(selection.day);fillWeeks(selection.week);}
   function renderPlanHeading(template){
     const content=$('library-content');content.replaceChildren();if(!template){content.append(make('p','library-empty',mode==='manual'?'Enter your actual workout details below.':'Select your workout to see its exercises and demo links.'));return;}
-    const heading=make('div','library-plan-heading');heading.append(make('h3','',template.name),make('span','',`${template.exercises.length} exercises · workbook plan`));content.append(heading);
-    const program=WORKOUT_LIBRARY.programs.find(p=>p.id===template.program_id),notes=[...(program?.notes??[]),...(template.notes??[])];
+    const heading=make('div','library-plan-heading');heading.append(make('h3','',template.name),make('span','',`${template.exercises.length} exercises · ${template.source_template_ids?'med ball first, then lift':'workbook plan'}`));content.append(heading);
+    const program=WORKOUT_PROGRAMS.find(p=>p.id===template.program_id),notes=[...(program?.notes??[]),...(template.notes??[])];
     if(notes.length){const details=make('details','library-program-notes');details.append(make('summary','','Read the workbook’s program notes'));notes.sort((a,b)=>{const ac=a.cell.replace(/\d/g,''),bc=b.cell.replace(/\d/g,'');return ac.length-bc.length||ac.localeCompare(bc)||parseInt(a.cell.replace(/\D/g,''))-parseInt(b.cell.replace(/\D/g,''));});let column='',last=0,p=null;for(const note of notes){const c=note.cell.replace(/\d/g,''),r=Number(note.cell.replace(/\D/g,''));if(c!==column||r>last+1||!p){p=make('p');details.append(p);}p.append(document.createTextNode((p.textContent?' ':'')+note.text));column=c;last=r;}content.append(details);}
   }
   function referenceRows(template){
@@ -126,7 +126,7 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
   function edit(record){
     if(isThrowingOffDay(record)){$('workout-announcement').textContent='To change this Off day, open its calendar day and uncheck Off day completed.';onNavigate?.(variant);return false;}
     if((dirty||editing)&&!window.confirm('Replace the unsaved workout draft with this saved workout?'))return;
-    const sourceTemplate=WORKOUT_LIBRARY.templates.find(t=>t.id===record.source_template_id),template=record.entry_mode==='plan_checklist'?sourceTemplate:null;
+    const sourceTemplate=WORKOUT_TEMPLATES.find(t=>t.id===record.source_template_id),template=record.entry_mode==='plan_checklist'?sourceTemplate:null;
     selectedPlayer=record.player;$('workout-player').value=record.player;
     $('library-cycle').value=workoutCycleForProgram(sourceTemplate?.program_id)||$('library-cycle').value||'1';fillPrograms($('library-cycle').value,template?template.program_id:'custom');fillDays(template?String(template.day):'');fillWeeks(template?String(template.week):'');captureSelection();resetDraft();
     editing=record.id;sourceId=record.source_template_id??'';$('workout-date').value=record.session_date;$('workout-title').value=record.title;$('workout-category').value=record.category;$('workout-completion').value=record.completion_status??'';$('workout-duration').value=record.duration_minutes??'';$('workout-effort').value=record.effort;$('workout-notes').value=record.notes;
@@ -181,7 +181,7 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
     refreshReminders();renderHistory();$('workout-announcement').textContent='Session restarted. Check off the work and enter actual loads before saving again.';onNavigate?.(variant);return true;
   }
   function openTemplate({template_id,date,player}){
-    const template=WORKOUT_LIBRARY.templates.find(t=>t.id===template_id&&t.program_id==='throwing-routine');
+    const template=WORKOUT_TEMPLATES.find(t=>t.id===template_id&&t.program_id==='throwing-routine');
     if(!throwing||!template||!players.includes(player)||!/^\d{4}-\d{2}-\d{2}$/.test(date))return false;
     const matching=records.filter(r=>r.player===player&&r.session_date===date&&r.source_template_id===template_id).sort((a,b)=>String(a.updated_at??a.created_at??'').localeCompare(String(b.updated_at??b.created_at??'')));
     if(matching.length)return edit(matching.at(-1))===true;

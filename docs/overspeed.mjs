@@ -1,4 +1,4 @@
-import { OVERSPEED_LIBRARY } from './overspeed-library.mjs';
+import { OVERSPEED_LIBRARY } from './overspeed-library.mjs?v=combined-workouts-20261025';
 export const BAT_CONFIGURATIONS=Object.freeze({base:'Base bat only',first_sleeve:'Green sleeve',both_sleeves:'Green & black sleeves',game_bat:'Game bat'});
 export const BAT_SPEED_DEVICES=Object.freeze({pocket_radar:'Pocket Radar',prgr:'PRGR radar',blast:'Blast Motion',other:'Other device'});
 export function summarizeBatSpeeds(swings){

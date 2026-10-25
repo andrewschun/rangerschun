@@ -1,5 +1,5 @@
-import { plateLoadDescription } from './workout-load.mjs';
-import { formatWeightedBaseballOunces } from './library-tools.mjs';
+import { plateLoadDescription } from './workout-load.mjs?v=combined-workouts-20261025';
+import { formatWeightedBaseballOunces } from './library-tools.mjs?v=combined-workouts-20261025';
 export function startWorkoutAccountability({players,getRecords,element,download,summarize,toCsv,weekFor,onSessionAction}){
   const node=(tag,className,text)=>{const n=document.createElement(tag);if(className)n.className=className;if(text!==undefined)n.textContent=text;return n;};
   const remote=Boolean(globalThis.google?.script?.run);

@@ -1,4 +1,4 @@
-import { overSpeedSteps,overSpeedStepProgress } from './overspeed.mjs';
+import { overSpeedSteps,overSpeedStepProgress } from './overspeed.mjs?v=combined-workouts-20261025';
 const OVERSPEED_BAT_VISUALS=Object.freeze({
   base:{src:'./assets/overspeed/bat-base.png',label:'Base bat only',alt:'Velo OverSpeed base bat with no sleeves'},
   first_sleeve:{src:'./assets/overspeed/bat-green-sleeve.png',label:'Green sleeve',alt:'Velo OverSpeed bat with the green sleeve'},
