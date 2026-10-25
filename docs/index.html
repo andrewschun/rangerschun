@@ -4,7 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#111b60"><meta name="description" content="Etobicoke Rangers 16U development workspace. Explore Driveline and DUBS references, labeled interpolation, Blast Motion, post-throwing Pulse data, and player workout journals.">
 <title>Rangers | Workout log</title>
-<link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css?v=calendar-location-20261025">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css?v=axe-bat-20261025">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -21,6 +21,7 @@
     <a href="#pulse" data-nav="pulse" class="nav-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h5l3-8 4 16 3-8h5"/></svg>Driveline Pulse</a>
     <a href="#blast" data-nav="blast" class="nav-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 3-9 11h7l-2 7 9-12h-7l2-6Z"/></svg>Blast Motion</a>
     <a href="#overspeed" data-nav="overspeed" class="nav-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 19 7-7m-9 9 2-2m7-7 7-9 2 2-9 7M8 16l-2-2"/></svg>OverSpeed program</a>
+    <a href="#axe" data-nav="axe" class="nav-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 19 7-7m-9 9 2-2m7-7 7-9 2 2-9 7M8 16l-2-2"/></svg>Axe Bat</a>
     <a href="#reading" data-nav="reading" class="nav-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h7l2 2 2-2h7v15h-7l-2 2-2-2H3zM12 6v15"/></svg>Player reading</a>
     <a href="#approach" data-nav="approach" class="nav-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5"/></svg>Training approach</a>
     <a href="#coach" data-nav="coach" class="nav-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v14H4zM8 3v6m8-6v6M4 11h16"/></svg>Coach desk</a>
@@ -256,6 +257,15 @@
       <section class="blast-progress" aria-labelledby="overspeed-progress-title"><div class="eyebrow">COMPARE THE SAME CONDITIONS</div><h2 id="overspeed-progress-title">Bat-speed progress</h2><label class="overspeed-program-label" for="overspeed-series">Recorded context<select id="overspeed-series"><option value="">No recorded contexts</option></select></label><p class="workout-history-help">Each context keeps the program, drill, bat, configuration, Puck use and side together. Daily means use every recorded swing, with its actual sample count.</p><div id="overspeed-progress-summary" class="overspeed-progress-summary"></div><div class="accountability-table-wrap"><table class="overspeed-progress-table"><thead><tr><th scope="col">Date</th><th scope="col">Swings</th><th scope="col">Daily best · mph</th><th scope="col">Daily mean · mph</th></tr></thead><tbody id="overspeed-progress-days"></tbody></table></div></section>
       <div class="blast-history-heading"><div><div class="eyebrow">SELECTED PLAYER / RAW READINGS</div><h2 id="overspeed-history-title">Choose a player to see records</h2></div><button id="overspeed-export" type="button" class="secondary-button" disabled>Export player bat-speed CSV ↓</button></div><div id="overspeed-history"></div><p id="overspeed-announcement" class="blast-announcement" role="status" aria-live="polite"></p>
     </section>
+    <section id="view-axe" class="view" aria-labelledby="axe-title" hidden>
+      <div class="page-heading simple-heading"><div><div class="eyebrow">RANGERS / AXE BAT</div><h1 id="axe-title">Axe Bat.<br><span>Your team bats.</span></h1><p>Green, red and blue Axe bats in 32″ and 33″ lengths.</p></div><span class="large-index" aria-hidden="true">AXE</span></div>
+      <div class="axe-bat-grid" aria-label="Team Axe bats">
+        <article class="axe-bat-card"><h2><span class="axe-bat-dot axe-bat-green" aria-hidden="true"></span>Green Axe Bat</h2><p>32″ and 33″</p></article>
+        <article class="axe-bat-card"><h2><span class="axe-bat-dot axe-bat-red" aria-hidden="true"></span>Red Axe Bat</h2><p>32″ and 33″</p></article>
+        <article class="axe-bat-card"><h2><span class="axe-bat-dot axe-bat-blue" aria-hidden="true"></span>Blue Axe Bat</h2><p>32″ and 33″</p></article>
+      </div>
+      <section class="workout-entry-card axe-bat-recording" aria-labelledby="axe-record-title"><h2 id="axe-record-title">Record an Axe Bat session</h2><p>Choose the matching Axe bat colour and length when recording your session in Blast Motion.</p><a href="#blast" class="primary-button">Open Blast Motion ↗</a></section>
+    </section>
     <section id="view-reading" class="view" aria-labelledby="reading-title" hidden>
       <div class="page-heading simple-heading"><div><div class="eyebrow">THE TEAM READING ROOM</div><h1 id="reading-title">Read. Learn.<br><span>Bring your questions.</span></h1><p>A guide selected by your coach.<br>Read on your phone or open the original PDF.</p></div><span class="large-index" aria-hidden="true">07</span></div>
       <section class="reading-guide-card" aria-labelledby="reading-guide-title"><div><span class="eyebrow">SOURCE DOCUMENT · 7 PAGES</span><h2 id="reading-guide-title">The 5 Stages of<br>Velocity Development</h2><p>Trevor Bauer / 4App Sports</p><p class="reading-source-caption">Read the supplied guide in text view, or switch to the original page layout.</p></div><div class="reading-pdf-actions"><a class="primary-button" href="./assets/readings/5-stages-velocity-development.pdf" data-reading-pdf target="_blank" rel="noopener noreferrer">Open original PDF <span>↗</span></a><a class="secondary-button" href="./assets/readings/5-stages-velocity-development.pdf" data-reading-pdf download="5-stages-velocity-development.pdf">Download PDF <span>↓</span></a></div></section>
@@ -287,5 +297,5 @@
 </div>
 <dialog id="method-dialog" aria-labelledby="method-title"><div class="dialog-heading"><span class="eyebrow">KNOW THE SOURCE</span><button class="close-dialog" type="button" aria-label="Close data information">×</button></div><h2 id="method-title">A reference, with the<br>details kept intact.</h2><div class="method-points"><p><strong>Observed · whole mph</strong>Inputs from 70 through 86 mph show the exact displayed values transcribed from your 17 supplied calculator screenshots.</p><p><strong>Interpolated · decimal mph</strong>Within that range, decimal inputs use a straight-line estimate between neighboring screenshots, rounded to one decimal. This is an estimate, not the original Driveline formula.</p><p><strong>Exact source coverage: 70–86 mph</strong>The previous 80–86 mph projections have been replaced by screenshot observations. Inputs outside this range receive no targets. The original calculator formula has not been reconstructed.</p><p><strong>Colors and blanks matter</strong>Every original ball color, drill label and blank is retained in Driveline view. The separate DUBS 150 g projections do not replace any screenshot observation.</p><p><strong>Equipment stays specific</strong>These are Driveline reference observations. DUBS view copies Driveline references for 100, 225, 350, 450, and 1,000 g nominal matches. These are not validated DUBS output targets. Your supplied chart identifies orange as 350 g. The dark green DUBS 150 g row has four mass-interpolated projections: 60% of the gray 100 g reference plus 40% of the red 225 g reference. Roll-Ins are not projected. No yellow 150 g source readings or measured DUBS readings validate these projections.</p></div><button class="primary-button close-dialog" type="button">Back to the targets <span>→</span></button></dialog>
 <noscript><div class="noscript">Enable JavaScript to calculate targets. Blast entry requires JavaScript; PlyoCare throw entry remains on hold.</div></noscript>
-<script type="module" src="./app.mjs?v=calendar-location-20261025"></script>
+<script type="module" src="./app.mjs?v=axe-bat-20261025"></script>
 </body></html>
