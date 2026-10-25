@@ -416,7 +416,7 @@ startThrowingCalendar({players:PLAYER_LABELS,scope:rosterHash.toString(16),eleme
 const axePrograms=startAxePrograms({element:$});
 tabPlayers=startTabPlayers({players:PLAYER_LABELS,element:$});
 const playerAccess=startPlayerAccess({players:PLAYER_LABELS,hashes:PLAYER_JERSEY_HASHES,element:$});
-const routeLabels = { workouts: 'WORKOUT LOG', throwing: 'THROWING ROUTINE', schedule:'TEAM SCHEDULE', targets: 'PLYOCARE LAB', tracker: 'BASEBALL THROWS', pulse: 'DRIVELINE PULSE', blast: 'BLAST MOTION', overspeed: 'OVERSPEED PROGRAM', axe:'AXE BAT', reading: 'PLAYER READING', approach: 'TRAINING APPROACH', coach: 'COACH DESK' };
+const routeLabels = { workouts: 'WORKOUT LOG', throwing: 'THROWING ROUTINE', schedule:'TEAM SCHEDULE', targets: 'PLYOCARE LAB', tracker: 'BASEBALL THROWS', pulse: 'DRIVELINE PULSE', blast: 'BLAST MOTION', overspeed: 'OVERSPEED PROGRAM', axe:'AXE BATS', reading: 'PLAYER READING', approach: 'TRAINING APPROACH', coach: 'COACH DESK' };
 function route() {
   const key = location.hash.slice(1);
   const view = Object.hasOwn(routeLabels, key) ? key : 'workouts';
@@ -434,7 +434,7 @@ function route() {
   if(view==='schedule')teamSchedule.activate();
   if(view==='blast')renderBlastHistory();
   if(view==='coach'){workoutOverview?.refresh();pulseLog.refresh();}
-  document.title = `Rangers | ${view === 'targets' ? 'PlyoCare Lab' : {throwing:'Throwing routine',schedule:'Team schedule',tracker:'Baseball throws',pulse:'Driveline Pulse',blast:'Blast Motion',workouts:'Workout log',overspeed:'OverSpeed program',axe:'Axe Bat',reading:'Player reading',approach:'Training approach',coach:'Coach desk'}[view]}`;
+  document.title = `Rangers | ${view === 'targets' ? 'PlyoCare Lab' : {throwing:'Throwing routine',schedule:'Team schedule',tracker:'Baseball throws',pulse:'Driveline Pulse',blast:'Blast Motion',workouts:'Workout log',overspeed:'OverSpeed program',axe:'Axe Bats',reading:'Player reading',approach:'Training approach',coach:'Coach desk'}[view]}`;
   if (started) {
     const heading = $(`view-${view}`).querySelector('h1');
     heading.tabIndex = -1;
