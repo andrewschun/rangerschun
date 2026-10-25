@@ -1,0 +1,3402 @@
+[
+  {
+    "mound_mph": 70,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 42.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 56.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 54.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 58,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 57.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 56.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 66,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 64.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 66.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 66.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 65.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 66.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 70.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 71.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 69.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 69.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 73.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 74.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 70,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 73,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.01 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 43.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 57,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 55.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 58.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 58.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 57.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 66.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 64.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 67.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 67.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 65.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 67.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 71.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 72.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 70.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 70.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 74.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 75.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 71,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 73.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.11 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 43.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 57.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 56.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 59.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 58.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 57.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 67.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 65.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 68.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 68.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 66.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 68.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 72.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 72.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 71.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 71.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 75.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 76.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 72,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 74.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.22 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 44.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 58.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 56.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 59.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 59.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 58.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 67.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 66.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 69.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 69,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 67.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 69.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 73.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 73.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 72.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 72.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 76.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 77.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 73,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 75.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.29 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 45.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 58.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 57.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 60.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 60.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 59,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 68.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 67.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 69.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 69.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 68.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 70.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 74.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 74.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 72.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 73.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 77.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 78,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 74,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 76.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.38 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 45.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 59.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 58.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 61.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 60.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 59.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 69.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 68.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 70.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 70.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 69,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 71.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 74.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 75.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 73.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 74.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 78.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 78.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 75,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 77.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.49 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 46.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 59.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 58.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 61.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 61.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 60.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 69.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 68.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 71.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 71.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 69.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 72.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 75.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 75.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 74.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 75.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 78.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 79.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 76,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 78.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.07.57 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 47.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 60.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 59.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 62.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 61.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 60.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 70.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 69.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 72.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 71.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 70.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 73,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 76.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 76.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 75.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 76.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 79.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 80.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 77,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 79.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.04 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 47.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 61,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 60.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 62.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 62.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 61.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 71,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 70.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 72.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 72.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 71.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 74,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 77.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 77.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 76.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 77.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 80.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 81.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 78,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 79.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.15 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 48.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 61.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 61,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 63.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 63,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 62.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 71.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 71.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 73.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 73.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 72.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 74.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 78.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 78.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 76.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 78.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 81.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 81.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 79,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 80.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.24 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 49.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 62.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 61.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 64.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 63.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 62.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 72.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 72,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 74.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 73.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 72.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 75.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 78.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 78.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 77.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 79.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 82.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 82.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 80,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 81.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.33 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 49.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 62.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 62.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 64.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 64.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 63.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 72.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 72.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 75.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 74.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 73.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 76.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 79.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 79.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 78.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 80.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 83.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 83.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 81,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 82.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.41 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 50.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 63.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 63.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 65.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 64.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 64,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 73.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 73.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 75.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 75.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 74.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 77.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 80.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 80.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 79.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 81.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 84.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 84.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 82,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 83.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.08.53 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 51.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 63.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 63.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 66,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 65.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 64.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 74.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 74.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 76.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 76,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 75.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 78.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 81.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 81,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 80.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 82.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 85.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 85,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 83,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 84.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.03 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 51.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 64.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 64.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 66.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 66,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 65.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 74.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 75.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 77.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 76.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 75.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 79.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 82.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 81.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 81,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 83.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 86,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 85.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 84,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 85.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.10 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 52.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 65.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 65.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 67.3,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 66.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 65.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 75.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 76,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 78.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 77.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 76.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 80.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 82.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 82.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 81.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 84.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 86.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 86.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 85,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 86,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.18 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "green",
+    "drill": "Roll-Ins",
+    "target_mph": 53.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "green",
+    "drill": "Step Backs",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "green",
+    "drill": "Janitors",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "green",
+    "drill": "Drop Steps",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "green",
+    "drill": "Walking Windups",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "blue",
+    "drill": "Roll-Ins",
+    "target_mph": 65.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "blue",
+    "drill": "Step Backs",
+    "target_mph": 65.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "blue",
+    "drill": "Janitors",
+    "target_mph": 67.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "blue",
+    "drill": "Drop Steps",
+    "target_mph": 67.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "blue",
+    "drill": "Walking Windups",
+    "target_mph": 66.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "red",
+    "drill": "Roll-Ins",
+    "target_mph": 76,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "red",
+    "drill": "Step Backs",
+    "target_mph": 76.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "red",
+    "drill": "Janitors",
+    "target_mph": 78.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "red",
+    "drill": "Drop Steps",
+    "target_mph": 78.1,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "red",
+    "drill": "Walking Windups",
+    "target_mph": 77.5,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "orange",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "orange",
+    "drill": "Step Backs",
+    "target_mph": 81.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "orange",
+    "drill": "Janitors",
+    "target_mph": 83.7,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "orange",
+    "drill": "Drop Steps",
+    "target_mph": 83.2,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "orange",
+    "drill": "Walking Windups",
+    "target_mph": 82.6,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "gray",
+    "drill": "Roll-Ins",
+    "target_mph": null,
+    "status": "blank_in_screenshot",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "gray",
+    "drill": "Step Backs",
+    "target_mph": 85.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "gray",
+    "drill": "Janitors",
+    "target_mph": 87.8,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "gray",
+    "drill": "Drop Steps",
+    "target_mph": 87.4,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  },
+  {
+    "mound_mph": 86,
+    "ball_color": "gray",
+    "drill": "Walking Windups",
+    "target_mph": 86.9,
+    "status": "observed",
+    "source": "Screenshot 2026-10-23 at 11.09.29 PM.png"
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "publisher": "Velo Sports",
+  "source_page": "https://velosports.com/pages/velo-training",
+  "use": "Original publisher graphics matching user-supplied screenshots; unchanged bytes",
+  "assets": [
+    {
+      "file": "bat-base.png",
+      "source_url": "https://velosports.com/cdn/shop/files/490514530758034579-edd36774-85b2-4fe9-8dbe-426cc6b053ac.png?v=5576901701497633637",
+      "sha256": "ae26e970e3ff919a61af18468c7923f2ee908da5580b379cd53af05ef13023ba"
+    },
+    {
+      "file": "bat-green-sleeve.png",
+      "source_url": "https://velosports.com/cdn/shop/files/490514530758034579-e7d19add-6674-4bbc-859b-17cc9116bb1a.png?v=5168882855995200165",
+      "sha256": "7e155ac0f01e9a4dfd0a35a056035e0fb359723e8acd7fa5a5e8bfddc599214e"
+    },
+    {
+      "file": "bat-green-black-sleeves.png",
+      "source_url": "https://velosports.com/cdn/shop/files/490514530758034579-c219370f-6c94-4639-8d20-0e338ca8ab1a.png?v=11586141698615689606",
+      "sha256": "bc48910865a99c97f205bb223a7c6ec0d1213b71267f0f16a48fb3366b5bfe28"
+    }
+  ]
+}
