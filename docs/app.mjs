@@ -1,4 +1,4 @@
-import { startTeamSchedule } from './team-schedule-ui.mjs?v=schedule-subscribe-20261025';
+import { startTeamSchedule } from './team-schedule-ui.mjs?v=single-subscription-20261025';
 import { installGoogleBridge } from './google-bridge.mjs?v=schedule-auto-refresh-20261025';
 import { startTabPlayers } from './tab-players.mjs?v=schedule-auto-refresh-20261025';
 import { startThrowingCalendar } from './throwing-calendar-ui.mjs?v=schedule-auto-refresh-20261025';
