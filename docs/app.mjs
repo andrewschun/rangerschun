@@ -1,4 +1,4 @@
-import { startTeamSchedule } from './team-schedule-ui.mjs?v=schedule-auto-refresh-20261025';
+import { startTeamSchedule } from './team-schedule-ui.mjs?v=schedule-subscribe-20261025';
 import { installGoogleBridge } from './google-bridge.mjs?v=schedule-auto-refresh-20261025';
 import { startTabPlayers } from './tab-players.mjs?v=schedule-auto-refresh-20261025';
 import { startThrowingCalendar } from './throwing-calendar-ui.mjs?v=schedule-auto-refresh-20261025';
@@ -22,7 +22,7 @@ import { isWorkoutVideoUrl } from './library-tools.mjs?v=schedule-auto-refresh-2
 
 const GOOGLE_BACKEND_CONFIG = {"url": "https://script.google.com/macros/s/AKfycby83qDRwh5DzSU-h-45CdqJBGbO8NcVzssZnTpore_FH8psVHYUtxRpEHIgiJISOISL0g/exec", "origin": "https://andrewschun.github.io"};
 installGoogleBridge(GOOGLE_BACKEND_CONFIG);
-const TEAM_SCHEDULE_CONFIG = {remote:true,public_url:'https://script.google.com/macros/s/AKfycby83qDRwh5DzSU-h-45CdqJBGbO8NcVzssZnTpore_FH8psVHYUtxRpEHIgiJISOISL0g/exec',snapshot_url:'./team-schedule.json',cache_key:'rangers-team-schedule-v1'};
+const TEAM_SCHEDULE_CONFIG = {remote:true,public_url:'https://script.google.com/macros/s/AKfycby83qDRwh5DzSU-h-45CdqJBGbO8NcVzssZnTpore_FH8psVHYUtxRpEHIgiJISOISL0g/exec',snapshot_url:'./team-schedule.json',cache_key:'rangers-team-schedule-v1',subscription_url:"https://ical-cdn.teamsnap.com/team_schedule/896a42c8-2cb3-4e91-a8af-a056eafd6026.ics"};
 const $ = id => document.getElementById(id);
 const names = Object.fromEntries(COLORS.map(color => [color, color[0].toUpperCase() + color.slice(1)]));
 const swatches = { green: '#00a768', blue: '#087ab9', red: '#df493d', orange: '#ef9c11', gray: '#7f858b' };
