@@ -1,5 +1,5 @@
-import { OVERSPEED_LIBRARY } from './overspeed-library.mjs?v=combined-workouts-20261025';
-import { OVERSPEED_STAGES,overspeedSessionDraft,validateOverSpeedSessions,overspeedProgression,upsertOverSpeedSession,canUseOverSpeedProgram,overSpeedSessionsCsv,guidedOverSpeedWorkout } from './overspeed-progression.mjs?v=combined-workouts-20261025';
+import { OVERSPEED_LIBRARY } from './overspeed-library.mjs?v=schedule-auto-refresh-20261025';
+import { OVERSPEED_STAGES,overspeedSessionDraft,validateOverSpeedSessions,overspeedProgression,upsertOverSpeedSession,canUseOverSpeedProgram,overSpeedSessionsCsv,guidedOverSpeedWorkout } from './overspeed-progression.mjs?v=schedule-auto-refresh-20261025';
 
 export function startOverSpeedProgression({players,scope,element:$,download,onChange,onProgressChange,readShared}){
   const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;},option=(value,text)=>{const n=make('option','',text);n.value=value;return n;};

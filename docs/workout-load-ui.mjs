@@ -1,4 +1,4 @@
-import { plateLoadTotal } from './workout-load.mjs?v=combined-workouts-20261025';
+import { plateLoadTotal } from './workout-load.mjs?v=schedule-auto-refresh-20261025';
 
 export function createWorkoutLoadFields(value={},name='Exercise'){
   const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};

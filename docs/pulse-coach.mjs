@@ -1,5 +1,5 @@
-import { ENTRY_HEADERS } from './journal.mjs?v=combined-workouts-20261025';
-import { validatePulseRecord, validatePulseRecords } from './pulse.mjs?v=combined-workouts-20261025';
+import { ENTRY_HEADERS } from './journal.mjs?v=schedule-auto-refresh-20261025';
+import { validatePulseRecord, validatePulseRecords } from './pulse.mjs?v=schedule-auto-refresh-20261025';
 
 export function pulseFromJournal(rows,players){
   const col=Object.fromEntries(ENTRY_HEADERS.map((key,i)=>[key,i])),days=new Map(),locations=new Map(),seen=new Set(),first=new Map();

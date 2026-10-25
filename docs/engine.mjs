@@ -1,5 +1,5 @@
-import { validateWorkoutChecklist, workoutExerciseRecorded } from './workout-checklist.mjs?v=combined-workouts-20261025';
-import { validateExercisePlateLoad } from './workout-load.mjs?v=combined-workouts-20261025';
+import { validateWorkoutChecklist, workoutExerciseRecorded } from './workout-checklist.mjs?v=schedule-auto-refresh-20261025';
+import { validateExercisePlateLoad } from './workout-load.mjs?v=schedule-auto-refresh-20261025';
 /** Exact screenshot references and labeled interpolation. No training prescription. */
 export const DRILLS = Object.freeze(['Roll-Ins', 'Step Backs', 'Janitors', 'Drop Steps', 'Walking Windups']);
 export const COLORS = Object.freeze(['green', 'blue', 'red', 'orange', 'gray']);

@@ -1,5 +1,5 @@
-import { WORKOUT_LIBRARY } from './library.mjs?v=combined-workouts-20261025';
-import { plateLoadDescription } from './workout-load.mjs?v=combined-workouts-20261025';
+import { WORKOUT_LIBRARY } from './library.mjs?v=schedule-auto-refresh-20261025';
+import { plateLoadDescription } from './workout-load.mjs?v=schedule-auto-refresh-20261025';
 
 export const THROWING_OFF_DAY_SOURCE='throwing-routine-off-day';
 export function isThrowingOffDay(record){return record?.source_template_id===THROWING_OFF_DAY_SOURCE;}

@@ -1,4 +1,4 @@
-import { BLAST_PCR_METRICS, BLAST_SESSION_METRICS, BLAST_PCR_SCALES, BLAST_PCR_TEAM_SCALE, validateBlastPcrRecords, upsertBlastPcrSession, blastPcrRecordsToCsv } from './blast-pcr.mjs?v=combined-workouts-20261025';
+import { BLAST_PCR_METRICS, BLAST_SESSION_METRICS, BLAST_PCR_SCALES, BLAST_PCR_TEAM_SCALE, validateBlastPcrRecords, upsertBlastPcrSession, blastPcrRecordsToCsv } from './blast-pcr.mjs?v=schedule-auto-refresh-20261025';
 
 export function startBlastPcr({players,scope,element:$,download,onChange}){
   const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};

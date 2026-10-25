@@ -1,4 +1,4 @@
-import { WORKOUT_LIBRARY } from './library.mjs?v=combined-workouts-20261025';
+import { WORKOUT_LIBRARY } from './library.mjs?v=schedule-auto-refresh-20261025';
 
 // Team weekly Day 4 is source Lift Day 3. Keep original workbook plans intact
 // so older sessions still reopen with their original exercises and identity.

@@ -1,11 +1,11 @@
-import { isThrowingWorkout, isThrowingOffDay, THROWING_OFF_DAY_SOURCE, previousWorkoutLoad, previousWorkoutLoadText } from './workout-record-tools.mjs?v=combined-workouts-20261025';
-import { createWorkoutLoadFields } from './workout-load-ui.mjs?v=combined-workouts-20261025';
-import { plateLoadDescription } from './workout-load.mjs?v=combined-workouts-20261025';
-import { WORKOUT_LIBRARY } from './library.mjs?v=combined-workouts-20261025';
-import { appendDrivelineBallText } from './driveline-colors.mjs?v=combined-workouts-20261025';
-import { WORKOUT_PROGRAMS, WORKOUT_TEMPLATES, findWorkoutDemo, isWorkoutVideoUrl, workoutPrescriptionLines, workoutCycleForProgram, workoutTypeForProgram, workoutProgramChoices, formatWeightedBaseballOunces } from './library-tools.mjs?v=combined-workouts-20261025';
-import { workoutChecklistDraft, workoutExerciseRecorded, workoutChecklistProgress } from './workout-checklist.mjs?v=combined-workouts-20261025';
-import { WORKOUT_CATEGORIES, validateWorkout, upsertWorkout, summarizeWorkouts, workoutsToCsv } from './engine.mjs?v=combined-workouts-20261025';
+import { isThrowingWorkout, isThrowingOffDay, THROWING_OFF_DAY_SOURCE, previousWorkoutLoad, previousWorkoutLoadText } from './workout-record-tools.mjs?v=schedule-auto-refresh-20261025';
+import { createWorkoutLoadFields } from './workout-load-ui.mjs?v=schedule-auto-refresh-20261025';
+import { plateLoadDescription } from './workout-load.mjs?v=schedule-auto-refresh-20261025';
+import { WORKOUT_LIBRARY } from './library.mjs?v=schedule-auto-refresh-20261025';
+import { appendDrivelineBallText } from './driveline-colors.mjs?v=schedule-auto-refresh-20261025';
+import { WORKOUT_PROGRAMS, WORKOUT_TEMPLATES, findWorkoutDemo, isWorkoutVideoUrl, workoutPrescriptionLines, workoutCycleForProgram, workoutTypeForProgram, workoutProgramChoices, formatWeightedBaseballOunces } from './library-tools.mjs?v=schedule-auto-refresh-20261025';
+import { workoutChecklistDraft, workoutExerciseRecorded, workoutChecklistProgress } from './workout-checklist.mjs?v=schedule-auto-refresh-20261025';
+import { WORKOUT_CATEGORIES, validateWorkout, upsertWorkout, summarizeWorkouts, workoutsToCsv } from './engine.mjs?v=schedule-auto-refresh-20261025';
 
 export function startWorkoutFlow({players,scope,element:$,download,onChange,variant='workouts',sharedStore=null,onNavigate}){
   const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};

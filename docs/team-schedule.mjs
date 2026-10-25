@@ -49,3 +49,23 @@ export function teamEventOnDate(event,date,zone='America/Toronto'){
  if(event.start.all_day)return event.start.date<=date&&(event.end?date<event.end.date:date===event.start.date);
  const first=scheduleDateKey(event.start.timestamp,zone),last=scheduleDateKey(event.end&&event.end.timestamp>event.start.timestamp?event.end.timestamp-1:event.start.timestamp,zone);return first<=date&&date<=last;
 }
+
+/** The public subscription contains event types and times only, never names or notes. */
+export function publicTeamCalendarSnapshot(ical,fetched_at){
+ const calendar=parseTeamCalendar(ical);
+ if(calendar.skipped||calendar.recurring)throw Error('Some TeamSnap dates could not be read.');
+ if(typeof fetched_at!=='string'||!Number.isFinite(Date.parse(fetched_at)))throw Error('Invalid calendar retrieval time.');
+ const date=value=>value.all_day?value.date.replace(/-/g,''):new Date(value.timestamp).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');
+ const type=event=>/practice|training|workout|bullpen/i.test(event.title)?'Practice':/game|vs\.?|@|tournament|scrimmage/i.test(event.title)?'Game':'Team event';
+ const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Rangers//Team schedule//EN','X-WR-TIMEZONE:America/Toronto'];
+ for(const event of calendar.events){
+  // A stable anonymous UID avoids duplicates when an event is added or rescheduled.
+  let hashA=2166136261,hashB=5381;for(const char of event.id){const n=char.charCodeAt(0);hashA=Math.imul(hashA^n,16777619);hashB=Math.imul(hashB,33)^n;}
+  const uid=/^event-[a-f0-9]{2,16}@rangers-schedule\|$/.test(event.id)?event.id.slice(0,-1):'event-'+(hashA>>>0).toString(16)+(hashB>>>0).toString(16)+'@rangers-schedule';
+  lines.push('BEGIN:VEVENT','UID:'+uid,'SEQUENCE:'+Math.max(0,Math.trunc(event.sequence)),'DTSTAMP:'+( /^\d{8}T\d{6}Z$/.test(event.modified)?event.modified:date({timestamp:Date.parse(fetched_at)})),'DTSTART'+(event.start.all_day?';VALUE=DATE':'')+':'+date(event.start));
+  if(event.end)lines.push('DTEND'+(event.end.all_day?';VALUE=DATE':'')+':'+date(event.end));
+  lines.push('SUMMARY:'+type(event));if(event.cancelled)lines.push('STATUS:CANCELLED');lines.push('END:VEVENT');
+ }
+ lines.push('END:VCALENDAR');
+ return {ical_text:lines.join('\r\n')+'\r\n',fetched_at,source:'TeamSnap',stale:false};
+}

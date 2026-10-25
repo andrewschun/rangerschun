@@ -1,6 +1,22 @@
-import {parseTeamCalendar,selectTeamEvents,formatTeamEventTime,scheduleDateKey,teamCalendarMonth,teamEventOnDate} from './team-schedule.mjs?v=combined-workouts-20261025';
-export function startTeamSchedule({config,element:$,download,readRemote,fetcher=globalThis.fetch,now=()=>Date.now(),storage=globalThis.localStorage}){
- const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;},zone='America/Toronto';let calendar=null,payload=null,busy=false,checked=false,layout='grid',selectedDate=scheduleDateKey(now(),zone),monthKey=selectedDate.slice(0,7);let [year,month]=monthKey.split('-').map(Number);month--;
+import {parseTeamCalendar,selectTeamEvents,formatTeamEventTime,scheduleDateKey,teamCalendarMonth,teamEventOnDate,publicTeamCalendarSnapshot} from './team-schedule.mjs?v=schedule-auto-refresh-20261025';
+export function teamCalendarServiceUrl(endpoint){
+ const url=new URL(endpoint);
+ if(url.origin!=='https://script.google.com'||!/^\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(url.pathname)||url.search||url.hash||url.username||url.password)throw Error('Invalid calendar connection.');
+ url.searchParams.set('mode','team-calendar');return url;
+}
+export function readPublicTeamSchedule(endpoint,{document=globalThis.document,host=globalThis,timeoutMs=20000}={}){
+ const url=teamCalendarServiceUrl(endpoint),callback='rangersCalendar_'+globalThis.crypto.randomUUID().replace(/-/g,'');
+ url.searchParams.set('callback',callback);url.searchParams.set('_',String(Date.now()));
+ return new Promise((resolve,reject)=>{
+  const script=document.createElement('script');let timer;
+  const clean=()=>{clearTimeout(timer);script.remove();delete host[callback];};
+  host[callback]=result=>{clean();if(result?.ok===true&&result.schedule)resolve(result.schedule);else reject(Error('The team calendar could not refresh.'));};
+  script.async=true;script.referrerPolicy='no-referrer';script.src=url.href;script.onerror=()=>{clean();reject(Error('The calendar connection is unavailable.'));};
+  timer=setTimeout(()=>{clean();reject(Error('The calendar connection timed out.'));},timeoutMs);document.head.append(script);
+ });
+}
+export function startTeamSchedule({config,element:$,download,readRemote,readPublic=readPublicTeamSchedule,fetcher=globalThis.fetch,now=()=>Date.now(),storage=globalThis.localStorage}){
+ const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;},zone='America/Toronto';let calendar=null,payload=null,busy=false,layout='grid',selectedDate=scheduleDateKey(now(),zone),monthKey=selectedDate.slice(0,7);let [year,month]=monthKey.split('-').map(Number);month--;
  const hasFeed=config&&/^https:\/\/ical-cdn\.teamsnap\.com\/team_schedule\/[a-zA-Z0-9-]+\.ics$/.test(config.feed_url),valid=hasFeed||config?.remote===true;
  function status(message){$('team-schedule-status').textContent=message;}
  function eventCard(event,expanded=false){
@@ -34,17 +50,18 @@ export function startTeamSchedule({config,element:$,download,readRemote,fetcher=
   $('team-schedule-selected-date').textContent=dateLabel(selectedDate);const details=$('team-schedule-day-events');details.replaceChildren();const selected=events.filter(event=>teamEventOnDate(event,selectedDate,zone));if(!selected.length)details.append(make('p','library-empty','No events on this day.'));else for(const event of selected)details.append(eventCard(event,true));
  }
  function accept(next,{cached=false}={}){
-  if(!next||typeof next.fetched_at!=='string'||!Number.isFinite(Date.parse(next.fetched_at)))throw Error('The calendar update has no valid retrieval time.');if(payload&&Date.parse(next.fetched_at)<Date.parse(payload.fetched_at)){next=payload;cached=true;}const parsed=parseTeamCalendar(next.ical_text);calendar=parsed;payload=next;if(config.cache_key){try{storage?.setItem(config.cache_key,JSON.stringify(next));}catch{}}render();const stamp=new Intl.DateTimeFormat('en-CA',{timeZone:zone,dateStyle:'medium',timeStyle:'short'}).format(new Date(next.fetched_at));$('team-schedule-updated').textContent='Last retrieved: '+stamp+' Eastern.';status(`${cached?'Saved schedule':'Schedule retrieved'} · ${stamp} Eastern. ${next.stale?'Refresh unavailable; showing the saved schedule.':'TeamSnap may take time to publish changes.'}`);
+  if(!next||typeof next.fetched_at!=='string'||!Number.isFinite(Date.parse(next.fetched_at)))throw Error('The calendar update has no valid retrieval time.');if(payload&&Date.parse(next.fetched_at)<Date.parse(payload.fetched_at)){next=payload;cached=true;}if(config.public_url)next={...publicTeamCalendarSnapshot(next.ical_text,next.fetched_at),stale:next.stale===true};const parsed=parseTeamCalendar(next.ical_text);calendar=parsed;payload=next;if(config.cache_key){try{storage?.setItem(config.cache_key,JSON.stringify(next));}catch{}}render();const stamp=new Intl.DateTimeFormat('en-CA',{timeZone:zone,dateStyle:'medium',timeStyle:'short'}).format(new Date(next.fetched_at));$('team-schedule-updated').textContent='Last retrieved: '+stamp+' Eastern.';status(`${cached?'Saved schedule':'Schedule retrieved'} · ${stamp} Eastern. ${next.stale?'Refresh unavailable; showing the saved schedule.':'TeamSnap may take time to publish changes.'}`);
  }
  let savedLoad=null;
  async function loadSaved(){
   if(!config.snapshot_url)return;
-  savedLoad??=(async()=>{try{const response=await fetcher(config.snapshot_url,{cache:'no-cache'});if(!response.ok)throw Error();accept(await response.json(),{cached:true});}catch{/* A live refresh can still recover an unavailable published copy. */}})();await savedLoad;
+  savedLoad??=(async()=>{const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),5000);try{const response=await fetcher(config.snapshot_url,{cache:'no-store',signal:controller.signal});if(!response.ok)throw Error();accept(await response.json(),{cached:true});}catch{/* A live refresh can still recover an unavailable published copy. */}finally{clearTimeout(timer);}})();try{await savedLoad;}finally{savedLoad=null;}
  }
  async function refresh(){
-  if(busy||!valid)return;busy=true;checked=true;$('team-schedule-refresh').disabled=true;
+  if(busy||!valid)return;busy=true;$('team-schedule-refresh').disabled=true;
   await loadSaved();status(payload?'Checking for changes… The saved schedule remains available.':'Refreshing TeamSnap schedule…');
-  try{let next;if(config.remote||globalThis.google?.script?.run){if(!readRemote)throw Error('The schedule connection is unavailable.');next=await readRemote();}
+  try{let next;if(config.public_url){next=await readPublic(config.public_url);const feed=teamCalendarServiceUrl(config.public_url).href;$('team-schedule-subscribe').href=feed.replace(/^https:/,'webcal:');$('team-schedule-feed').href=feed;$('team-schedule-subscribe').hidden=$('team-schedule-feed').hidden=false;}
+   else if(config.remote||globalThis.google?.script?.run){if(!readRemote)throw Error('The schedule connection is unavailable.');next=await readRemote();}
    else{if(!/^https?:$/.test(globalThis.location?.protocol??''))throw Error('This file shows a saved schedule. Open the local website to refresh it.');const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);try{const local=['127.0.0.1','localhost'].includes(globalThis.location?.hostname),endpoint=local&&config.local_refresh_url?config.local_refresh_url:'/api/team-schedule';const response=await fetcher(endpoint,{cache:'no-store',signal:controller.signal});if(!response.ok)throw Error();next=await response.json();}finally{clearTimeout(timer);}}
    accept(next);
   }catch(error){status(payload?'Could not refresh. The saved schedule remains displayed with its retrieval time.':'Could not load the schedule. Try again or open the calendar feed.');if(error.message.includes('player code')||error.message.includes('This file'))status(error.message+(payload?' The saved schedule remains available.':''));}
@@ -56,5 +73,5 @@ export function startTeamSchedule({config,element:$,download,readRemote,fetcher=
  $('team-schedule-subscribe').hidden=$('team-schedule-feed').hidden=!hasFeed;
  if(valid){if(hasFeed){$('team-schedule-subscribe').href=config.feed_url.replace(/^https:/,'webcal:');$('team-schedule-feed').href=config.feed_url;}for(const next of [config.initial,(()=>{try{return config.cache_key?JSON.parse(storage?.getItem(config.cache_key)??'null'):null;}catch{return null;}})()]){try{if(next)accept(next,{cached:true});}catch{status('The saved schedule could not be read. Refresh to try again.');}}}
  else{$('team-schedule-refresh').disabled=true;status('Team calendar connection pending.');}render();
- return {activate:()=>{render();if(!checked)void refresh();},refresh};
+ return {activate:()=>{render();return refresh();},refresh};
 }

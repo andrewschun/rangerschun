@@ -1,5 +1,5 @@
-import {THROWING_SCHEDULE,THROWING_ROUTINES,throwingDate,throwingChoices,throwingDayRecord} from './throwing-schedule.mjs?v=combined-workouts-20261025';
-import {isThrowingOffDay} from './workout-record-tools.mjs?v=combined-workouts-20261025';
+import {THROWING_SCHEDULE,THROWING_ROUTINES,throwingDate,throwingChoices,throwingDayRecord} from './throwing-schedule.mjs?v=schedule-auto-refresh-20261025';
+import {isThrowingOffDay} from './workout-record-tools.mjs?v=schedule-auto-refresh-20261025';
 
 export function startThrowingCalendar({players,scope,element:$,flow,subscribe}){
  const key='rangers-throwing-calendar-v1-'+scope,make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};

@@ -1,5 +1,5 @@
-import { overSpeedSteps,validateBatSpeedSet } from './overspeed.mjs?v=combined-workouts-20261025';
-import { OVERSPEED_LIBRARY } from './overspeed-library.mjs?v=combined-workouts-20261025';
+import { overSpeedSteps,validateBatSpeedSet } from './overspeed.mjs?v=schedule-auto-refresh-20261025';
+import { OVERSPEED_LIBRARY } from './overspeed-library.mjs?v=schedule-auto-refresh-20261025';
 
 // Minimum durations/frequencies from the coach-supplied OverSpeed training-cycle chart.
 export const OVERSPEED_STAGES=Object.freeze([
