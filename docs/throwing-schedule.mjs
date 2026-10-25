@@ -1,3 +1,4 @@
+import {THROWING_OFF_DAY_SOURCE} from './workout-record-tools.mjs';
 const velocity='Velocity OR PlyoCare Velo';
 const standard=['Hybrid A','Off','Hybrid B',velocity,'Recovery','Hybrid B','Recovery'];
 const recovery=['Hybrid A','Off','Recovery',velocity,'Recovery','Hybrid B','Recovery'];
@@ -19,7 +20,7 @@ export function throwingChoices(week,day){
  return routine===velocity?['Velocity','PlyoCare Velo']:routine==='Recovery/Off'?['Recovery','Off']:routine?[routine]:[];
 }
 export function throwingDayRecord(records,{player,start,week,day}){
- const date=throwingDate(start,week,day),ids=throwingChoices(week,day).map(r=>THROWING_ROUTINES[r]).filter(Boolean);
+ const date=throwingDate(start,week,day),ids=throwingChoices(week,day).map(r=>r==='Off'?THROWING_OFF_DAY_SOURCE:THROWING_ROUTINES[r]).filter(Boolean);
  if(!player||!date||!ids.length)return {date,completed:false,partial:false,record:null};
  const matching=records.filter(r=>r.player===player&&r.session_date===date&&ids.includes(r.source_template_id));
  const full=matching.filter(r=>r.completion_confirmed===true&&r.completion_status==='completed');

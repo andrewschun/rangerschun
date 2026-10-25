@@ -131,3 +131,35 @@
 @media(max-width:760px){.tab-player-bar{padding:15px;margin-bottom:20px}.tab-player-bar>label,.tab-player-bar .player-field{width:100%}.throwing-calendar-controls{display:block}.throwing-calendar-controls p{margin-top:13px}.throwing-calendar-controls input{width:100%;box-sizing:border-box}}
 #target-form{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
 @media(max-width:540px){#target-form{grid-template-columns:1fr}}
+
+.throwing-off-complete{display:flex;gap:12px;align-items:center;padding:12px 15px;border:1px solid #b8d4c3;border-radius:6px;background:#fff;color:#28563d;font-size:15px;font-weight:600;cursor:pointer}.throwing-off-complete input{width:22px;height:22px;accent-color:#36734e;margin:0;cursor:pointer}
+
+/* Compact numbered activity cards. Reading order follows source order across rows. */
+.workout-unified{container-type:inline-size}
+.workout-exercises.is-checklist{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:start}
+.workout-exercises.is-checklist .workout-checklist-row{min-width:0;border-radius:6px}
+.workout-unified .is-checklist label.checklist-complete{gap:9px;padding:12px;min-height:54px;align-items:flex-start}
+.workout-unified .is-checklist .checklist-complete>input{width:20px;height:20px;min-height:20px;flex:0 0 20px;margin-top:1px}
+.is-checklist .checklist-complete strong{font-size:13px;line-height:1.45}
+.is-checklist .checklist-item-number{display:inline;color:#286386;font-size:12px;margin-right:5px;white-space:nowrap}
+.is-checklist .checklist-complete small{font-size:10px;line-height:1.4;margin-top:3px}
+.is-checklist .checklist-prescription{padding:0 12px 12px}
+.is-checklist .checklist-prescription .exercise-plan{padding:0;font-size:12px;line-height:1.6;margin-bottom:9px;overflow-wrap:anywhere}
+.is-checklist .checklist-section{font-size:10px;letter-spacing:.4px;margin-bottom:6px}
+.is-checklist .checklist-prescription .exercise-demo{font-size:11px;min-height:34px;padding:7px 9px;white-space:normal}
+.is-checklist .checklist-notes{margin-top:9px;font-size:11px}
+.is-checklist .checklist-notes>summary{min-height:32px}
+.is-checklist .workout-load-entry .checklist-load{grid-template-columns:minmax(0,1fr);gap:8px;margin-top:10px}
+.is-checklist .workout-load-entry label{font-size:11px;min-width:0}
+.is-checklist .workout-load-entry input,.is-checklist .workout-load-entry select,.is-checklist .checklist-notes input{min-width:0;max-width:100%;min-height:36px;padding:8px;font-size:13px}
+.is-checklist .plate-load-panel{padding:10px;margin-top:9px}
+.is-checklist .plate-load-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 28px;gap:6px;margin-top:10px}
+.is-checklist .plate-remove{width:28px;height:36px;font-size:20px}
+.is-checklist .plate-load-help,.is-checklist .plate-load-total{font-size:11px;line-height:1.6}
+.is-checklist .plate-load-total{padding:9px;margin:10px 0 0}
+.is-checklist .previous-load-reminder{padding:8px;font-size:11px;line-height:1.6;overflow-wrap:anywhere}
+.throwing-calendar-choice .throwing-off-complete{flex:0 1 calc((100% - 20px)/3);min-width:200px;max-width:320px;padding:10px 12px;min-height:46px;gap:9px;font-size:13px}
+.throwing-calendar-choice .throwing-off-complete input{width:20px;height:20px;flex:0 0 20px}
+@container(max-width:730px){.workout-exercises.is-checklist{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@container(max-width:470px){.workout-exercises.is-checklist{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:650px){.workout-exercises.is-checklist{grid-template-columns:minmax(0,1fr)}.workout-unified .is-checklist label.checklist-complete{padding:12px;min-height:54px}.is-checklist .workout-load-entry input,.is-checklist .workout-load-entry select,.is-checklist .checklist-notes input{min-height:44px;font-size:16px}.is-checklist .checklist-prescription .exercise-demo,.is-checklist .checklist-notes>summary{min-height:44px}.throwing-calendar-choice .throwing-off-complete{flex:1 1 100%;max-width:none}}
