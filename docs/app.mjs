@@ -1,12 +1,12 @@
-import { startTeamSchedule } from './team-schedule-ui.mjs';
+import { startTeamSchedule } from './team-schedule-ui.mjs?v=team-events-20261025';
 import { installGoogleBridge } from './google-bridge.mjs';
-import { startTabPlayers } from './tab-players.mjs';
-import { startThrowingCalendar } from './throwing-calendar-ui.mjs?v=calendar-direct-20261025';
+import { startTabPlayers } from './tab-players.mjs?v=team-events-20261025';
+import { startThrowingCalendar } from './throwing-calendar-ui.mjs?v=team-events-20261025';
 import { isThrowingWorkout } from './workout-record-tools.mjs';
 import { startOverSpeedProgression } from './overspeed-progression-ui.mjs';
 import { startPulse } from './pulse-ui.mjs';
 import { startBlastPcr } from './blast-pcr-ui.mjs';
-import { startWorkoutFlow } from './workout-flow.mjs?v=calendar-direct-20261025';
+import { startWorkoutFlow } from './workout-flow.mjs?v=team-events-20261025';
 import { OVERSPEED_LIBRARY } from './overspeed-library.mjs';
 import { BAT_CONFIGURATIONS, BAT_SPEED_DEVICES, validateBatSpeedSet, upsertBatSpeedSet, summarizeBatSpeeds, batSpeedContext, batSpeedProgress, batSpeedCsv } from './overspeed.mjs';
 import { startOverSpeed } from './overspeed-ui.mjs';
@@ -22,7 +22,7 @@ import { isWorkoutVideoUrl } from './library-tools.mjs';
 
 const GOOGLE_BACKEND_CONFIG = {"url": "https://script.google.com/macros/s/AKfycby83qDRwh5DzSU-h-45CdqJBGbO8NcVzssZnTpore_FH8psVHYUtxRpEHIgiJISOISL0g/exec", "origin": "https://andrewschun.github.io"};
 installGoogleBridge(GOOGLE_BACKEND_CONFIG);
-const TEAM_SCHEDULE_CONFIG = {remote:true};
+const TEAM_SCHEDULE_CONFIG = {remote:true,snapshot_url:'./team-schedule.json',cache_key:'rangers-team-schedule-v1'};
 const $ = id => document.getElementById(id);
 const names = Object.fromEntries(COLORS.map(color => [color, color[0].toUpperCase() + color.slice(1)]));
 const swatches = { green: '#00a768', blue: '#087ab9', red: '#df493d', orange: '#ef9c11', gray: '#7f858b' };

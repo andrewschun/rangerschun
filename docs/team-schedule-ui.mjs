@@ -1,5 +1,5 @@
 import {parseTeamCalendar,selectTeamEvents,formatTeamEventTime,scheduleDateKey,teamCalendarMonth,teamEventOnDate} from './team-schedule.mjs';
-export function startTeamSchedule({config,element:$,download,readRemote,fetcher=globalThis.fetch,now=()=>Date.now()}){
+export function startTeamSchedule({config,element:$,download,readRemote,fetcher=globalThis.fetch,now=()=>Date.now(),storage=globalThis.localStorage}){
  const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;},zone='America/Toronto';let calendar=null,payload=null,busy=false,checked=false,layout='grid',selectedDate=scheduleDateKey(now(),zone),monthKey=selectedDate.slice(0,7);let [year,month]=monthKey.split('-').map(Number);month--;
  const hasFeed=config&&/^https:\/\/ical-cdn\.teamsnap\.com\/team_schedule\/[a-zA-Z0-9-]+\.ics$/.test(config.feed_url),valid=hasFeed||config?.remote===true;
  function status(message){$('team-schedule-status').textContent=message;}
@@ -34,11 +34,17 @@ export function startTeamSchedule({config,element:$,download,readRemote,fetcher=
   $('team-schedule-selected-date').textContent=dateLabel(selectedDate);const details=$('team-schedule-day-events');details.replaceChildren();const selected=events.filter(event=>teamEventOnDate(event,selectedDate,zone));if(!selected.length)details.append(make('p','library-empty','No events on this day.'));else for(const event of selected)details.append(eventCard(event,true));
  }
  function accept(next,{cached=false}={}){
-  if(!next||typeof next.fetched_at!=='string'||!Number.isFinite(Date.parse(next.fetched_at)))throw Error('The calendar update has no valid retrieval time.');const parsed=parseTeamCalendar(next.ical_text);calendar=parsed;payload=next;render();const stamp=new Intl.DateTimeFormat('en-CA',{timeZone:zone,dateStyle:'medium',timeStyle:'short'}).format(new Date(next.fetched_at));$('team-schedule-updated').textContent='Last retrieved: '+stamp+' Eastern.';status(`${cached?'Saved schedule':'Schedule retrieved'} · ${stamp} Eastern. ${next.stale?'Refresh unavailable; showing the saved schedule.':'TeamSnap may take time to publish changes.'}`);
+  if(!next||typeof next.fetched_at!=='string'||!Number.isFinite(Date.parse(next.fetched_at)))throw Error('The calendar update has no valid retrieval time.');if(payload&&Date.parse(next.fetched_at)<Date.parse(payload.fetched_at)){next=payload;cached=true;}const parsed=parseTeamCalendar(next.ical_text);calendar=parsed;payload=next;if(config.cache_key){try{storage?.setItem(config.cache_key,JSON.stringify(next));}catch{}}render();const stamp=new Intl.DateTimeFormat('en-CA',{timeZone:zone,dateStyle:'medium',timeStyle:'short'}).format(new Date(next.fetched_at));$('team-schedule-updated').textContent='Last retrieved: '+stamp+' Eastern.';status(`${cached?'Saved schedule':'Schedule retrieved'} · ${stamp} Eastern. ${next.stale?'Refresh unavailable; showing the saved schedule.':'TeamSnap may take time to publish changes.'}`);
+ }
+ let savedLoad=null;
+ async function loadSaved(){
+  if(!config.snapshot_url)return;
+  savedLoad??=(async()=>{try{const response=await fetcher(config.snapshot_url,{cache:'no-cache'});if(!response.ok)throw Error();accept(await response.json(),{cached:true});}catch{/* A live refresh can still recover an unavailable published copy. */}})();await savedLoad;
  }
  async function refresh(){
-  if(busy||!valid)return;busy=true;checked=true;$('team-schedule-refresh').disabled=true;status('Refreshing TeamSnap schedule…');
-  try{let next;if(globalThis.google?.script?.run){if(!readRemote)throw Error('Connect with your player code in Coach desk to refresh the schedule.');next=await readRemote();}
+  if(busy||!valid)return;busy=true;checked=true;$('team-schedule-refresh').disabled=true;
+  await loadSaved();status(payload?'Checking for changes… The saved schedule remains available.':'Refreshing TeamSnap schedule…');
+  try{let next;if(config.remote||globalThis.google?.script?.run){if(!readRemote)throw Error('The schedule connection is unavailable.');next=await readRemote();}
    else{if(!/^https?:$/.test(globalThis.location?.protocol??''))throw Error('This file shows a saved schedule. Open the local website to refresh it.');const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);try{const local=['127.0.0.1','localhost'].includes(globalThis.location?.hostname),endpoint=local&&config.local_refresh_url?config.local_refresh_url:'/api/team-schedule';const response=await fetcher(endpoint,{cache:'no-store',signal:controller.signal});if(!response.ok)throw Error();next=await response.json();}finally{clearTimeout(timer);}}
    accept(next);
   }catch(error){status(payload?'Could not refresh. The saved schedule remains displayed with its retrieval time.':'Could not load the schedule. Try again or open the calendar feed.');if(error.message.includes('player code')||error.message.includes('This file'))status(error.message+(payload?' The saved schedule remains available.':''));}
@@ -48,7 +54,7 @@ export function startTeamSchedule({config,element:$,download,readRemote,fetcher=
  function changeMonth(delta){const date=new Date(Date.UTC(year,month+delta,1,12));year=date.getUTCFullYear();month=date.getUTCMonth();selectedDate=date.toISOString().slice(0,10);render();}
  $('team-schedule-previous').addEventListener('click',()=>changeMonth(-1));$('team-schedule-next').addEventListener('click',()=>changeMonth(1));$('team-schedule-today').addEventListener('click',()=>showDay(scheduleDateKey(now(),zone)));for(const [id,mode]of [['team-schedule-grid-mode','grid'],['team-schedule-list-mode','list']])$(id).addEventListener('click',()=>{layout=mode;render();});$('team-schedule-refresh').addEventListener('click',()=>void refresh());$('team-schedule-download').addEventListener('click',()=>{if(payload)download('rangers-team-schedule.ics',payload.ical_text,'text/calendar;charset=utf-8');});
  $('team-schedule-subscribe').hidden=$('team-schedule-feed').hidden=!hasFeed;
- if(valid){if(hasFeed){$('team-schedule-subscribe').href=config.feed_url.replace(/^https:/,'webcal:');$('team-schedule-feed').href=config.feed_url;}try{if(config.initial)accept(config.initial,{cached:true});}catch{status('The saved schedule could not be read. Refresh to try again.');}}
+ if(valid){if(hasFeed){$('team-schedule-subscribe').href=config.feed_url.replace(/^https:/,'webcal:');$('team-schedule-feed').href=config.feed_url;}for(const next of [config.initial,(()=>{try{return config.cache_key?JSON.parse(storage?.getItem(config.cache_key)??'null'):null;}catch{return null;}})()]){try{if(next)accept(next,{cached:true});}catch{status('The saved schedule could not be read. Refresh to try again.');}}}
  else{$('team-schedule-refresh').disabled=true;status('Team calendar connection pending.');}render();
  return {activate:()=>{render();if(!checked)void refresh();},refresh};
 }
