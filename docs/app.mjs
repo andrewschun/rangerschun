@@ -1,6 +1,6 @@
 import { startTeamSchedule } from './team-schedule-ui.mjs?v=calendar-location-20261025';
 import { installGoogleBridge } from './google-bridge.mjs?v=schedule-auto-refresh-20261025';
-import { startTabPlayers } from './tab-players.mjs?v=schedule-auto-refresh-20261025';
+import { startTabPlayers } from './tab-players.mjs?v=axe-options-20261025';
 import { startThrowingCalendar } from './throwing-calendar-ui.mjs?v=schedule-auto-refresh-20261025';
 import { isThrowingWorkout } from './workout-record-tools.mjs?v=schedule-auto-refresh-20261025';
 import { startOverSpeedProgression } from './overspeed-progression-ui.mjs?v=schedule-auto-refresh-20261025';
@@ -70,6 +70,7 @@ function populatePlayerDropdown(id) {
   }
 }
 populatePlayerDropdown('player');
+populatePlayerDropdown('axe-player');
 
 // Workout selection, checklist and journal share one form.
 const goWorkoutPane=view=>{tabPlayers?.setCurrent($(view==='throwing'?'throwing-player':'workout-player').value);location.hash='#'+view;};

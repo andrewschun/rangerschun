@@ -4,7 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#111b60"><meta name="description" content="Etobicoke Rangers 16U development workspace. Explore Driveline and DUBS references, labeled interpolation, Blast Motion, post-throwing Pulse data, and player workout journals.">
 <title>Rangers | Workout log</title>
-<link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css?v=axe-bat-20261025">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css?v=axe-options-20261025">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -258,6 +258,10 @@
       <div class="blast-history-heading"><div><div class="eyebrow">SELECTED PLAYER / RAW READINGS</div><h2 id="overspeed-history-title">Choose a player to see records</h2></div><button id="overspeed-export" type="button" class="secondary-button" disabled>Export player bat-speed CSV ↓</button></div><div id="overspeed-history"></div><p id="overspeed-announcement" class="blast-announcement" role="status" aria-live="polite"></p>
     </section>
     <section id="view-axe" class="view" aria-labelledby="axe-title" hidden>
+      <div class="tab-player-bar axe-selector-bar">
+        <div class="player-field"><label for="axe-player">Select player</label><select id="axe-player"><option value="">Choose a player</option><option value="Aidan">Aidan</option><option value="Ambrose">Ambrose</option><option value="Andre">Andre</option><option value="Carson">Carson</option><option value="Carter">Carter</option><option value="Jayden">Jayden</option><option value="Joseph">Joseph</option><option value="Josh">Josh</option><option value="Max">Max</option><option value="Michael">Michael</option><option value="Nathan">Nathan</option><option value="Raiden">Raiden</option><option value="Rory">Rory</option><option value="Walker">Walker</option><option value="Marcus">Marcus</option><option value="Dominic">Dominic</option><option value="Demo">Demo</option></select></div>
+        <div class="player-field"><label for="axe-activity">Activity</label><select id="axe-activity"><option value="">Choose an activity</option><option value="bat_speed">Bat Speed</option><option value="short_bat">Short Bat</option><option value="long_bat">Long Bat</option><option value="mini_plyos">Mini Plyos</option></select></div>
+      </div>
       <div class="page-heading simple-heading"><div><div class="eyebrow">RANGERS / AXE BAT</div><h1 id="axe-title">Axe Bat.<br><span>Your team bats.</span></h1><p>Green, red and blue Axe bats in 32″ and 33″ lengths.</p></div><span class="large-index" aria-hidden="true">AXE</span></div>
       <div class="axe-bat-grid" aria-label="Team Axe bats">
         <article class="axe-bat-card"><h2><span class="axe-bat-dot axe-bat-green" aria-hidden="true"></span>Green Axe Bat</h2><p>32″ and 33″</p></article>
@@ -297,5 +301,5 @@
 </div>
 <dialog id="method-dialog" aria-labelledby="method-title"><div class="dialog-heading"><span class="eyebrow">KNOW THE SOURCE</span><button class="close-dialog" type="button" aria-label="Close data information">×</button></div><h2 id="method-title">A reference, with the<br>details kept intact.</h2><div class="method-points"><p><strong>Observed · whole mph</strong>Inputs from 70 through 86 mph show the exact displayed values transcribed from your 17 supplied calculator screenshots.</p><p><strong>Interpolated · decimal mph</strong>Within that range, decimal inputs use a straight-line estimate between neighboring screenshots, rounded to one decimal. This is an estimate, not the original Driveline formula.</p><p><strong>Exact source coverage: 70–86 mph</strong>The previous 80–86 mph projections have been replaced by screenshot observations. Inputs outside this range receive no targets. The original calculator formula has not been reconstructed.</p><p><strong>Colors and blanks matter</strong>Every original ball color, drill label and blank is retained in Driveline view. The separate DUBS 150 g projections do not replace any screenshot observation.</p><p><strong>Equipment stays specific</strong>These are Driveline reference observations. DUBS view copies Driveline references for 100, 225, 350, 450, and 1,000 g nominal matches. These are not validated DUBS output targets. Your supplied chart identifies orange as 350 g. The dark green DUBS 150 g row has four mass-interpolated projections: 60% of the gray 100 g reference plus 40% of the red 225 g reference. Roll-Ins are not projected. No yellow 150 g source readings or measured DUBS readings validate these projections.</p></div><button class="primary-button close-dialog" type="button">Back to the targets <span>→</span></button></dialog>
 <noscript><div class="noscript">Enable JavaScript to calculate targets. Blast entry requires JavaScript; PlyoCare throw entry remains on hold.</div></noscript>
-<script type="module" src="./app.mjs?v=axe-bat-20261025"></script>
+<script type="module" src="./app.mjs?v=axe-options-20261025"></script>
 </body></html>

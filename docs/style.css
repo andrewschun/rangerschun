@@ -175,3 +175,5 @@ select option,select optgroup{background-color:var(--dropdown-bg)}
 .axe-bat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0}.axe-bat-card{padding:24px;background:#fff;border:1px solid var(--line);border-radius:9px}.axe-bat-card h2{display:flex;align-items:center;gap:10px;font-size:19px;margin:0 0 12px}.axe-bat-card p{color:#60798c;margin:0}.axe-bat-dot{display:inline-block;flex:0 0 14px;width:14px;height:14px;border-radius:50%}.axe-bat-green{background:#168b52}.axe-bat-red{background:#dd493e}.axe-bat-blue{background:#0879b8}.axe-bat-recording p{color:#60798c;margin-bottom:22px}.axe-bat-recording .primary-button{display:inline-flex;align-items:center;min-height:44px}@media(max-width:760px){.axe-bat-grid{grid-template-columns:1fr}}
 
 .sidebar{overflow-y:auto}
+
+.axe-selector-bar{align-items:flex-start}.axe-selector-bar .player-field{flex:1;max-width:340px}@media(max-width:650px){.axe-selector-bar{flex-direction:column;align-items:stretch}.axe-selector-bar .player-field{max-width:none}}

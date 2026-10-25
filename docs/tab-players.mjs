@@ -1,4 +1,4 @@
-export const TAB_PLAYER_IDS={workouts:'workout-player',throwing:'throwing-player',targets:'player',tracker:'baseball-player',pulse:'pulse-player',blast:'blast-player',overspeed:'overspeed-player'};
+export const TAB_PLAYER_IDS={workouts:'workout-player',throwing:'throwing-player',targets:'player',tracker:'baseball-player',pulse:'pulse-player',blast:'blast-player',overspeed:'overspeed-player',axe:'axe-player'};
 // Each existing form handles its own unsaved-change guard before this listener runs.
 // Only the tab being opened is synchronized; hidden drafts are left untouched.
 export function startTabPlayers({players,element:$}){
