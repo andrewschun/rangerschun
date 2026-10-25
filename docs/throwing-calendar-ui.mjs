@@ -71,5 +71,11 @@ export function startThrowingCalendar({players,scope,element:$,flow,subscribe}){
   if(readable)try{localStorage.setItem(key,JSON.stringify({version:1,starts}));saving=true;}catch{saving=false;}
   $('throwing-calendar-message').textContent=readable&&saving?'Day 1 date saved for '+name+'.': 'Calendar date is kept in this page only; device saving is unavailable.';render();
  });
+ $('throwing-form').addEventListener('submit',()=>{
+  // The flow closes only after validation and saving succeed; failed entries remain open.
+  if(!$('throwing-form').hidden||flow.hasDraft?.())return;
+  active='';offContext=null;$('throwing-calendar-choice').hidden=true;
+  $('throwing-calendar-message').textContent='Routine saved. Choose another calendar day, or reopen a saved day or history entry to correct it.';render();
+ });
  $('throwing-form').hidden=true;subscribe(()=>render());render();return {render};
 }

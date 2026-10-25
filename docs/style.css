@@ -183,3 +183,5 @@ select option,select optgroup{background-color:var(--dropdown-bg)}
 .workout-schedule-picker .library-selectors{grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:650px){.workout-schedule-picker .library-selectors{grid-template-columns:1fr}}
 
 .weekly-schedule-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 20px}.weekly-schedule-day{display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;padding:13px 12px;border:1px solid #e5ecf2;border-radius:6px;align-items:start}.weekly-schedule-day h3{margin:0;font-size:12px;line-height:1.7;color:#294d6a;white-space:nowrap}.weekly-schedule-day strong{font-size:12px;line-height:1.7;color:#345974}.weekly-schedule-day p{margin:4px 0 0;font-size:11px;line-height:1.6;color:#70869b}.weekly-schedule-day:nth-child(1),.weekly-schedule-day:nth-child(4){background:#f5fafc}@media(max-width:520px){.weekly-schedule-grid{grid-template-columns:1fr}}
+
+.page-heading{min-height:0;align-items:flex-start}.page-heading>div:first-child{min-width:0}.page-heading h1{font-size:clamp(22px,3vw,38px);line-height:1.2;letter-spacing:-.8px;white-space:nowrap}
