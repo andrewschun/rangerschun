@@ -169,3 +169,5 @@
 /* Shared dropdown tint across every form, including dynamically added selectors. */
 select{background-color:var(--dropdown-bg)!important}
 select option,select optgroup{background-color:var(--dropdown-bg)}
+
+.schedule-grid-location{display:block;font-size:10px;font-weight:400;line-height:1.35;color:#49697d;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.schedule-event-location{white-space:pre-line}.schedule-location-checked{display:block;color:#708195;margin-top:5px}
