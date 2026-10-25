@@ -1,8 +1,9 @@
+import {startPlayerAccess} from './player-access.mjs?v=player-jersey-check-20261025';
 import {startAxePrograms} from './axe-program-ui.mjs?v=compact-workouts-20261025';
 import {startWorkoutSchedule} from './workout-schedule-ui.mjs?v=compact-workouts-20261025';
 import { startTeamSchedule } from './team-schedule-ui.mjs?v=calendar-location-20261025';
 import { installGoogleBridge } from './google-bridge.mjs?v=schedule-auto-refresh-20261025';
-import { startTabPlayers } from './tab-players.mjs?v=compact-workouts-20261025';
+import { startTabPlayers } from './tab-players.mjs?v=player-jersey-check-20261025';
 import { startThrowingCalendar } from './throwing-calendar-ui.mjs?v=throwing-save-close-20261025';
 import { isThrowingWorkout } from './workout-record-tools.mjs?v=schedule-auto-refresh-20261025';
 import { startOverSpeedProgression } from './overspeed-progression-ui.mjs?v=compact-workouts-20261025';
@@ -58,6 +59,7 @@ let started = false;
 // Placeholder aliases only. Selection stays in memory and is never submitted.
 const PLAYER_LABELS = Object.freeze(["Aidan", "Ambrose", "Andre", "Carson", "Carter", "Jayden", "Joseph", "Josh", "Max", "Michael", "Nathan", "Raiden", "Rory", "Walker", "Marcus", "Dominic", "Demo"]);
 const STORAGE_ROSTER_LABELS = Object.freeze(["Aidan", "Ambrose", "Andre", "Carson", "Carter", "Jayden", "Joseph", "Josh", "Max", "Michael", "Nathan", "Raiden", "Rory", "Walker"]);
+const PLAYER_JERSEY_HASHES = {"Aidan": "d820eaab4138ce6ed9d2bef9f85ab5be965c84f6d7ad5b418117b1b70baed9de", "Ambrose": "7d3485569c1e4a429fcd9ffb5652f7c11a98ad97278b376902f07a2afe97704b", "Andre": "3e23aa592a7d68062ca54bda131699774549797e8e465354a770ba397eb65ca8", "Carson": "372f6ae4f3e8a664b0a83f1607d4ae5947605b500bd65002c0901dfaff7a6d75", "Carter": "f71a3086a0350c919f2254579b26f303b658a8ba2d8890553b0ef20bfb66c4f8", "Jayden": "a47237bdb4db1565499f29845dc173905fecdc65c91ea3d15e82663f0c301b52", "Joseph": "e982ae723a712ed12541ce83849fd1bc6ea4d29eac9c1f1cf36be8269ede0070", "Josh": "0ab8eb9a43b907aa5a9756cd07f8f6b115c9561128ab6f0c1a531d45eb74a8e9", "Max": "9968de214233809cf796ab0d29f091eb6f93cf7615002d2a0d1c1263e7342c9a", "Michael": "a8feaf46625647a204b2ed65195a3749d9d18f02805d9cbd9f619857077532fc", "Nathan": "fd7838ff9064d3901f27fa1a7991b6311f637145f99844088afd66c280a9fa76", "Raiden": "134d3a9cbf133c9b6bdb7051c17e51e75f82c87703117ad55712452b0464034a", "Rory": "62f86272188ad8144865875fe28be66ddb8f220f8430e9a109ce0a4b045c8b4d", "Walker": "cc066611ee58629c433bf9bf79dd220ee17fe765c2f38f85759358ea7ffcc9b8", "Dominic": "ecfe6054d685b49b9a54b551cbbdf3caffa05c176358f75b066321dedc607f3d", "Marcus": "532d7863b8ef863ce0e90f593b7c5f7e42d23ba6f60f3a94d0a275e650a7c5f9", "Demo": "e8ca8e2759343d9e1064e7701db86f301ba8b8f5f2e1d148f8320670df8d098d"};
 let rosterHash=2166136261;
 for(const char of JSON.stringify(STORAGE_ROSTER_LABELS)) rosterHash=Math.imul(rosterHash^char.charCodeAt(0),16777619)>>>0;
 function populatePlayerDropdown(id) {
@@ -413,11 +415,13 @@ document.querySelector('[data-nav="schedule"]').addEventListener('click',()=>{if
 startThrowingCalendar({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,flow:throwingFlow,subscribe:listener=>workoutFlow.subscribe(listener)});
 const axePrograms=startAxePrograms({element:$});
 tabPlayers=startTabPlayers({players:PLAYER_LABELS,element:$});
+const playerAccess=startPlayerAccess({players:PLAYER_LABELS,hashes:PLAYER_JERSEY_HASHES,element:$});
 const routeLabels = { workouts: 'WORKOUT LOG', throwing: 'THROWING ROUTINE', schedule:'TEAM SCHEDULE', targets: 'PLYOCARE LAB', tracker: 'BASEBALL THROWS', pulse: 'DRIVELINE PULSE', blast: 'BLAST MOTION', overspeed: 'OVERSPEED PROGRAM', axe:'AXE BAT', reading: 'PLAYER READING', approach: 'TRAINING APPROACH', coach: 'COACH DESK' };
 function route() {
   const key = location.hash.slice(1);
   const view = Object.hasOwn(routeLabels, key) ? key : 'workouts';
   tabPlayers.activate(view);
+  playerAccess.activate(view);
   for (const name of Object.keys(routeLabels)) {
     $(`view-${name}`).hidden = name !== view;
   }
