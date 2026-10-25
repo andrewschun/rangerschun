@@ -1,12 +1,14 @@
+import {startAxePrograms} from './axe-program-ui.mjs?v=training-plans-20261025';
+import {startWorkoutSchedule} from './workout-schedule-ui.mjs?v=training-plans-20261025';
 import { startTeamSchedule } from './team-schedule-ui.mjs?v=calendar-location-20261025';
 import { installGoogleBridge } from './google-bridge.mjs?v=schedule-auto-refresh-20261025';
-import { startTabPlayers } from './tab-players.mjs?v=axe-options-20261025';
+import { startTabPlayers } from './tab-players.mjs?v=training-plans-20261025';
 import { startThrowingCalendar } from './throwing-calendar-ui.mjs?v=schedule-auto-refresh-20261025';
 import { isThrowingWorkout } from './workout-record-tools.mjs?v=schedule-auto-refresh-20261025';
 import { startOverSpeedProgression } from './overspeed-progression-ui.mjs?v=schedule-auto-refresh-20261025';
 import { startPulse } from './pulse-ui.mjs?v=schedule-auto-refresh-20261025';
 import { startBlastPcr } from './blast-pcr-ui.mjs?v=schedule-auto-refresh-20261025';
-import { startWorkoutFlow } from './workout-flow.mjs?v=schedule-auto-refresh-20261025';
+import { startWorkoutFlow } from './workout-flow.mjs?v=training-plans-20261025';
 import { OVERSPEED_LIBRARY } from './overspeed-library.mjs?v=schedule-auto-refresh-20261025';
 import { BAT_CONFIGURATIONS, BAT_SPEED_DEVICES, validateBatSpeedSet, upsertBatSpeedSet, summarizeBatSpeeds, batSpeedContext, batSpeedProgress, batSpeedCsv } from './overspeed.mjs?v=schedule-auto-refresh-20261025';
 import { startOverSpeed } from './overspeed-ui.mjs?v=schedule-auto-refresh-20261025';
@@ -75,6 +77,7 @@ populatePlayerDropdown('axe-player');
 // Workout selection, checklist and journal share one form.
 const goWorkoutPane=view=>{tabPlayers?.setCurrent($(view==='throwing'?'throwing-player':'workout-player').value);location.hash='#'+view;};
 const workoutFlow=startWorkoutFlow({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,download:downloadFile,onNavigate:goWorkoutPane,onChange:(before,after)=>{teamJournal?.record('workout',before,after);workoutOverview?.refresh();}});
+const workoutSchedule=startWorkoutSchedule({element:$,flow:workoutFlow});
 const throwingElement=id=>$(id.startsWith('workout-')?'throwing-'+id.slice(8):id.startsWith('library-')?'throwing-library-'+id.slice(8):id);
 const throwingFlow=startWorkoutFlow({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:throwingElement,download:downloadFile,variant:'throwing',sharedStore:workoutFlow,onNavigate:goWorkoutPane});
 
@@ -408,6 +411,7 @@ startPlayerReading(PLAYER_READING);
 const teamSchedule=startTeamSchedule({config:TEAM_SCHEDULE_CONFIG,element:$,download:downloadFile,readRemote:()=>{if(!teamJournal)throw Error('Connect with your player code in Coach desk to refresh the schedule.');return teamJournal.readTeamSchedule();}});
 document.querySelector('[data-nav="schedule"]').addEventListener('click',()=>{if(location.hash==='#schedule')void teamSchedule.activate();});
 startThrowingCalendar({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,flow:throwingFlow,subscribe:listener=>workoutFlow.subscribe(listener)});
+const axePrograms=startAxePrograms({element:$});
 tabPlayers=startTabPlayers({players:PLAYER_LABELS,element:$});
 const routeLabels = { workouts: 'WORKOUT LOG', throwing: 'THROWING ROUTINE', schedule:'TEAM SCHEDULE', targets: 'PLYOCARE LAB', tracker: 'BASEBALL THROWS', pulse: 'DRIVELINE PULSE', blast: 'BLAST MOTION', overspeed: 'OVERSPEED PROGRAM', axe:'AXE BAT', reading: 'PLAYER READING', approach: 'TRAINING APPROACH', coach: 'COACH DESK' };
 function route() {
