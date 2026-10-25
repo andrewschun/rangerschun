@@ -1,4 +1,4 @@
-import {startPlayerAccess} from './player-access.mjs?v=player-jersey-check-20261025';
+import {startPlayerAccess} from './player-access.mjs?v=password-label-20261025';
 import {startAxePrograms} from './axe-program-ui.mjs?v=compact-workouts-20261025';
 import {startWorkoutSchedule} from './workout-schedule-ui.mjs?v=compact-workouts-20261025';
 import { startTeamSchedule } from './team-schedule-ui.mjs?v=calendar-location-20261025';

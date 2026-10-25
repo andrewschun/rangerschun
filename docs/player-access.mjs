@@ -23,7 +23,7 @@ export function startPlayerAccess({players,hashes,element:$,matches=jerseyCodeMa
  function request(select,name){
   attempt++;pending={select,name};input.value='';error.hidden=true;
   const configured=Object.hasOwn(hashes??{},name);input.disabled=!configured;submit.disabled=!configured;
-  $('player-access-name').textContent=name;$('player-access-help').textContent=configured?'Enter your jersey number to continue.':'Your jersey number has not been set up yet. Please ask your coach.';
+  $('player-access-name').textContent=name;$('player-access-help').textContent=configured?'Enter your password to continue.':'Your password has not been set up yet. Please ask your coach.';
   if(!dialog.open)dialog.showModal();if(configured)input.focus();render();
  }
  for(const [view,id]of Object.entries(TAB_PLAYER_IDS)){
@@ -43,9 +43,9 @@ export function startPlayerAccess({players,hashes,element:$,matches=jerseyCodeMa
  $('player-access-form').addEventListener('submit',async event=>{
   event.preventDefault();if(!pending||submit.disabled)return;
   const selected=pending,token=++attempt;submit.disabled=true;error.hidden=true;
-  let valid=false;try{valid=await matches(selected.name,input.value,hashes);}catch{if(token===attempt){error.textContent='The jersey check could not run. Please reload this page and try again.';error.hidden=false;submit.disabled=false;}return;}
+  let valid=false;try{valid=await matches(selected.name,input.value,hashes);}catch{if(token===attempt){error.textContent='The password check could not run. Please reload this page and try again.';error.hidden=false;submit.disabled=false;}return;}
   if(token!==attempt)return;
-  if(!valid){error.textContent='That jersey number does not match. Try again.';error.hidden=false;submit.disabled=false;input.value='';input.focus();return;}
+  if(!valid){error.textContent='That password does not match. Try again.';error.hidden=false;submit.disabled=false;input.value='';input.focus();return;}
   verified.add(selected.name);dialog.close();pending=null;input.value='';submit.disabled=false;
   allowed.add(selected.select);selected.select.value=selected.name;selected.select.dispatchEvent(new Event('change',{bubbles:true}));
   accepted.set(selected.select.id,selected.select.value);render();
