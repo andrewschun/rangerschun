@@ -97,6 +97,7 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
     const extra=make('div','library-extra-demos');extra.append(make('h4','','More throwing & recovery demos'));for(const exercise of [WORKOUT_LIBRARY.drills['Step Backs'],...WORKOUT_LIBRARY.throwing_extras]){const link=demo(exercise);if(link)extra.append(link);}$('workout-exercises').append(extra);
   }
   function setMode(next){
+    $('workout-form').hidden=false;
     mode=next;const manual=mode==='manual';$('workout-manual-fields').hidden=!manual;$('workout-manual-confirm').hidden=!manual;$('workout-add-exercise').hidden=!manual;$('workout-save').disabled=!['manual','checklist'].includes(mode);
     $('workout-exercises').classList.toggle('is-checklist',mode==='checklist');
     $('workout-exercises-title').textContent=manual?'Actual exercise details':mode==='reference'?'Throwing routine · reference only':'Exercise checklist';
@@ -199,5 +200,5 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
   }
   $('workout-date').addEventListener('change',refreshReminders);
   if(sharedStore)sharedStore.subscribe(()=>{records=sharedStore.records();({readable,saved}=sharedStore.storageState());$('workout-storage-status').textContent=saved?'':'Device saving is unavailable; export before closing.';renderHistory();refreshReminders();});
-  resetDraft();renderHistory();return {records:()=>records,commit:persist,subscribe:listener=>listeners.add(listener),storageState:()=>({readable,saved}),editSession:edit,restartSession,deleteSession,openTemplate,setOffDay};
+  resetDraft();renderHistory();return {records:()=>records,commit:persist,subscribe:listener=>listeners.add(listener),storageState:()=>({readable,saved}),hasDraft:()=>dirty||Boolean(editing),editSession:edit,restartSession,deleteSession,openTemplate,setOffDay};
 }

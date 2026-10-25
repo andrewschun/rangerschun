@@ -4,7 +4,7 @@ import {isThrowingOffDay} from './workout-record-tools.mjs';
 export function startThrowingCalendar({players,scope,element:$,flow,subscribe}){
  const key='rangers-throwing-calendar-v1-'+scope,make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
  const player=()=>$('throwing-player').value;
- let starts={},readable=true,saving=true,active='',offContext=null;
+ let starts={},readable=true,saving=true,active='',offContext=null,lastPlayer=player();
  try{const raw=localStorage.getItem(key);if(raw){const value=JSON.parse(raw);if(value.version!==1||!value.starts||typeof value.starts!=='object'||Array.isArray(value.starts))throw Error();for(const [name,date] of Object.entries(value.starts))if(!players.includes(name)||!throwingDate(date,1,1))throw Error();starts=value.starts;}}
  catch{readable=false;$('throwing-calendar-message').textContent='Saved calendar dates could not be read. Existing data is preserved; choose a Day 1 date for this page.';}
  const shortDate=date=>new Date(date+'T12:00:00Z').toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'UTC'});
@@ -29,35 +29,47 @@ export function startThrowingCalendar({players,scope,element:$,flow,subscribe}){
  }
  function open(week,day,routine){
   const date=throwingDate(starts[player()]??'',week,day);
-  if(!date||!player())return;
+  if(!date||!player())return false;
   if(routine==='Off'){
    active=week+'-'+day;const name=player(),start=starts[name],box=$('throwing-calendar-choice'),label=make('label','throwing-off-complete'),check=make('input');check.type='checkbox';check.checked=flow.records().some(r=>isThrowingOffDay(r)&&r.player===name&&r.session_date===date&&r.completion_status==='completed'&&r.completion_confirmed===true);check.setAttribute('aria-label',`Off day completed for ${name} on ${date}`);
    label.append(check,make('span','','1. Off day completed'));box.replaceChildren(make('p','',`Week ${week}, Day ${day} · ${shortDate(date)} · ${name}`),label,make('p','field-help','Check to save your Off day and add an X. Uncheck to undo.'));box.hidden=false;
    offContext={player:name,start,date,check};
+   if(!flow.hasDraft?.())$('throwing-form').hidden=true;
    check.addEventListener('change',()=>{
     if(player()!==name||starts[name]!==start){check.checked=!check.checked;return;}
     try{flow.setOffDay({player:name,date,completed:check.checked});$('throwing-calendar-message').textContent=check.checked?`Off day completed for ${name} on ${date}.`:`Off day completion removed for ${name} on ${date}.`;render();}
     catch(error){check.checked=!check.checked;$('throwing-calendar-message').textContent=error.message;}
    });
-   $('throwing-calendar-message').textContent=`Week ${week}, Day ${day} · ${shortDate(date)}: check off your Off day below.`;render();return;
+   $('throwing-calendar-message').textContent=`Week ${week}, Day ${day} · ${shortDate(date)}: check off your Off day below.`;render();box.scrollIntoView?.({behavior:'smooth',block:'nearest'});return true;
   }
-  if(!flow.openTemplate({template_id:THROWING_ROUTINES[routine],date,player:player()}))return;
+  if(!flow.openTemplate({template_id:THROWING_ROUTINES[routine],date,player:player()}))return false;
   offContext=null;
-  active=week+'-'+day;$('throwing-calendar-choice').hidden=true;$('throwing-calendar-message').textContent=`Week ${week}, Day ${day} · ${shortDate(date)}: ${routine}. Check off the routine below and save. A full saved routine adds an X.`;render();$('throwing-form').scrollIntoView?.({behavior:'smooth',block:'start'});$('throwing-form-title').tabIndex=-1;$('throwing-form-title').focus();
+  active=week+'-'+day;$('throwing-form').hidden=false;$('throwing-calendar-choice').hidden=true;$('throwing-calendar-message').textContent=`Week ${week}, Day ${day} · ${shortDate(date)}: ${routine}. Check off the routine below and save. A full saved routine adds an X.`;render();$('throwing-form').scrollIntoView?.({behavior:'smooth',block:'start'});$('throwing-form-title').tabIndex=-1;$('throwing-form-title').focus({preventScroll:true});return true;
+ }
+ function openChoice(week,day,routine){
+  if(!open(week,day,routine))return;
+  const choices=throwingChoices(week,day);if(choices.length<2)return;
+  const box=routine==='Off'?$('throwing-calendar-choice'):make('div','throwing-calendar-alternatives');
+  if(routine!=='Off'){box.append(make('p','field-help','Showing '+routine+' for this day.'));$('throwing-library-content').append(box);}
+  for(const alternative of choices.filter(value=>value!==routine)){
+   const button=make('button','secondary-button','Use '+alternative+' instead');button.type='button';button.addEventListener('click',()=>openChoice(week,day,alternative));box.append(button);
+  }
  }
  function choose(week,day){
-  offContext=null;
-  const choices=throwingChoices(week,day);if(choices.length===1){open(week,day,choices[0]);return;}
-  const box=$('throwing-calendar-choice');box.replaceChildren(make('p','',`Week ${week}, Day ${day}: choose your routine.`));for(const routine of choices){const button=make('button','secondary-button',routine);button.type='button';button.addEventListener('click',()=>open(week,day,routine));box.append(button);}box.hidden=false;
+  const choices=throwingChoices(week,day);if(!choices.length)return;
+  const saved=throwingDayRecord(flow.records(),{player:player(),start:starts[player()]??'',week,day}).record;
+  const routine=choices.find(value=>value==='Off'?isThrowingOffDay(saved):saved?.source_template_id===THROWING_ROUTINES[value])??choices[0];
+  openChoice(week,day,routine);
  }
- $('throwing-player').addEventListener('change',()=>{active='';offContext=null;$('throwing-calendar-choice').hidden=true;if(readable)$('throwing-calendar-message').textContent='';render();});
+ $('throwing-player').addEventListener('change',()=>{if(player()===lastPlayer){render();return;}lastPlayer=player();active='';offContext=null;$('throwing-form').hidden=true;$('throwing-calendar-choice').hidden=true;if(readable)$('throwing-calendar-message').textContent='';render();});
  $('throwing-calendar-start').addEventListener('change',()=>{
   const name=player(),date=$('throwing-calendar-start').value,prior=starts[name]??'';
   if(!name||!throwingDate(date,1,1)){$('throwing-calendar-message').textContent='Choose a valid Day 1 date.';$('throwing-calendar-start').value=prior;return;}
   if(prior&&prior!==date&&!window.confirm('Change this player’s calendar dates? Saved workout dates stay unchanged.')){$('throwing-calendar-start').value=prior;return;}
   starts[name]=date;active='';offContext=null;$('throwing-calendar-choice').hidden=true;
+  if(!flow.hasDraft?.())$('throwing-form').hidden=true;
   if(readable)try{localStorage.setItem(key,JSON.stringify({version:1,starts}));saving=true;}catch{saving=false;}
   $('throwing-calendar-message').textContent=readable&&saving?'Day 1 date saved for '+name+'.': 'Calendar date is kept in this page only; device saving is unavailable.';render();
  });
- subscribe(()=>render());render();return {render};
+ $('throwing-form').hidden=true;subscribe(()=>render());render();return {render};
 }

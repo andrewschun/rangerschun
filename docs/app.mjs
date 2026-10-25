@@ -1,12 +1,12 @@
 import { startTeamSchedule } from './team-schedule-ui.mjs';
 import { installGoogleBridge } from './google-bridge.mjs';
 import { startTabPlayers } from './tab-players.mjs';
-import { startThrowingCalendar } from './throwing-calendar-ui.mjs';
+import { startThrowingCalendar } from './throwing-calendar-ui.mjs?v=calendar-direct-20261025';
 import { isThrowingWorkout } from './workout-record-tools.mjs';
 import { startOverSpeedProgression } from './overspeed-progression-ui.mjs';
 import { startPulse } from './pulse-ui.mjs';
 import { startBlastPcr } from './blast-pcr-ui.mjs';
-import { startWorkoutFlow } from './workout-flow.mjs';
+import { startWorkoutFlow } from './workout-flow.mjs?v=calendar-direct-20261025';
 import { OVERSPEED_LIBRARY } from './overspeed-library.mjs';
 import { BAT_CONFIGURATIONS, BAT_SPEED_DEVICES, validateBatSpeedSet, upsertBatSpeedSet, summarizeBatSpeeds, batSpeedContext, batSpeedProgress, batSpeedCsv } from './overspeed.mjs';
 import { startOverSpeed } from './overspeed-ui.mjs';
