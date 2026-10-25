@@ -1,4 +1,4 @@
-import {AXE_PROGRAMS} from './axe-programs.mjs?v=training-plans-20261025';
+import {AXE_PROGRAMS} from './axe-programs.mjs?v=compact-workouts-20261025';
 
 export function axeProgramPage(activity,season,week){
  const program=AXE_PROGRAMS.find(p=>p.id===activity),w=Number(week);

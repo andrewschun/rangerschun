@@ -22,7 +22,7 @@ export function startOverSpeedProgression({players,scope,element:$,download,onCh
     const hosts=[];
     for(const drill of p.drills){
       const card=make('article','overspeed-drill-card');card.dataset.drill=drill.id;
-      card.append(make('h3','',drill.name),make('p','overspeed-prescription',`${drill.sets} set${drill.sets===1?'':'s'} · ${drill.reps} swings · ${drill.side==='Both'?'both sides':'dominant side'}`),make('p','',drill.description.replace(/\bfirst sleeve\b/gi,'green sleeve').replace(/\bboth sleeves\b/gi,'green & black sleeves')));
+      card.append(make('h3','',drill.name),make('p','overspeed-prescription',`${drill.sets} set${drill.sets===1?'':'s'} x ${drill.reps} swings · ${drill.side==='Both'?'both sides':'dominant side'}`),make('p','',drill.description.replace(/\bfirst sleeve\b/gi,'green sleeve').replace(/\bboth sleeves\b/gi,'green & black sleeves')));
       const video=make('a','exercise-demo','Watch exercise demonstration · Level '+p.level+' video ↗');video.href=p.video_url;video.target='_blank';video.rel='noopener noreferrer';card.append(video);
       card.append(make('p','field-help',`Velo Sports’ ${p.name} level demonstration. Source plan: uploaded PDF, page ${p.source_page}.`));
       const host=make('div','overspeed-drill-entry');card.append(host);

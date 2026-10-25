@@ -1,4 +1,4 @@
-import {WORKOUT_TRAINING_DAYS,scheduledWorkout,workoutProgramProgress,workoutIsLocked} from './workout-program.mjs?v=training-plans-20261025';
+import {WORKOUT_TRAINING_DAYS,scheduledWorkout,workoutProgramProgress,workoutIsLocked} from './workout-program.mjs?v=compact-workouts-20261025';
 
 export function startWorkoutSchedule({element:$,flow}){
  const selectors=['workout-plan-cycle','workout-plan-week','workout-plan-day'];let selected=null,queued=false,lastPlayer='',lastRound=0;
@@ -17,7 +17,7 @@ export function startWorkoutSchedule({element:$,flow}){
   if(available.some(d=>String(d.day)===oldDay))$('workout-plan-day').value=oldDay;
   else if(player&&available.length)$('workout-plan-day').value=String(available[0].day);
   $('workout-plan-status').textContent=player?`Round ${progress.round} · ${progress.completed_days} / ${progress.total_days} scheduled workout days completed. Finished workouts unlock after all three cycles. Progress uses this browser’s saved player history.`:'Choose your name, then Cycle, Week and Day. Your scheduled workout loads automatically.';
-  if(player&&!available.length)$('workout-plan-status').textContent+=' This week is complete. Choose another week or cycle. If only one part of a combined day is finished, use Individual workouts to finish the remaining part.';
+  if(player&&!available.length)$('workout-plan-status').textContent+=' This week is complete. Choose another week or cycle. If part of a combined day was logged separately, use history to correct or restart its saved entry.';
   if(open&&player&&$('workout-plan-day').value){
    const template=scheduledWorkout(cycle,week,$('workout-plan-day').value);
    if(!flow.openScheduledTemplate({template_id:template.id,player}))return false;

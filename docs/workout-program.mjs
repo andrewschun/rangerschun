@@ -1,5 +1,5 @@
 import {WORKOUT_LIBRARY} from './library.mjs?v=schedule-auto-refresh-20261025';
-import {WORKOUT_TEMPLATES} from './library-tools.mjs?v=schedule-auto-refresh-20261025';
+import {WORKOUT_TEMPLATES} from './library-tools.mjs?v=compact-workouts-20261025';
 
 export const WORKOUT_TRAINING_DAYS=[
  {day:1,label:'Day 1 · Med Ball + Heavy Lower',type:'combined',sourceDay:1},

@@ -1,4 +1,4 @@
-import { WORKOUT_TEMPLATES, workoutPrescriptionLines } from './library-tools.mjs?v=schedule-auto-refresh-20261025';
+import { WORKOUT_TEMPLATES, workoutPrescriptionLines } from './library-tools.mjs?v=compact-workouts-20261025';
 
 /** Loads marked n/a need no weight entry. Blank lifting loads are actual-weight fields, not targets. */
 export function checklistWeightRequired(exercise,category){

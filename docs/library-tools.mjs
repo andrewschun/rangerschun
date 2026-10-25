@@ -28,7 +28,7 @@ export function workoutTypeForProgram(programId) {
 }
 export function workoutProgramChoices(cycle) {
   if(!['1','2','3'].includes(String(cycle)))return [];
-  const types=[['med_ball_lift','Med Ball + Lift'],['med_ball','Med Ball'],['lift','Lift'],['conditioning','Conditioning']];
+  const types=[['med_ball_lift','Med Ball + Lift'],['lift','Lift'],['conditioning','Conditioning']];
   return [...types.flatMap(([type,label])=>WORKOUT_PROGRAMS.filter(program=>workoutTypeForProgram(program.id)===type&&workoutCycleForProgram(program.id)===String(cycle)).map(program=>({id:program.id,type,label}))),{id:'custom',type:'custom',label:'Custom workout / detailed entry'}];
 }
 
@@ -60,6 +60,13 @@ export function workoutPrescriptionLines(exercise) {
     const text = [plan.reps, plan.load ? `Load / intensity: ${plan.load}` : ''].filter(Boolean).join(' · ') || 'Details not specified';
     return plans.length > 1 ? `Set ${index + 1}: ${text}` : text;
   });
+}
+
+/** Display notation only; stored/source prescriptions retain their original text. */
+export function formatWorkoutDetails(text) {
+  return formatWeightedBaseballOunces(text)
+    .replace(/\bSets:\s*([^·•\n]+?)\s*[·•]\s*/g,'$1 sets x ')
+    .replace(/(\b\d+\s+sets?)\s*[·•]\s*(?=\d+\s+reps?\b)/gi,'$1 x ');
 }
 
 /** Clarify the weighted-baseball list for display; keep saved source prescriptions intact. */
