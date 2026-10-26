@@ -1,7 +1,7 @@
-import {isAxeWorkout} from './axe-progress.mjs?v=axe-drill-checklists-20261025';
-import {workoutProgramProgress,workoutIsLocked,workoutRound,workoutCoverage,workoutCycleLocked} from './workout-program.mjs?v=axe-drill-checklists-20261025';
+import {isAxeWorkout} from './axe-progress.mjs?v=rangers-organization-20261025';
+import {workoutProgramProgress,workoutIsLocked,workoutRound,workoutCoverage,workoutCycleLocked} from './workout-program.mjs?v=rangers-organization-20261025';
 import { isThrowingWorkout, isThrowingOffDay, THROWING_OFF_DAY_SOURCE, previousWorkoutLoad, previousWorkoutLoadText } from './workout-record-tools.mjs?v=schedule-auto-refresh-20261025';
-import { createWorkoutLoadFields } from './workout-load-ui.mjs?v=axe-drill-checklists-20261025';
+import { createWorkoutLoadFields } from './workout-load-ui.mjs?v=rangers-organization-20261025';
 import { plateLoadDescription } from './workout-load.mjs?v=schedule-auto-refresh-20261025';
 import { WORKOUT_LIBRARY } from './library.mjs?v=schedule-auto-refresh-20261025';
 import { appendDrivelineBallText } from './driveline-colors.mjs?v=schedule-auto-refresh-20261025';

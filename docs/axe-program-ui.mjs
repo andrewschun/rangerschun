@@ -1,4 +1,4 @@
-import {startAxeCompletion} from './axe-completion-ui.mjs?v=axe-drill-checklists-20261025';
+import {startAxeCompletion} from './axe-completion-ui.mjs?v=rangers-organization-20261025';
 import {AXE_PROGRAMS} from './axe-programs.mjs?v=compact-workouts-20261025';
 
 export function axeProgramPage(activity,season,week){

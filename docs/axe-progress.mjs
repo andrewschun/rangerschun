@@ -1,4 +1,4 @@
-import {axeDrillPlan} from './axe-drills.mjs?v=axe-drill-checklists-20261025';
+import {axeDrillPlan} from './axe-drills.mjs?v=rangers-organization-20261025';
 import {AXE_PROGRAMS} from './axe-programs.mjs?v=compact-workouts-20261025';
 
 // Coach requires the maximum listed days in every source week.

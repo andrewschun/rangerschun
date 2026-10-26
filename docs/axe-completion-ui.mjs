@@ -1,5 +1,5 @@
-import {axeContext,axeProgress,isAxeWorkout,makeAxeSession,upsertAxeSession,validateAxeSession} from './axe-progress.mjs?v=axe-drill-checklists-20261025';
-import {axeDrillPlan} from './axe-drills.mjs?v=axe-drill-checklists-20261025';
+import {axeContext,axeProgress,isAxeWorkout,makeAxeSession,upsertAxeSession,validateAxeSession} from './axe-progress.mjs?v=rangers-organization-20261025';
+import {axeDrillPlan} from './axe-drills.mjs?v=rangers-organization-20261025';
 import {validateWorkout,workoutsToCsv} from './engine.mjs?v=schedule-auto-refresh-20261025';
 
 export function startAxeCompletion({element:$,players,flow,download=()=>{},refresh,onNavigate}){

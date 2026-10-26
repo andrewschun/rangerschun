@@ -24,7 +24,7 @@ export function createGoogleBridge(config,{window=globalThis.window,document=glo
   if(data.ok===true)entry.resolve(data.value);else entry.reject(Error(typeof data.error==='string'?data.error:'The coach sheet did not confirm this request.'));
  }
  window.addEventListener('message',receive);
- const frame=document.createElement('iframe');frame.hidden=true;frame.title='Private coach sheet connection';frame.referrerPolicy='no-referrer';url.searchParams.set('mode','github-bridge');url.searchParams.set('nonce',nonce);frame.src=url.href;document.body.append(frame);
+ const frame=document.createElement('iframe');frame.hidden=true;frame.title='Private coach sheet connection';frame.referrerPolicy='no-referrer';url.searchParams.set('mode','github-bridge');url.searchParams.set('nonce',nonce);url.searchParams.set('origin',config.origin);frame.src=url.href;document.body.append(frame);
  function call(method,args=[]){
   if(closed)return Promise.reject(Error('The coach connection is closed.'));
   if(!GOOGLE_BRIDGE_METHODS.includes(method)||!Array.isArray(args)||args.length>2)return Promise.reject(Error('Unsupported coach request.'));

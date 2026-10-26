@@ -1,4 +1,4 @@
-import {AXE_DRILL_PLANS} from './axe-drill-data.mjs?v=axe-drill-checklists-20261025';
+import {AXE_DRILL_PLANS} from './axe-drill-data.mjs?v=rangers-organization-20261025';
 
 const yt=(id,title)=>({url:'https://www.youtube.com/watch?v='+id,title,provider:'Driveline Baseball · YouTube'});
 const vi=(id,title)=>({url:'https://vimeo.com/'+id,title,provider:'Driveline Baseball · Vimeo'});
