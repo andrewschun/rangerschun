@@ -1,4 +1,4 @@
-import {WORKOUT_TRAINING_DAYS,scheduledWorkout,workoutProgramProgress,workoutIsLocked,workoutCycleLocked} from './workout-program.mjs?v=coach-access-programs-20261025';
+import {WORKOUT_TRAINING_DAYS,scheduledWorkout,workoutProgramProgress,workoutIsLocked,workoutCycleLocked} from './workout-program.mjs?v=axe-drill-checklists-20261025';
 
 export function startWorkoutSchedule({element:$,flow}){
  const selectors=['workout-plan-cycle','workout-plan-week','workout-plan-day'];let selected=null,queued=false,lastPlayer='',lastRound=0;

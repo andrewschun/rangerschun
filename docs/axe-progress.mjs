@@ -1,11 +1,13 @@
+import {axeDrillPlan} from './axe-drills.mjs?v=axe-drill-checklists-20261025';
 import {AXE_PROGRAMS} from './axe-programs.mjs?v=compact-workouts-20261025';
 
-// Counts were visually checked against every supplied weekly table. A range uses its minimum.
-export const AXE_WEEKLY_DAYS=Object.freeze({in_season:[2,2,2,2,2,2,2,3,3,3,3,3],off_season:[2,2,2,3,3,3,3,3,3,3,3,3]});
+// Coach requires the maximum listed days in every source week.
+export const AXE_WEEKLY_DAYS=Object.freeze({in_season:[3,3,3,3,3,4,4,4,4,4,5,5],off_season:[3,3,3,4,4,4,4,5,5,5,5,5]});
 export const AXE_WEEKLY_MAX=Object.freeze({in_season:[3,3,3,3,3,4,4,4,4,4,5,5],off_season:[3,3,3,4,4,4,4,5,5,5,5,5]});
 export const AXE_MINI_DAYS=[3,3,3,3,4,6]; // Coach chose the detailed Week6 page's six sessions.
-export const AXE_ENTRY_MODE='axe_sections_v1';
-export function isAxeWorkout(record){return record?.entry_mode===AXE_ENTRY_MODE;}
+export const AXE_ENTRY_MODE='axe_drills_v2';
+export const AXE_LEGACY_MODE='axe_sections_v1';
+export function isAxeWorkout(record){return [AXE_ENTRY_MODE,AXE_LEGACY_MODE].includes(record?.entry_mode);}
 export function axeSeason(activity,season){return activity==='mini_plyos'?'shared':season;}
 export function axeContext(activity,season){const program=AXE_PROGRAMS.find(p=>p.id===activity);if(!program||!['in_season','off_season','shared'].includes(season)||activity!=='mini_plyos'&&season==='shared')throw Error('Choose an Axe activity and season.');return {program,activity,season:axeSeason(activity,season)};}
 export function axeRequiredSessions(activity,season,week){const {program}=axeContext(activity,season);if(!Number.isInteger(week)||week<1||week>program.week_count)throw Error('Choose a valid program week.');return activity==='mini_plyos'?AXE_MINI_DAYS[week-1]:AXE_WEEKLY_DAYS[season][week-1];}
@@ -15,10 +17,11 @@ export function validateAxeSession(record){
  if(!isAxeWorkout(record)||!record.axe_program)throw Error('Choose an Axe workout.');
  const meta=record.axe_program,{program,season}=axeContext(meta.activity,meta.season),required=axeRequiredSessions(meta.activity,season,meta.week);
  if(meta.source_sha256!==program.sha256||meta.season!==season||!validDate(record.session_date)||typeof record.player!=='string'||!record.player)throw Error('The Axe workout source or player does not match.');
- if(!Array.isArray(record.exercises)||record.exercises.length!==2||record.exercises.some((e,i)=>e.source_exercise_id!==['axe-tee','axe-front-toss'][i]||e.name!==['Tee work','Front toss'][i]||typeof e.completed!=='boolean'||e.sets!==null||e.reps!==null||e.weight!==null||e.weight_unit!=='none'))throw Error('Keep the Tee work and Front toss completion checks with this workout.');
- const full=record.exercises.every(e=>e.completed);if(!['completed','partial'].includes(record.completion_status)||record.completion_status==='completed'&&!full||record.completion_confirmed!==true)throw Error('Complete both Tee work and Front toss before continuing.');
- if(!record.exercises.some(e=>e.completed))throw Error('Check at least one completed section before saving.');
- if(record.completion_status==='completed'&&required===null)throw Error('Your coach must confirm the Week 6 schedule before it can be completed.');
+ const legacy=record.entry_mode===AXE_LEGACY_MODE,plan=legacy?[{id:'axe-tee',name:'Tee work'},{id:'axe-front-toss',name:'Front toss'}]:axeDrillPlan(meta.activity,season,meta.week);
+ if(!Array.isArray(record.exercises)||record.exercises.length!==plan.length||record.exercises.some((e,i)=>e.source_exercise_id!==plan[i].id||e.name!==plan[i].name||typeof e.completed!=='boolean'||e.sets!==null||e.reps!==null||e.weight!==null||e.weight_unit!=='none'||!legacy&&(e.completion_group!==plan[i].section||e.planned_details!==plan[i].planned_details)))throw Error('Keep every scheduled drill and its coach-adjusted reps with this workout.');
+ if(!legacy&&(meta.rep_adjustment!==1||meta.drill_revision!==2))throw Error('Use the current drill checklist and coach-adjusted reps.');
+ const full=record.exercises.every(e=>e.completed);if(!['completed','partial'].includes(record.completion_status)||record.completion_status==='completed'&&!full||record.completion_confirmed!==true)throw Error('Check every Tee work and Front toss drill before continuing.');
+ if(!record.exercises.some(e=>e.completed))throw Error('Check at least one completed drill before saving.');
  return true;
 }
 export function axeRecords(records,player,activity,season){const context=axeContext(activity,season);return records.filter(r=>isAxeWorkout(r)&&r.player===player&&r.axe_program?.activity===activity&&r.axe_program?.season===context.season);}
@@ -26,13 +29,13 @@ export function axeProgress(records,player,activity,season){
  const {program}=axeContext(activity,season),sessions=axeRecords(records,player,activity,season),weeks=[];
  for(let week=1;week<=program.week_count;week++){
   const done=sessions.filter(r=>{try{validateAxeSession(r);return r.axe_program.week===week&&r.completion_status==='completed';}catch{return false;}});
-  const count=new Set(done.map(r=>r.session_date)).size,required=axeRequiredSessions(activity,season,week);const maximum=axeMaximumSessions(activity,season,week),skipped=done.some(r=>r.axe_program.optional_skipped===true);weeks.push({week,count,required,maximum,skipped,required_met:count>=required,completed:count>=maximum||count>=required&&skipped});
+  const count=new Set(done.map(r=>r.session_date)).size,required=axeRequiredSessions(activity,season,week);const maximum=axeMaximumSessions(activity,season,week),weeksComplete=count>=required;weeks.push({week,count,required,maximum,completed:weeksComplete});
  }
  const next=weeks.find(w=>!w.completed);return {weeks,unlocked:next?.week??program.week_count,complete:!next,sessions};
 }
-export function makeAxeSession({player,activity,season,week,date,tee,frontToss,complete=false,existing,now=new Date().toISOString(),id}){
- const {program,season:canonical}=axeContext(activity,season);
- return {id:existing?.id??id??globalThis.crypto.randomUUID(),player,session_date:date,title:`Axe Bats · ${program.label} · ${canonical==='shared'?'Shared plan':canonical==='off_season'?'Off-season':'In-season'} · Week ${week}`,category:'baseball',duration_minutes:null,effort:'',notes:complete?'Both source-workout sections confirmed complete.':'Progress saved. Complete both sections and select Complete workout & continue.',source_template_id:`axe-${activity}-${canonical}-week-${week}`,entry_mode:AXE_ENTRY_MODE,axe_program:{activity,season:canonical,week,source_sha256:program.sha256,...(existing?.axe_program?.optional_skipped?{optional_skipped:true}:{})},completion_status:complete?'completed':'partial',completion_confirmed:true,created_at:existing?.created_at??now,updated_at:now,exercises:[['Tee work','axe-tee',tee],['Front toss','axe-front-toss',frontToss]].map(([name,source_exercise_id,completed])=>({name,source_exercise_id,completed,sets:null,reps:null,weight:null,weight_unit:'none',notes:'',planned_details:'Complete all listed '+(source_exercise_id==='axe-tee'?'tee':'toss')+' work in the selected source week.'}))};
+export function makeAxeSession({player,activity,season,week,date,checks=[],complete=false,existing,now=new Date().toISOString(),id}){
+ const {program,season:canonical}=axeContext(activity,season),plan=axeDrillPlan(activity,canonical,week);
+ return {id:existing?.id??id??globalThis.crypto.randomUUID(),player,session_date:date,title:`Axe Bats · ${program.label} · ${canonical==='shared'?'Shared plan':canonical==='off_season'?'Off-season':'In-season'} · Week ${week}`,category:'baseball',duration_minutes:null,effort:'',notes:complete?'Every scheduled drill confirmed complete. Coach adjustment: one extra rep per set.':'Drill progress saved. Check all drills and select Complete workout & continue.',source_template_id:`axe-${activity}-${canonical}-week-${week}`,entry_mode:AXE_ENTRY_MODE,axe_program:{activity,season:canonical,week,source_sha256:program.sha256,rep_adjustment:1,drill_revision:2},completion_status:complete?'completed':'partial',completion_confirmed:true,created_at:existing?.created_at??now,updated_at:now,exercises:plan.map((d,i)=>({name:d.name,source_exercise_id:d.id,completion_group:d.section,completed:checks[i]===true,sets:null,reps:null,weight:null,weight_unit:'none',notes:'',planned_details:d.planned_details}))};
 }
 export function upsertAxeSession(records,record,{today}={}){
  validateAxeSession(record);const old=records.find(r=>r.id===record.id),m=record.axe_program;
@@ -44,10 +47,3 @@ export function upsertAxeSession(records,record,{today}={}){
  return old?records.map(r=>r.id===record.id?record:r):[...records,record];
 }
 
-export function skipAxeOptional(records,player,activity,season,week,{now=new Date().toISOString()}={}){
- const progress=axeProgress(records,player,activity,season),state=progress.weeks[week-1];
- if(!state||!state.required_met||state.completed||week!==progress.unlocked)throw Error('Finish the required Tee work and Front toss workouts before skipping optional workouts.');
- if(progress.sessions.some(r=>r.axe_program.week===week&&r.completion_status==='partial'))throw Error('Complete or clear the optional workout in progress before skipping.');
- const latest=progress.sessions.filter(r=>r.axe_program.week===week&&r.completion_status==='completed').sort((a,b)=>a.session_date.localeCompare(b.session_date)).at(-1);
- return records.map(r=>r.id===latest.id?{...r,updated_at:now,notes:'Required workouts complete. Optional workouts skipped by player.',axe_program:{...r.axe_program,optional_skipped:true}}:r);
-}

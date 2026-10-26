@@ -1,4 +1,4 @@
-import {startAxeCompletion} from './axe-completion-ui.mjs?v=coach-access-programs-20261025';
+import {startAxeCompletion} from './axe-completion-ui.mjs?v=axe-drill-checklists-20261025';
 import {AXE_PROGRAMS} from './axe-programs.mjs?v=compact-workouts-20261025';
 
 export function axeProgramPage(activity,season,week){
@@ -49,7 +49,7 @@ export function startAxePrograms({element:$,players,flow,download,onNavigate}){
   const messages=[];
   if(activity==='mini_plyos')messages.push('The supplied Mini Plyos guide has one six-week plan, with no separate in-season version. Both season choices display that same source plan.');
   if(activity==='mini_plyos'&&week===6)messages.push('Your coach selected six sessions from the detailed Week 6 page. The overview lists four days; the detailed page lists six days and eleven drills.');
-  if(activity==='mini_plyos'&&week===4)messages.push('Coach confirmation needed: the source labels this workout 75 swings, while its listed sets and reps total 82.');
+  if(activity==='mini_plyos'&&[1,4].includes(week))messages.push('The original header and drill-row swing totals differ. Your checklist follows the listed drill rows with your coach’s extra rep in every set.');
   $('axe-program-note').textContent=messages.join(' ');$('axe-program-note').hidden=!messages.length;
   guide(program,$('axe-guide-page').value);
  }
