@@ -23,7 +23,7 @@ import { workoutActivity, workoutActivityCsv, workoutWeek } from './accountabili
 import { startWorkoutAccountability } from './accountability-ui.mjs?v=compact-workouts-20261025';
 import { journalChanges, journalToCsv, validateJournalEvent } from './journal.mjs?v=schedule-auto-refresh-20261025';
 import { startTeamJournal } from './journal-ui.mjs?v=schedule-auto-refresh-20261025';
-import { DRILLS, COLORS, getTargets, getDubsReferences, DUBS_BALLS, summarizeThrows, BLAST_METRICS, validateBlastRecord, summarizeBlast, upsertBlastRecord, filterBlastRecords, blastDailyProgress, blastRecordsToCsv, WORKOUT_CATEGORIES, validateWorkout, upsertWorkout, summarizeWorkouts, workoutsToCsv, BASEBALL_CONTEXTS, BASEBALL_MOUND_DISTANCE_FT, BASEBALL_RADAR_DEVICE, validateBaseballSession, upsertBaseballSession, baseballSessionsToCsv } from './engine.mjs?v=schedule-auto-refresh-20261025';
+import { DRILLS, COLORS, getTargets, getDubsReferences, DUBS_BALLS, getMarvReferences, MARV_BALLS, summarizeThrows, BLAST_METRICS, validateBlastRecord, summarizeBlast, upsertBlastRecord, filterBlastRecords, blastDailyProgress, blastRecordsToCsv, WORKOUT_CATEGORIES, validateWorkout, upsertWorkout, summarizeWorkouts, workoutsToCsv, BASEBALL_CONTEXTS, BASEBALL_MOUND_DISTANCE_FT, BASEBALL_RADAR_DEVICE, validateBaseballSession, upsertBaseballSession, baseballSessionsToCsv } from './engine.mjs?v=schedule-auto-refresh-20261025';
 import { WORKOUT_LIBRARY } from './library.mjs?v=schedule-auto-refresh-20261025';
 import { isWorkoutVideoUrl } from './library-tools.mjs?v=compact-workouts-20261025';
 
@@ -92,7 +92,7 @@ const throwingFlow=startWorkoutFlow({players:PLAYER_LABELS,scope:rosterHash.toSt
 
 
 function displayBalls() {
-  return equipmentMode === 'dubs'
+  return equipmentMode === 'marv' ? MARV_BALLS.map(ball=>({key:ball.model,label:`${ball.color} · ${ball.mass_oz} oz`,sublabel:'MARV · WEIGHT ONLY',swatch:ball.swatch,filter:`${ball.color} · ${ball.mass_oz} oz`})) : equipmentMode === 'dubs'
     ? DUBS_BALLS.map(ball => ({key:ball.model, label:`${ball.color} · ${ball.mass_g.toLocaleString()} g`, sublabel:ball.model==='DPB-150'?`${ball.model} · PROJECTION`:ball.model, swatch:ball.swatch, filter:`${ball.color} · ${ball.mass_g.toLocaleString()} g`}))
     : COLORS.map(color => ({key:color, label:`${names[color]} · ${sourceMasses[color] === null ? 'mass unconfirmed' : sourceMasses[color].toLocaleString()+' g'}`, sublabel:'DRIVELINE SOURCE', swatch:swatches[color], filter:`${names[color]} · ${sourceMasses[color] === null ? 'mass ?' : sourceMasses[color].toLocaleString()+' g'}`}));
 }
@@ -110,7 +110,7 @@ function drawFilters() {
 }
 function drawBoard() {
   const board=$('target-board');board.replaceChildren();board.setAttribute('role','table');
-  board.setAttribute('aria-label',`${equipmentMode==='dubs'?'unvalidated DUBS references and 150 g projections':'Driveline references'} at ${currentResult?.mound_mph ?? 'unknown'} mph`);
+  board.setAttribute('aria-label',`${equipmentMode==='marv'?'MARV ball weights; no velocity targets supplied':equipmentMode==='dubs'?'unvalidated DUBS references and 150 g projections':'Driveline references'} at ${currentResult?.mound_mph ?? 'unknown'} mph`);
   if(!currentResult?.cells.length)return;
   const header=el('div','board-header');header.setAttribute('role','row');
   for(const label of ['BALL / WEIGHT',...DRILLS]){const cell=el('span');cell.setAttribute('role','columnheader');cell.append(workoutDemoLink(WORKOUT_LIBRARY.drills[label],label)??document.createTextNode(label));header.append(cell);}board.append(header);
@@ -119,12 +119,12 @@ function drawBoard() {
     const label=el('div','ball-label');label.setAttribute('role','rowheader');const dot=el('span','ball-dot');dot.setAttribute('aria-hidden','true');
     const text=el('div');text.append(el('strong','',ball.label),el('small','',ball.sublabel));label.append(dot,text);row.append(label);
     for(const drill of DRILLS){
-      const value=currentResult.cells.find(cell=>(equipmentMode==='dubs'?cell.ball_model:cell.ball_color)===ball.key&&cell.drill===drill);
+      const value=currentResult.cells.find(cell=>(equipmentMode!=='driveline'?cell.ball_model:cell.ball_color)===ball.key&&cell.drill===drill);
       const pending=['mapping_unresolved','reference_unavailable','projection_unavailable'].includes(value.status),projected=value.status==='projected_mass_interpolation',notProjected=value.status==='not_projected',blank=value.target_mph===null;
       const cell=el('div','target-cell'+(blank?' blank':'')+(pending?' pending-reference':'')+(projected?' projected':''));cell.dataset.drill=drill;cell.setAttribute('role','cell');
-      const description=notProjected?'Roll-Ins omitted from the requested 150 g projection; no value assigned':pending?'Projection or reference unavailable: required source readings are missing':blank?'blank in the source; no target assigned':projected?`${value.target_mph.toFixed(1)} mph, projected by mass interpolation: ${value.projection.formula}; ${value.projection.baseline_method} mound baseline; unvalidated for DUBS`:`${value.target_mph.toFixed(1)} mph, ${value.status}${equipmentMode==='dubs'?', copied Driveline reference, unvalidated for DUBS':''}`;
+      const description=equipmentMode==='marv'?'No MARV velocity target supplied for this ball and drill':notProjected?'Roll-Ins omitted from the requested 150 g projection; no value assigned':pending?'Projection or reference unavailable: required source readings are missing':blank?'blank in the source; no target assigned':projected?`${value.target_mph.toFixed(1)} mph, projected by mass interpolation: ${value.projection.formula}; ${value.projection.baseline_method} mound baseline; unvalidated for DUBS`:`${value.target_mph.toFixed(1)} mph, ${value.status}${equipmentMode==='dubs'?', copied Driveline reference, unvalidated for DUBS':''}`;
       cell.setAttribute('aria-label',`${ball.label}, ${ball.sublabel}, ${drill}: ${description}`);cell.title=description;
-      for(const node of [el('span','mobile-drill-label',drill),el('span','target-value',pending?'Pending':blank?'—':value.target_mph.toFixed(1)),el('span','target-unit',pending?'SOURCE NEEDED':projected?'PROJECTED MPH':equipmentMode==='dubs'?'REF MPH':'MPH')]){node.setAttribute('aria-hidden','true');cell.append(node);}row.append(cell);
+      for(const node of [el('span','mobile-drill-label',drill),el('span','target-value',pending?(equipmentMode==='marv'?'—':'Pending'):blank?'—':value.target_mph.toFixed(1)),el('span','target-unit',pending?(equipmentMode==='marv'?'NO TARGET':'SOURCE NEEDED'):projected?'PROJECTED MPH':equipmentMode==='dubs'?'REF MPH':'MPH')]){node.setAttribute('aria-hidden','true');cell.append(node);}row.append(cell);
     }
     board.append(row);
   }
@@ -132,14 +132,14 @@ function drawBoard() {
 for(const button of document.querySelectorAll('[data-equipment-mode]'))button.addEventListener('click',()=>{
   equipmentMode=button.dataset.equipmentMode;selectedColor='all';
   document.querySelectorAll('[data-equipment-mode]').forEach(item=>{const active=item===button;item.classList.toggle('selected',active);item.setAttribute('aria-pressed',active?'true':'false');});
-  $('dubs-transfer-note').hidden=equipmentMode!=='dubs';drawFilters();renderTargets(true);
+  $('dubs-transfer-note').hidden=equipmentMode!=='dubs';$('marv-reference-note').hidden=equipmentMode!=='marv';drawFilters();renderTargets(true);
 });
 drawFilters();
 
 function renderTargets(announce = false) {
   if (!rows) return;
   const input = $('velocity');
-  const result = equipmentMode === 'dubs' ? getDubsReferences(input.valueAsNumber, rows) : getTargets(input.valueAsNumber, rows);
+  const result = equipmentMode === 'marv' ? getMarvReferences(input.valueAsNumber,rows) : equipmentMode === 'dubs' ? getDubsReferences(input.valueAsNumber, rows) : getTargets(input.valueAsNumber, rows);
   currentResult = result;
   const valid = ['observed','interpolated'].includes(result.status);
   input.setAttribute('aria-invalid', valid ? 'false' : 'true');
@@ -152,12 +152,12 @@ function renderTargets(announce = false) {
   document.querySelector('.board-footer').hidden = !valid;
   $('export-targets').disabled = !valid;
   $('result-status').className = 'status-pill ' + (valid ? result.status : 'neutral');
-  $('result-status').textContent = !valid ? 'No targets available' : equipmentMode === 'dubs' ? 'Unvalidated · includes projections' : result.status === 'observed' ? 'Observed · screenshot' : 'Estimated · interpolation';
+  $('result-status').textContent = !valid ? 'No targets available' : equipmentMode==='marv'?'MARV · weights only':equipmentMode === 'dubs' ? 'Unvalidated · includes projections' : result.status === 'observed' ? 'Observed · screenshot' : 'Estimated · interpolation';
   if(valid && equipmentMode==='dubs') $('result-status').className='status-pill '+'interpolated';
-  $('result-heading').textContent = valid ? `${equipmentMode === 'dubs' ? 'DUBS references & estimates' : 'targets'} at ${result.mound_mph} mph` : 'A source-backed target starts here.';
-  const equipmentLabel=equipmentMode==='dubs'?'DUBS · REFERENCES + 150 G PROJECTIONS':'ORIGINAL DRIVELINE OBSERVATIONS';
+  $('result-heading').textContent = equipmentMode==='marv'?'MARV ball colours & weights':valid ? `${equipmentMode === 'dubs' ? 'DUBS references & estimates' : 'targets'} at ${result.mound_mph} mph` : 'A source-backed target starts here.';
+  const equipmentLabel=equipmentMode==='marv'?'MARV · WEIGHTS ONLY':equipmentMode==='dubs'?'DUBS · REFERENCES + 150 G PROJECTIONS':'ORIGINAL DRIVELINE OBSERVATIONS';
   $('result-player').textContent=($('player').value?$('player').value.toUpperCase():'SAMPLE BASELINE')+' · '+equipmentLabel;
-  $('board-legend').textContent=equipmentMode==='dubs'?'PROJECTED = 150 g estimate. Roll-Ins omitted. — = no source value or projection.':'— Blank in source. No target assigned.';
+  $('board-legend').textContent=equipmentMode==='marv'?'— No MARV velocity targets supplied. Ball labels are in ounces.':equipmentMode==='dubs'?'PROJECTED = 150 g estimate. Roll-Ins omitted. — = no source value or projection.':'— Blank in source. No target assigned.';
   $('empty-state').querySelector('h3').textContent = result.status === 'invalid' ? 'Enter a baseline to see the targets.' : 'That baseline is outside our source range.';
   $('empty-message').textContent = result.status === 'invalid' ? 'Use a measured mound fastball velocity between 70 and 86 mph.' : 'Screenshot observations cover 70–86 mph. Extrapolation is disabled.';
   $('method-result').textContent = valid ? result.status === 'observed'
@@ -165,6 +165,7 @@ function renderTargets(announce = false) {
     : `At ${result.mound_mph} mph, nonblank values are linearly interpolated between the ${result.lower_mph} and ${result.upper_mph} mph screenshots, then rounded to one decimal. Blank combinations are retained. This is an estimate, not the original calculator formula.`
     : 'Screenshot observations cover 70–86 mph. Extrapolation is disabled.';
   if(valid && equipmentMode==='dubs') $('method-result').textContent += ' Five DUBS rows copy nominally weight-matched Driveline references. Dark green 150 g has four separate projections: 60% of the gray 100 g reading plus 40% of the red 225 g reading for the same drill and mound baseline, rounded once to 0.1 mph. Decimal baselines also interpolate between neighboring screenshots before final rounding. Roll-Ins are omitted. This assumed straight-line relationship with mass has no 150 g or DUBS validation; no error margin is established.';
+  if(equipmentMode==='marv')$('method-result').textContent='MARV Velo Set weights are 3.5, 5, 7.5, 10, 16 and 32 oz. Colours follow the coach-supplied photo. No Driveline velocities have been copied or projected to MARV balls.';
   $('source-files').replaceChildren(...result.sources.map(source => el('li', '', source)));
   $('decrease').disabled = valid && result.mound_mph <= 70;
   $('increase').disabled = valid && result.mound_mph >= 86;
@@ -206,8 +207,8 @@ function downloadFile(name, content, type = 'text/csv;charset=utf-8') {
 const csv = value => `"${String(value ?? '').replaceAll('"', '""')}"`;
 $('export-targets').addEventListener('click', () => {
   if (!currentResult?.cells.length) return;
-  const header = ['mound_mph','equipment_view','ball_model','ball_color','nominal_mass_g','drill','reference_mph','source_value_status','application_status','source_color','source_screenshots','projection_method','projection_basis_json'];
-  const data = currentResult.cells.map(cell=>[currentResult.mound_mph,equipmentMode,cell.ball_model??'',cell.ball_color,cell.mass_g??(equipmentMode==='driveline'?sourceMasses[cell.ball_color]:''),cell.drill,cell.target_mph,cell.status,cell.application_status??'original_driveline_reference',cell.source_color??(equipmentMode==='driveline'?cell.ball_color:''),cell.sources.join(' | '),cell.projection?.method??'',cell.projection?JSON.stringify(cell.projection):'']);
+  const header = ['mound_mph','equipment_view','ball_model','ball_color','nominal_mass_g','labeled_mass_oz','drill','reference_mph','source_value_status','application_status','source_color','source_screenshots','projection_method','projection_basis_json'];
+  const data = currentResult.cells.map(cell=>[currentResult.mound_mph,equipmentMode,cell.ball_model??'',cell.ball_color,cell.mass_g??(equipmentMode==='driveline'?sourceMasses[cell.ball_color]:''),cell.mass_oz??'',cell.drill,cell.target_mph,cell.status,cell.application_status??'original_driveline_reference',cell.source_color??(equipmentMode==='driveline'?cell.ball_color:''),cell.sources.join(' | '),cell.projection?.method??'',cell.projection?JSON.stringify(cell.projection):'']);
   downloadFile(`rangers-${equipmentMode}-references-${currentResult.mound_mph}mph.csv`,[header,...data].map(row=>row.map(csv).join(',')).join('\r\n'));
 });
 $('download-template').addEventListener('click', () => {

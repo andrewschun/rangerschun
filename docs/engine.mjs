@@ -146,6 +146,20 @@ export function getDubsReferences(velocity, rows) {
     message: 'Five nominal-mass rows copy Driveline references. Dark green 150 g has four coach-requested projections: 60% of gray 100 g plus 40% of red 225 g, rounded to 0.1 mph. Roll-Ins are not projected. Neither the copied references nor the projections are validated DUBS velocities.' };
 }
 
+/** MARV Velo Set: ounce labels from manufacturer; colours from coach-supplied photo. */
+export const MARV_BALLS=Object.freeze([
+ {model:'MARV-32',mass_oz:32,color:'Dark gray',swatch:'#394e56'},
+ {model:'MARV-16',mass_oz:16,color:'Orange',swatch:'#f58b13'},
+ {model:'MARV-10',mass_oz:10,color:'Yellow',swatch:'#f5d315'},
+ {model:'MARV-7.5',mass_oz:7.5,color:'Red',swatch:'#e62529'},
+ {model:'MARV-5',mass_oz:5,color:'White',swatch:'#f7f7f2'},
+ {model:'MARV-3.5',mass_oz:3.5,color:'Light blue',swatch:'#78c6e9'},
+].map(ball=>Object.freeze({...ball,mass_g:roundToTenth(ball.mass_oz*28.349523125)})));
+export function getMarvReferences(velocity,rows){
+ const original=getTargets(velocity,rows);
+ return {...original,sources:[],application_status:'marv_targets_not_supplied',cells:original.cells.length?MARV_BALLS.flatMap(ball=>DRILLS.map(drill=>({ball_model:ball.model,ball_color:ball.color,mass_oz:ball.mass_oz,mass_g:ball.mass_g,drill,target_mph:null,status:'reference_unavailable',application_status:'marv_targets_not_supplied',sources:[],observations:[]}))):[],message:'MARV weights and colours only. No MARV velocity targets have been supplied.'};
+}
+
 /** Blast metric bounds validate units, not player performance or age norms. */
 export const BLAST_METRICS = Object.freeze([
   { key: 'bat_speed_mph', label: 'Bat speed', unit: 'mph', min: 0, exclusiveMin: true, decimals: 1 },
