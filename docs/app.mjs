@@ -1,3 +1,4 @@
+import { startConcentrationGrid } from './concentration-grid.mjs?v=schedule-auto-refresh-20261025';
 import {startCoachAccess} from './coach-access.mjs?v=rangers-organization-20261025';
 import {startDeviceMigration} from './device-migration-ui.mjs?v=rangers-organization-20261025';
 import {prepareDemoReset,runDemoReset} from './demo-reset.mjs?v=rangers-organization-20261025';
@@ -19,8 +20,6 @@ import { BAT_CONFIGURATIONS, BAT_SPEED_DEVICES, validateBatSpeedSet, upsertBatSp
 import { startOverSpeed } from './overspeed-ui.mjs?v=rangers-organization-20261025';
 import { workoutActivity, workoutActivityCsv, workoutWeek } from './accountability.mjs?v=schedule-auto-refresh-20261025';
 import { startWorkoutAccountability } from './accountability-ui.mjs?v=compact-workouts-20261025';
-import { PLAYER_READING } from './reading-guide.mjs?v=schedule-auto-refresh-20261025';
-import { startPlayerReading } from './player-reading.mjs?v=schedule-auto-refresh-20261025';
 import { journalChanges, journalToCsv, validateJournalEvent } from './journal.mjs?v=schedule-auto-refresh-20261025';
 import { startTeamJournal } from './journal-ui.mjs?v=schedule-auto-refresh-20261025';
 import { DRILLS, COLORS, getTargets, getDubsReferences, DUBS_BALLS, summarizeThrows, BLAST_METRICS, validateBlastRecord, summarizeBlast, upsertBlastRecord, filterBlastRecords, blastDailyProgress, blastRecordsToCsv, WORKOUT_CATEGORIES, validateWorkout, upsertWorkout, summarizeWorkouts, workoutsToCsv, BASEBALL_CONTEXTS, BASEBALL_MOUND_DISTANCE_FT, BASEBALL_RADAR_DEVICE, validateBaseballSession, upsertBaseballSession, baseballSessionsToCsv } from './engine.mjs?v=schedule-auto-refresh-20261025';
@@ -418,7 +417,7 @@ overspeedLog=startOverSpeed({protocol:overspeedProtocol,library:OVERSPEED_LIBRAR
 $('overspeed-player').addEventListener('change',()=>{$('overspeed-clear-entries').disabled=!$('overspeed-player').value;});
 $('overspeed-clear-entries').addEventListener('click',()=>{const player=$('overspeed-player').value;if(!player)return;const count=overspeedLog.records().filter(r=>r.player===player).length+overspeedProtocol.records().filter(r=>r.player===player).length;if(!count){$('overspeed-announcement').textContent='No saved entries to clear.';return;}if(!window.confirm(`Clear all saved OverSpeed readings and workout progress for ${player}, and reset the current forms? Other players and trackers are kept.`))return;overspeedLog.clearPlayer(player);overspeedProtocol.clearPlayer(player);$('overspeed-announcement').textContent='OverSpeed entries cleared for the selected player.';});
 const pulseLog=startPulse({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,download:downloadFile,onChange:(before,after)=>teamJournal?.record('pulse',before,after)});
-startPlayerReading(PLAYER_READING);
+startConcentrationGrid({element:$});
 const teamSchedule=startTeamSchedule({config:TEAM_SCHEDULE_CONFIG,element:$,download:downloadFile,readRemote:()=>{if(!teamJournal)throw Error('Connect with your player code in Coach desk to refresh the schedule.');return teamJournal.readTeamSchedule();}});
 document.querySelector('[data-nav="schedule"]').addEventListener('click',()=>{if(location.hash==='#schedule')void teamSchedule.activate();});
 startThrowingCalendar({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,flow:throwingFlow,subscribe:listener=>workoutFlow.subscribe(listener)});
@@ -426,7 +425,7 @@ axePrograms=startAxePrograms({element:$,players:PLAYER_LABELS,flow:workoutFlow,d
 tabPlayers=startTabPlayers({players:PLAYER_LABELS,element:$});
 const playerAccess=startPlayerAccess({players:PLAYER_LABELS,hashes:PLAYER_JERSEY_HASHES,element:$});
 const coachAccess=startCoachAccess({element:$,onUnlock:()=>{workoutOverview?.refresh();pulseLog.refresh();}});
-const routeLabels = { workouts: 'WORKOUT LOG', throwing: 'THROWING ROUTINE', schedule:'TEAM SCHEDULE', targets: 'PLYOCARE LAB', tracker: 'BASEBALL THROWS', pulse: 'DRIVELINE PULSE', blast: 'BLAST MOTION', overspeed: 'OVERSPEED PROGRAM', axe:'AXE BATS', reading: 'PLAYER READING', approach: 'TRAINING APPROACH', coach: 'COACH DESK' };
+const routeLabels = { workouts: 'WORKOUT LOG', throwing: 'THROWING ROUTINE', schedule:'TEAM SCHEDULE', targets: 'PLYOCARE LAB', tracker: 'BASEBALL THROWS', pulse: 'DRIVELINE PULSE', blast: 'BLAST MOTION', overspeed: 'OVERSPEED PROGRAM', axe:'AXE BATS', concentration: 'CONCENTRATION GRID', approach: 'TRAINING APPROACH', coach: 'COACH DESK' };
 function route() {
   const key = location.hash.slice(1);
   const view = Object.hasOwn(routeLabels, key) ? key : 'workouts';
@@ -445,7 +444,7 @@ function route() {
   if(view==='schedule')teamSchedule.activate();
   if(view==='blast')renderBlastHistory();
   if(view==='coach'&&coachAccess.isVerified()){workoutOverview?.refresh();pulseLog.refresh();}
-  document.title = `Rangers | ${view === 'targets' ? 'PlyoCare Lab' : {throwing:'Throwing routine',schedule:'Team schedule',tracker:'Baseball throws',pulse:'Driveline Pulse',blast:'Blast Motion',workouts:'Workout log',overspeed:'OverSpeed program',axe:'Axe Bats',reading:'Player reading',approach:'Training approach',coach:'Coach desk'}[view]}`;
+  document.title = `Rangers | ${view === 'targets' ? 'PlyoCare Lab' : {throwing:'Throwing routine',schedule:'Team schedule',tracker:'Baseball throws',pulse:'Driveline Pulse',blast:'Blast Motion',workouts:'Workout log',overspeed:'OverSpeed program',axe:'Axe Bats',concentration:'Concentration Grid',approach:'Training approach',coach:'Coach desk'}[view]}`;
   if (started) {
     const heading = $(`view-${view}`).querySelector('h1');
     heading.tabIndex = -1;
