@@ -1,3 +1,4 @@
+import {WORKOUT_EQUIPMENT,homeWorkoutFor,homeResultText,previousHomeResult} from './home-workouts.mjs?v=schedule-auto-refresh-20261025';
 import {isAxeWorkout} from './axe-progress.mjs?v=rangers-organization-20261025';
 import {workoutProgramProgress,workoutIsLocked,workoutRound,workoutCoverage,workoutCycleLocked} from './workout-program.mjs?v=rangers-organization-20261025';
 import { isThrowingWorkout, isThrowingOffDay, THROWING_OFF_DAY_SOURCE, previousWorkoutLoad, previousWorkoutLoadText } from './workout-record-tools.mjs?v=schedule-auto-refresh-20261025';
@@ -16,7 +17,8 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
   const now=new Date(),today=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
   const key='rangers-workouts-v1-'+scope,throwing=variant==='throwing',listeners=new Set();
   const inScope=record=>!isAxeWorkout(record)&&isThrowingWorkout(record)===throwing;
-  let records=[],readable=true,saved=true,editing=null,dirty=false,selectedPlayer='',sourceId='',mode='empty',selection={cycle:'1',program:'',day:'',week:''};
+  let records=[],readable=true,saved=true,editing=null,dirty=false,selectedPlayer='',sourceId='',mode='empty',selection={cycle:'1',program:'',day:'',week:'',equipment:'gym'},equipment='gym';
+  const equipmentForPlayer=new Map();
   try{
     const raw=sharedStore?null:localStorage.getItem(key);
     if(raw){const data=JSON.parse(raw);if(data.version!==1||!Array.isArray(data.records))throw Error();const ids=new Set();for(const r of data.records){validateWorkout(r,players);if(ids.has(r.id))throw Error();ids.add(r.id);}records=data.records;}
@@ -29,14 +31,14 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
     records=next;if(journal)onChange?.(before,next);renderHistory();refreshReminders();for(const listener of listeners)listener();
   }
   function reminder(exercise){const text=make('p','previous-load-reminder');text.reminderExercise=exercise;setReminder(text);return text;}
-  function setReminder(node){const prior=previousWorkoutLoad(records,{player:$('workout-player').value,exercise:node.reminderExercise,session_date:$('workout-date').value,exclude_id:editing});node.textContent=previousWorkoutLoadText(prior);node.hidden=!prior;}
+  function setReminder(node){if(node.reminderExercise.home_tracking){const prior=previousHomeResult(records,{player:$('workout-player').value,exercise:node.reminderExercise,session_date:$('workout-date').value,exclude_id:editing});node.textContent=prior?`Last recorded: ${homeResultText(prior.exercise)} · ${prior.date} · ${prior.title}. Enter today’s actual results.`:'';node.hidden=!prior;return;}const prior=previousWorkoutLoad(records,{player:$('workout-player').value,exercise:node.reminderExercise,session_date:$('workout-date').value,exclude_id:editing});node.textContent=previousWorkoutLoadText(prior);node.hidden=!prior;}
   function refreshReminders(){for(const node of $('workout-exercises').querySelectorAll('.previous-load-reminder'))setReminder(node);}
   function demo(exercise){
     if(!exercise||!isWorkoutVideoUrl(exercise.demo_url))return null;
     const related=exercise.demo_status==='related_variation',link=make('a','exercise-demo',related?'Related demo ↗':'Watch demo ↗');link.href=exercise.demo_url;link.target='_blank';link.rel='noopener noreferrer';link.setAttribute('aria-label',`${related?'Related demo':'Watch demo'}: ${exercise.name} (opens in a new tab)`);if(exercise.demo_note)link.title=exercise.demo_note;return link;
   }
   function exerciseNote(value){
-    const details=make('details','checklist-notes'),summary=make('summary','','Add exercise notes'),input=make('input');input.type='text';input.maxLength=200;input.value=value.notes??'';input.placeholder='Different loads, timing, or anything to tell your coach';input.dataset.exercise='notes';input.setAttribute('aria-label',`${value.name} notes`);details.append(summary,input);if(value.notes)details.open=true;return details;
+    const details=make('details','checklist-notes'),summary=make('summary','','Add exercise notes'),input=make('input');input.type='text';input.maxLength=200;input.value=value.notes??'';input.placeholder=value.home_tracking?'Band resistance, exercise version, or different reps between sets':'Different loads, timing, or anything to tell your coach';input.dataset.exercise='notes';input.setAttribute('aria-label',`${value.name} notes`);details.append(summary,input);if(value.notes)details.open=true;return details;
   }
   function addCheck(value,index){
     const position=Number.isInteger(index)?index+1:$('workout-exercises').children.length+1,row=make('article','workout-checklist-row');row.workoutPlan={...value};row.dataset.checklistNumber=String(position);
@@ -48,8 +50,9 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
     if(source?.source_note)content.append(make('p','demo-note',source.source_note));
     const reference=findWorkoutDemo(value.name,value.source_exercise_id),link=demo(reference);if(link)content.append(link);if(reference?.demo_status==='related_variation')content.append(make('small','demo-note',reference.demo_note));
     if(value.weight_required){row.workoutLoad=createWorkoutLoadFields(value,value.name);content.append(row.workoutLoad.element,reminder(value));}
+    if(value.home_tracking){const plan=value.home_tracking,box=make('div','home-result-entry'),label=make('label','',plan.unit==='seconds'?'Seconds per hold':'Reps per set'),input=make('input');input.type='number';input.min='1';input.max=plan.unit==='seconds'?'3600':'999';input.step='1';input.inputMode='numeric';input.value=value.home_result?.value??'';input.placeholder='Enter actual '+plan.unit;input.dataset.exercise='home_result';input.setAttribute('aria-label',`${value.name} actual ${plan.unit} per ${plan.unit==='seconds'?'hold':'set'}`);label.append(input);box.append(label);row.homeResultInput=input;content.append(box,reminder(value));}
     content.append(exerciseNote(value));row.append(label,content);$('workout-exercises').append(row);
-    const sync=()=>{if(check.checked&&value.completion_group)for(const peer of $('workout-exercises').children){if(peer!==row&&peer.workoutPlan?.completion_group===value.completion_group){peer.querySelector('[data-exercise="completed"]').checked=false;peer.classList.toggle('is-completed',false);}}row.classList.toggle('is-completed',check.checked);refreshCount();};check.addEventListener('change',sync);sync();
+    const sync=()=>{if(check.checked&&value.completion_group)for(const peer of $('workout-exercises').children){if(peer!==row&&peer.workoutPlan?.completion_group===value.completion_group){peer.querySelector('[data-exercise="completed"]').checked=false;peer.classList.toggle('is-completed',false);}}row.classList.toggle('is-completed',value.home_tracking?workoutExerciseRecorded(exerciseFields(row)):check.checked);refreshCount();};check.addEventListener('change',sync);row.homeResultInput?.addEventListener('input',sync);sync();
   }
   function addManual(value={name:'',sets:null,reps:null,weight:null,weight_unit:'lb',notes:''}){
     if($('workout-exercises').children.length>=30)return;
@@ -68,13 +71,13 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
   }
   function refreshCount(){
     const rows=[...$('workout-exercises').children];
-    if(mode==='checklist'){const groups=new Map();rows.forEach((row,i)=>{const key=row.workoutPlan.completion_group||'exercise:'+i;groups.set(key,Boolean(groups.get(key))||row.querySelector('[data-exercise="completed"]')?.checked);});$('workout-exercise-count').textContent=`${[...groups.values()].filter(Boolean).length} / ${groups.size} completed`;}
+    if(mode==='checklist'){const groups=new Map();rows.forEach((row,i)=>{const key=row.workoutPlan.completion_group||'exercise:'+i;groups.set(key,Boolean(groups.get(key))||(row.workoutPlan.home_tracking?workoutExerciseRecorded(exerciseFields(row)):row.querySelector('[data-exercise="completed"]')?.checked));});$('workout-exercise-count').textContent=`${[...groups.values()].filter(Boolean).length} / ${groups.size} completed`;}
     else if(mode==='manual'){
       rows.forEach((row,i)=>{row.querySelector('.exercise-number').textContent=String(i+1).padStart(2,'0');row.querySelectorAll('[data-exercise]').forEach(input=>input.setAttribute('aria-label',`Exercise ${i+1} ${input.dataset.exercise.replaceAll('_',' ')}`));const remove=row.querySelector('.workout-remove-exercise');remove.disabled=rows.length===1;remove.setAttribute('aria-label',`Remove exercise ${i+1}`);});$('workout-exercise-count').textContent=`${rows.length} / 30`;$('workout-add-exercise').disabled=rows.length>=30;
     }else $('workout-exercise-count').textContent=mode==='reference'?'Reference only':'Choose a workout';
   }
-  function pickedTemplate(){return WORKOUT_TEMPLATES.find(t=>t.program_id===$('library-program').value&&t.day===Number($('library-day').value)&&t.week===Number($('library-week').value));}
-  function captureSelection(){selection={cycle:$('library-cycle').value,program:$('library-program').value,day:$('library-day').value,week:$('library-week').value};}
+  function pickedTemplate(){const base=WORKOUT_TEMPLATES.find(t=>!t.equipment_mode&&t.program_id===$('library-program').value&&t.day===Number($('library-day').value)&&t.week===Number($('library-week').value));return throwing?base:homeWorkoutFor(WORKOUT_TEMPLATES,base,equipment);}
+  function captureSelection(){selection={cycle:$('library-cycle').value,program:$('library-program').value,day:$('library-day').value,week:$('library-week').value,equipment};}
   function fillPrograms(cycle,preferred='',{savedProgram=false}={}){
     const choices=throwing?[{id:'throwing-routine',type:'throwing',label:'Throwing Routine'}]:workoutProgramChoices(cycle).filter(choice=>choice.type!=='throwing'),select=$('library-program');select.replaceChildren(option('','Choose a workout type'),...choices.map(choice=>option(choice.id,choice.label)));
     if(savedProgram&&workoutTypeForProgram(preferred)==='med_ball'){const archived=option(preferred,'Saved Med Ball workout · edit only');archived.hidden=true;archived.disabled=true;select.append(archived);select.value=preferred;return;}
@@ -85,14 +88,14 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
     if(program){for(const d of program.days)select.append(option(String(d.number),d.label));if(day&&program.days.some(d=>String(d.number)===day))select.value=day;}else select.append(option('','Choose a day'));
   }
   function fillWeeks(week){
-    const templates=WORKOUT_TEMPLATES.filter(t=>t.program_id===$('library-program').value&&t.day===Number($('library-day').value)),select=$('library-week');select.replaceChildren();
+    const templates=WORKOUT_TEMPLATES.filter(t=>!t.equipment_mode&&t.program_id===$('library-program').value&&t.day===Number($('library-day').value)),select=$('library-week');select.replaceChildren();
     if(templates.length){for(const t of templates)select.append(option(String(t.week),t.week_label));if(week&&templates.some(t=>String(t.week)===week))select.value=week;}else select.append(option('','Choose a week'));select.disabled=templates.length<=1;
   }
-  function restoreSelection(){$('library-cycle').value=selection.cycle;fillPrograms(selection.cycle,selection.program,{savedProgram:Boolean(editing)});fillDays(selection.day);fillWeeks(selection.week);}
+  function restoreSelection(){if(!throwing){equipment=selection.equipment??'gym';$('workout-equipment').value=equipment;}$('library-cycle').value=selection.cycle;fillPrograms(selection.cycle,selection.program,{savedProgram:Boolean(editing)});fillDays(selection.day);fillWeeks(selection.week);}
   function renderPlanHeading(template){
     const content=$('library-content');content.replaceChildren();if(!template){content.append(make('p','library-empty',mode==='manual'?'Enter your actual workout details below.':'Select your workout to see its exercises and demo links.'));return;}
-    const heading=make('div','library-plan-heading');heading.append(make('h3','',template.name),make('span','',`${template.exercises.length} exercises · ${template.source_template_ids?'med ball first, then lift':'workbook plan'}`));content.append(heading);
-    const program=WORKOUT_PROGRAMS.find(p=>p.id===template.program_id),notes=[...(program?.notes??[]),...(template.notes??[])];
+    const heading=make('div','library-plan-heading');heading.append(make('h3','',template.name),make('span','',`${template.exercises.length} exercises · ${template.equipment_mode?'team home adaptation':template.source_template_ids?'med ball first, then lift':'workbook plan'}`));content.append(heading);
+    const program=WORKOUT_PROGRAMS.find(p=>p.id===template.program_id),notes=[...(template.equipment_mode?[]:program?.notes??[]),...(template.notes??[])];
     if(notes.length){const details=make('details','library-program-notes');details.append(make('summary','','Read the workbook’s program notes'));notes.sort((a,b)=>{const ac=a.cell.replace(/\d/g,''),bc=b.cell.replace(/\d/g,'');return ac.length-bc.length||ac.localeCompare(bc)||parseInt(a.cell.replace(/\D/g,''))-parseInt(b.cell.replace(/\D/g,''));});let column='',last=0,p=null;for(const note of notes){const c=note.cell.replace(/\d/g,''),r=Number(note.cell.replace(/\D/g,''));if(c!==column||r>last+1||!p){p=make('p');details.append(p);}p.append(document.createTextNode((p.textContent?' ':'')+note.text));column=c;last=r;}content.append(details);}
   }
   function referenceRows(template){
@@ -113,6 +116,8 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
     const template=pickedTemplate(),cycleLocked=!throwing&&!allowLocked&&template&&workoutCycleLocked(template,progress),locked=cycleLocked||!throwing&&!allowLocked&&template&&workoutIsLocked(template,progress);setMode(locked?'locked':$('library-program').value==='custom'?'manual':template?(template.log_enabled===false?'reference':'checklist'):'empty');renderPlanHeading(template);
     $('library-cycle-note').hidden=$('library-program').value!=='throwing-routine';
     $('workout-template-status').hidden=!template;$('workout-template-status').textContent=mode==='reference'?'Reference only. Original ball colors and effort notes are retained. Actual PlyoCare entry remains on hold.':template?'Check each exercise after completing its listed plan. Enter the actual weight used; planned loads are not filled in.':'';
+    if(!throwing){$('workout-equipment').value=equipment;$('workout-equipment').disabled=!$('workout-player').value||!template||!['strength','speed'].includes(template.category);$('workout-no-equipment').disabled=$('workout-equipment').disabled;$('workout-no-equipment').checked=equipment!=='gym';$('workout-equipment-choice').hidden=equipment==='gym';$('workout-equipment-help').textContent=template?.home_note??'Check the box when equipment is unavailable. The home supplement counts toward this scheduled day when completed.';}
+    if(template?.equipment_mode){$('workout-template-status').textContent='Home adaptation · no weights or medicine ball needed. Record actual reps per set or seconds per hold, then check completed sets. Leave unfinished work unchecked.';$('workout-save-help').textContent='Complete every home exercise to earn this scheduled day’s completion. Reps and hold times stay blank until you enter them.';$('workout-exercise-help').textContent='Record actual results for each listed set. Use notes when sets differ; the lowest set’s result goes in the box.';}
     if(template?.completion_only){$('workout-exercises-title').textContent='Throwing routine checklist';$('workout-exercise-help').textContent='Check completed warm-up, throwing and recovery exercises. Where the workbook lists alternatives, choose one.';$('workout-template-status').textContent='Log routine completion with checkboxes. Ball colours, listed sets and effort notes are retained; no PlyoCare velocities are entered here.';$('workout-save-help').textContent='Save full or partial routine completion. No velocity or load entry is needed.';}
     if(mode==='checklist'){const draft=workoutChecklistDraft(template);sourceId=draft.source_template_id;$('workout-title').value=draft.title;$('workout-category').value=draft.category;draft.exercises.forEach(addCheck);}
     else if(mode==='reference')referenceRows(template);else if(mode==='manual')addManual();else $('workout-exercises').append(make('p','workout-empty','Choose a workout above to begin.'));
@@ -126,6 +131,7 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
     const parts=[];
     if(typeof exercise.completed==='boolean')parts.push(exercise.completed?'Completed as listed':exercise.completion_group&&record.exercises.some(e=>e.completion_group===exercise.completion_group&&e.completed)?'Alternative not selected':'Not completed');
     else{if(exercise.sets!==null)parts.push(`${exercise.sets} sets`);if(exercise.reps!==null)parts.push(`${exercise.reps} reps / set`);}
+    if(exercise.home_tracking&&exercise.home_result)parts.push(homeResultText(exercise));
     if(exercise.load_entry==='plates')parts.push(plateLoadDescription(exercise));else if(exercise.weight!==null)parts.push(`${exercise.weight} ${exercise.weight_unit}`);else if(exercise.completed!==false){if(exercise.weight_unit==='bodyweight')parts.push('Bodyweight');else if(exercise.weight_required&&exercise.weight_unit==='none')parts.push('No added load');}
     return formatWorkoutDetails(parts.join(' · '))||'Actual numbers not recorded';
   }
@@ -133,7 +139,7 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
     if(isThrowingOffDay(record)){$('workout-announcement').textContent='To change this Off day, open its calendar day and uncheck Off day completed.';onNavigate?.(variant);return false;}
     if((dirty||editing)&&!window.confirm('Replace the unsaved workout draft with this saved workout?'))return;
     const sourceTemplate=WORKOUT_TEMPLATES.find(t=>t.id===record.source_template_id),template=record.entry_mode==='plan_checklist'?sourceTemplate:null;
-    selectedPlayer=record.player;$('workout-player').value=record.player;
+    selectedPlayer=record.player;$('workout-player').value=record.player;if(!throwing){equipment=sourceTemplate?.equipment_mode??'gym';equipmentForPlayer.set(record.player,equipment);$('workout-equipment').value=equipment;}
     $('library-cycle').value=workoutCycleForProgram(sourceTemplate?.program_id)||$('library-cycle').value||'1';fillPrograms($('library-cycle').value,template?template.program_id:'custom',{savedProgram:true});fillDays(template?String(template.day):'');fillWeeks(template?String(template.week):'');captureSelection();resetDraft({allowLocked:true});
     editing=record.id;sourceId=record.source_template_id??'';$('workout-date').value=record.session_date;$('workout-title').value=record.title;$('workout-category').value=record.category;$('workout-completion').value=record.completion_status??'';$('workout-duration').value=record.duration_minutes??'';$('workout-effort').value=record.effort;$('workout-notes').value=record.notes;
     $('workout-exercises').replaceChildren();record.exercises.forEach(template?addCheck:addManual);$('workout-mode-label').textContent='EDITING SAVED WORKOUT';$('workout-form-title').textContent='Edit workout';$('workout-save').textContent='Update workout ✓';$('workout-cancel-edit').hidden=false;dirty=false;refreshCount();$('workout-date').focus();onNavigate?.(variant);return true;
@@ -149,7 +155,7 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
     }
   }
   function exerciseFields(row){
-    if(mode==='checklist'){const plan={...row.workoutPlan};delete plan.load_entry;delete plan.plate_load;return {...plan,...(row.workoutLoad?.read()??{weight:null,weight_unit:'none'}),completed:row.querySelector('[data-exercise="completed"]').checked,notes:row.querySelector('[data-exercise="notes"]').value.trim()};}
+    if(mode==='checklist'){const plan={...row.workoutPlan};delete plan.load_entry;delete plan.plate_load;return {...plan,...(row.workoutLoad?.read()??{weight:null,weight_unit:'none'}),...(plan.home_tracking?{home_result:row.homeResultInput.value.trim()===''?null:{unit:plan.home_tracking.unit,value:row.homeResultInput.valueAsNumber}}:{}),completed:row.querySelector('[data-exercise="completed"]').checked,notes:row.querySelector('[data-exercise="notes"]').value.trim()};}
     const fields=Object.fromEntries([...row.querySelectorAll('[data-exercise]')].map(input=>[input.dataset.exercise,input.type==='number'?number(input):input.value.trim()])),plan=row.workoutPlan;Object.assign(fields,row.workoutLoad.read());
     if(fields.name.toLowerCase()===plan.name.toLowerCase()){if(plan.source_exercise_id)fields.source_exercise_id=plan.source_exercise_id;if(plan.planned_details)fields.planned_details=plan.planned_details;}return fields;
   }
@@ -162,14 +168,16 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
     if(!throwing&&id==='library-cycle'&&workoutCycleLocked($('library-cycle').value,workoutProgramProgress(records,$('workout-player').value))){restoreSelection();$('workout-error').textContent='Finish the current cycle before starting the next cycle.';$('workout-error').hidden=false;return;}
     if(id==='library-cycle'){fillPrograms($('library-cycle').value,selection.program);fillDays();fillWeeks();}else if(id==='library-program'){fillDays();fillWeeks();}else if(id==='library-day')fillWeeks($('library-week').value);captureSelection();resetDraft();
   });
-  $('workout-form').addEventListener('input',event=>{if(!['workout-player','library-cycle','library-program','library-day','library-week','workout-plan-cycle','workout-plan-week','workout-plan-day'].includes(event.target.id))dirty=true;});
-  $('workout-form').addEventListener('change',event=>{if(!['workout-player','library-cycle','library-program','library-day','library-week','workout-plan-cycle','workout-plan-week','workout-plan-day'].includes(event.target.id))dirty=true;});
-  $('workout-player').addEventListener('change',()=>{if((dirty||editing)&&!window.confirm('Switch players and clear this unsaved workout draft?')){$('workout-player').value=selectedPlayer;return;}selectedPlayer=$('workout-player').value;resetDraft();renderHistory();$('workout-announcement').textContent='';});
+  function changeEquipment(next){if(!Object.hasOwn(WORKOUT_EQUIPMENT,next))return false;if((dirty||editing)&&!window.confirm('Change equipment and clear this unsaved workout draft? Your saved sessions stay in history.')){$('workout-equipment').value=equipment;$('workout-no-equipment').checked=equipment!=='gym';return false;}equipment=next;equipmentForPlayer.set($('workout-player').value,equipment);captureSelection();resetDraft();return true;}
+  if(!throwing){$('workout-equipment').addEventListener('change',()=>changeEquipment($('workout-equipment').value));$('workout-no-equipment').addEventListener('change',()=>changeEquipment($('workout-no-equipment').checked?'home_bodyweight':'gym'));}
+  $('workout-form').addEventListener('input',event=>{if(!['workout-player','library-cycle','library-program','library-day','library-week','workout-plan-cycle','workout-plan-week','workout-plan-day','workout-equipment','workout-no-equipment'].includes(event.target.id))dirty=true;});
+  $('workout-form').addEventListener('change',event=>{if(!['workout-player','library-cycle','library-program','library-day','library-week','workout-plan-cycle','workout-plan-week','workout-plan-day','workout-equipment','workout-no-equipment'].includes(event.target.id))dirty=true;});
+  $('workout-player').addEventListener('change',()=>{if((dirty||editing)&&!window.confirm('Switch players and clear this unsaved workout draft?')){$('workout-player').value=selectedPlayer;return;}selectedPlayer=$('workout-player').value;if(!throwing){const last=records.filter(r=>r.player===selectedPlayer&&!isThrowingWorkout(r)&&!isAxeWorkout(r)).sort((a,b)=>b.session_date.localeCompare(a.session_date)||String(b.updated_at??'').localeCompare(String(a.updated_at??'')))[0];equipment=equipmentForPlayer.get(selectedPlayer)??last?.equipment_mode??'gym';$('workout-equipment').value=equipment;}resetDraft();renderHistory();$('workout-announcement').textContent='';});
   $('workout-add-exercise').addEventListener('click',()=>{addManual();dirty=true;$('workout-exercises').lastElementChild.querySelector('[data-exercise="name"]').focus();});
   $('workout-cancel-edit').addEventListener('click',()=>{if(dirty&&!window.confirm('Discard your unsaved workout edits?'))return;resetDraft();});
   $('workout-form').addEventListener('submit',event=>{
     event.preventDefault();if(!['manual','checklist'].includes(mode))return;const existing=records.find(r=>r.id===editing),timestamp=new Date().toISOString(),exercises=[...$('workout-exercises').children].map(exerciseFields);
-    const record={id:editing??globalThis.crypto?.randomUUID?.()??`workout-${Date.now()}-${Math.random().toString(36).slice(2)}`,player:$('workout-player').value,session_date:$('workout-date').value,title:$('workout-title').value.trim(),category:$('workout-category').value,duration_minutes:number($('workout-duration')),effort:$('workout-effort').value,notes:$('workout-notes').value.trim(),exercises,completion_status:mode==='checklist'?(workoutChecklistProgress({exercises}).all?'completed':'partial'):$('workout-completion').value,completion_confirmed:mode==='checklist'||$('workout-confirm').checked,created_at:existing?.created_at??timestamp,updated_at:timestamp};if(sourceId)record.source_template_id=sourceId;if(mode==='checklist')record.entry_mode='plan_checklist';
+    const record={id:editing??globalThis.crypto?.randomUUID?.()??`workout-${Date.now()}-${Math.random().toString(36).slice(2)}`,player:$('workout-player').value,session_date:$('workout-date').value,title:$('workout-title').value.trim(),category:$('workout-category').value,duration_minutes:number($('workout-duration')),effort:$('workout-effort').value,notes:$('workout-notes').value.trim(),exercises,completion_status:mode==='checklist'?(workoutChecklistProgress({exercises}).all?'completed':'partial'):$('workout-completion').value,completion_confirmed:mode==='checklist'||$('workout-confirm').checked,created_at:existing?.created_at??timestamp,updated_at:timestamp};if(sourceId)record.source_template_id=sourceId;if(mode==='checklist'){record.entry_mode='plan_checklist';if(pickedTemplate()?.equipment_mode)record.equipment_mode=pickedTemplate().equipment_mode;}
     if(!throwing&&sourceId&&workoutCoverage(sourceId).length){const progress=workoutProgramProgress(records,record.player);if(!editing&&(workoutIsLocked(sourceId,progress)||workoutCycleLocked(sourceId,progress))){$('workout-error').hidden=false;$('workout-error').textContent=workoutCycleLocked(sourceId,progress)?`Finish Cycle ${progress.unlocked_cycle} before starting the next cycle.`:'This workout is already completed. Finish all three cycles before starting it again, or edit its saved entry to correct a mistake.';return;}record.program_round=existing?workoutRound(existing):progress.round;}
     try{persist(upsertWorkout(records,record,players));}catch(error){$('workout-error').hidden=false;$('workout-error').textContent=error.message;return;}
     const wasEditing=Boolean(editing),progress=record.entry_mode==='plan_checklist'?workoutChecklistProgress(record):null;
@@ -200,7 +208,7 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
     fillPrograms('1','throwing-routine');fillDays(String(template.day));fillWeeks(String(template.week));captureSelection();resetDraft();$('workout-date').value=date;refreshReminders();renderHistory();onNavigate?.(variant);return true;
   }
   function openScheduledTemplate({template_id,player}){
-    const template=WORKOUT_TEMPLATES.find(t=>t.id===template_id);
+    const base=WORKOUT_TEMPLATES.find(t=>t.id===template_id),template=homeWorkoutFor(WORKOUT_TEMPLATES,base,equipment);
     if(throwing||!template||!players.includes(player)||workoutIsLocked(template,workoutProgramProgress(records,player))||workoutCycleLocked(template,workoutProgramProgress(records,player)))return false;
     const round=workoutProgramProgress(records,player).round,partial=records.find(r=>r.player===player&&r.source_template_id===template_id&&workoutRound(r)===round&&r.completion_status==='partial');
     if(partial)return edit(partial)===true;

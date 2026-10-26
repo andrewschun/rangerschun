@@ -260,12 +260,12 @@ export function summarizeWorkouts(records) {
   return {session_count:records.length,exercise_count:records.reduce((sum,r)=>sum+r.exercises.length,0),duration_count:durations.length,duration_minutes:durations.length?durations.reduce((a,b)=>a+b,0):null,last_date:records.length?records.map(r=>r.session_date).sort().at(-1):null};
 }
 export function workoutsToCsv(records) {
-  const keys=['workout_id','player','session_date','workout_name','category','duration_minutes','effort','exercise','sets','reps_per_set','weight','weight_unit','exercise_notes','session_notes','source_template_id','source_exercise_id','planned_details','completion_status','completion_confirmed','first_logged_at_device','last_edited_at_device','exercise_completed','completion_basis','weight_required','load_entry','plate_basis','plate_unit','bar_weight','plates','completion_group'];
+  const keys=['workout_id','player','session_date','workout_name','category','duration_minutes','effort','exercise','sets','reps_per_set','weight','weight_unit','exercise_notes','session_notes','source_template_id','source_exercise_id','planned_details','completion_status','completion_confirmed','first_logged_at_device','last_edited_at_device','exercise_completed','completion_basis','weight_required','load_entry','plate_basis','plate_unit','bar_weight','plates','completion_group','equipment_mode','home_result_unit','home_result_per_set','home_sets'];
   const cells=value=>{
     const safe=typeof value==='string'&&/^\s*[=+@-]/.test(value)?"'"+value:value;
     return '"'+String(safe??'').replaceAll('"','""')+'"';
   };
-  const lines=records.flatMap(r=>r.exercises.map(e=>[r.id,r.player,r.session_date,r.title,r.category,r.duration_minutes,r.effort,e.name,e.sets,e.reps,e.weight,e.weight_unit,e.notes,r.notes,r.source_template_id,e.source_exercise_id,e.planned_details,r.completion_status,r.completion_confirmed,r.created_at,r.updated_at,e.completed,e.completion_basis,e.weight_required,e.load_entry,e.plate_load?.basis,e.plate_load?.unit,e.plate_load?.bar_weight,e.plate_load?JSON.stringify(e.plate_load.plates):'',e.completion_group]));
+  const lines=records.flatMap(r=>r.exercises.map(e=>[r.id,r.player,r.session_date,r.title,r.category,r.duration_minutes,r.effort,e.name,e.sets,e.reps,e.weight,e.weight_unit,e.notes,r.notes,r.source_template_id,e.source_exercise_id,e.planned_details,r.completion_status,r.completion_confirmed,r.created_at,r.updated_at,e.completed,e.completion_basis,e.weight_required,e.load_entry,e.plate_load?.basis,e.plate_load?.unit,e.plate_load?.bar_weight,e.plate_load?JSON.stringify(e.plate_load.plates):'',e.completion_group,r.equipment_mode??'gym',e.home_result?.unit,e.home_result?.value,e.home_tracking?.sets]));
   return [keys,...lines].map(row=>row.map(cells).join(',')).join('\r\n');
 }
 

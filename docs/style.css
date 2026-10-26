@@ -137,6 +137,8 @@
 /* Compact numbered activity cards. Reading order follows source order across rows. */
 .workout-unified{container-type:inline-size}
 .workout-exercises.is-checklist{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:start}
+/* Workout Log uses two columns; compact phone/container layouts stay stacked. */
+#workout-exercises.is-checklist{grid-template-columns:repeat(2,minmax(0,1fr))}
 .workout-exercises.is-checklist .workout-checklist-row{min-width:0;border-radius:6px}
 .workout-unified .is-checklist label.checklist-complete{gap:9px;padding:12px;min-height:54px;align-items:flex-start}
 .workout-unified .is-checklist .checklist-complete>input{width:20px;height:20px;min-height:20px;flex:0 0 20px;margin-top:1px}
@@ -161,8 +163,8 @@
 .throwing-calendar-choice .throwing-off-complete{flex:0 1 calc((100% - 20px)/3);min-width:200px;max-width:320px;padding:10px 12px;min-height:46px;gap:9px;font-size:13px}
 .throwing-calendar-choice .throwing-off-complete input{width:20px;height:20px;flex:0 0 20px}
 @container(max-width:730px){.workout-exercises.is-checklist{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@container(max-width:470px){.workout-exercises.is-checklist{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:650px){.workout-exercises.is-checklist{grid-template-columns:minmax(0,1fr)}.workout-unified .is-checklist label.checklist-complete{padding:12px;min-height:54px}.is-checklist .workout-load-entry input,.is-checklist .workout-load-entry select,.is-checklist .checklist-notes input{min-height:44px;font-size:16px}.is-checklist .checklist-prescription .exercise-demo,.is-checklist .checklist-notes>summary{min-height:44px}.throwing-calendar-choice .throwing-off-complete{flex:1 1 100%;max-width:none}}
+@container(max-width:470px){.workout-exercises.is-checklist,#workout-exercises.is-checklist{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:650px){.workout-exercises.is-checklist,#workout-exercises.is-checklist{grid-template-columns:minmax(0,1fr)}.workout-unified .is-checklist label.checklist-complete{padding:12px;min-height:54px}.is-checklist .workout-load-entry input,.is-checklist .workout-load-entry select,.is-checklist .checklist-notes input{min-height:44px;font-size:16px}.is-checklist .checklist-prescription .exercise-demo,.is-checklist .checklist-notes>summary{min-height:44px}.throwing-calendar-choice .throwing-off-complete{flex:1 1 100%;max-width:none}}
 
 .throwing-calendar-alternatives{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px;padding:12px;border:1px solid #d7e5ee;border-radius:6px;background:#f2f7fa}.throwing-calendar-alternatives p{margin:0;flex:1 1 180px}.throwing-calendar-alternatives button{font-size:12px;min-height:40px;white-space:normal}
 
@@ -204,3 +206,10 @@ select option,select optgroup{background-color:var(--dropdown-bg)}
 .axe-drill-group{border:0;padding:0;margin:24px 0}.axe-drill-group legend{font-size:20px;font-weight:700;color:#263f5b;margin-bottom:14px}.axe-drill-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.axe-drill-card{padding:14px;border:1px solid #d5e2eb;border-radius:8px;background:#f6fbff;min-width:0}.axe-drill-label{display:flex;align-items:flex-start;gap:10px;cursor:pointer;min-height:50px}.axe-drill-label input{width:20px;height:20px;flex-shrink:0;accent-color:#14719b;margin-top:3px}.axe-drill-label strong{font-size:14px;line-height:1.5}.axe-drill-label small{display:block;font-size:12px;font-weight:400;margin-top:7px;line-height:1.5;color:#52677d}.axe-drill-label .axe-drill-prescription{font-weight:700;color:#263f5b}.axe-drill-demos{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.axe-drill-demos a{font-size:12px}.axe-drill-card .field-help{font-size:11px;margin-top:10px}.axe-saved-drills{list-style:none;padding:0}.axe-saved-drills li{margin:12px 0}.axe-saved-drills small{display:block;font-size:11px;margin:5px 0;color:#52677d}.axe-coach-adjustment{padding:12px 15px;background:#edf6fc;border-radius:6px}.nav-link[data-nav="overspeed"],.nav-link[data-nav="overspeed"]:hover,.nav-link[data-nav="overspeed"].active{color:#6bd58b}#overspeed-title{color:#16823b}@media(max-width:1000px){.axe-drill-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.axe-drill-grid{grid-template-columns:1fr}}
 
 .axe-completion-form .axe-drill-label{display:flex;align-items:flex-start;gap:10px}.axe-completion-form .axe-drill-label input{display:block;width:20px;height:20px;padding:0;margin:3px 0 0;flex-shrink:0}.axe-completion-form .axe-drill-label strong{color:#263f5b}.axe-completion-form .field-help{font-size:12px;line-height:1.6}
+
+/* Home results fit alongside the compact workout checklist. */
+.home-result-entry{margin-top:10px;max-width:260px}.home-result-entry label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#526d80}.home-result-entry input{width:100%;min-width:0;min-height:40px;padding:9px;border:1px solid #cbdce8;border-radius:5px;background:#fff}.workout-schedule-picker>.library-selectors{grid-template-columns:repeat(3,minmax(0,1fr))}
+@container(max-width:730px){.workout-schedule-picker>.library-selectors{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.home-result-entry input{font-size:16px;min-height:44px}.workout-schedule-picker>.library-selectors{grid-template-columns:1fr 1fr}}
+
+.workout-unified label.home-equipment-toggle{display:flex;align-items:flex-start;gap:10px;margin:16px 0 10px;padding:13px;background:#eef7fc;border:1px solid #cbdfe9;border-radius:6px;font-size:13px;line-height:1.6;color:#315f7b;cursor:pointer}.home-equipment-toggle input{width:20px;height:20px;min-height:20px;flex:0 0 20px;margin:0;accent-color:#168052}.home-equipment-choice{max-width:380px;margin:12px 0}

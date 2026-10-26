@@ -1,4 +1,5 @@
 import { WORKOUT_LIBRARY } from './library.mjs?v=schedule-auto-refresh-20261025';
+import {makeHomeWorkoutTemplates} from './home-workouts.mjs?v=schedule-auto-refresh-20261025';
 
 // Team weekly Day 4 is source Lift Day 3. Keep original workbook plans intact
 // so older sessions still reopen with their original exercises and identity.
@@ -14,7 +15,8 @@ for(const cycle of [1,2,3]){
   }
 }
 export const WORKOUT_PROGRAMS=[...WORKOUT_LIBRARY.programs,...combinedPrograms];
-export const WORKOUT_TEMPLATES=[...WORKOUT_LIBRARY.templates,...combinedTemplates];
+const gymWorkoutTemplates=[...WORKOUT_LIBRARY.templates,...combinedTemplates];
+export const WORKOUT_TEMPLATES=[...gymWorkoutTemplates,...makeHomeWorkoutTemplates(gymWorkoutTemplates)];
 
 /** Navigation only: existing source IDs and prescriptions remain unchanged. */
 export function workoutCycleForProgram(programId) {
@@ -44,6 +46,8 @@ const exerciseNameKey = name => String(name ?? '').toLowerCase().replace(/[^a-z0
 export function findWorkoutDemo(name, sourceId) {
   const key = exerciseNameKey(name);
   if (!key) return null;
+  const homeSource=WORKOUT_TEMPLATES.find(t=>t.equipment_mode&&t.exercises.some(e=>e.id===sourceId))?.exercises.find(e=>e.id===sourceId);
+  if(homeSource&&exerciseNameKey(homeSource.name)===key&&isWorkoutVideoUrl(homeSource.demo_url))return homeSource;
   const source = WORKOUT_LIBRARY.exercises.find(item => item.id === sourceId);
   if (source && exerciseNameKey(source.name) === key && isWorkoutVideoUrl(source.demo_url)) return source;
   // Match exact exercise wording only; related movements do not share a video automatically.

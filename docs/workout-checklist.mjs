@@ -11,9 +11,10 @@ export function checklistWeightRequired(exercise,category){
 }
 export function workoutChecklistDraft(template){
   if(!template||template.log_enabled===false)throw new TypeError('This workout is available for reference only.');
-  return {title:template.name,category:template.category,source_template_id:template.id,entry_mode:'plan_checklist',exercises:template.exercises.map(exercise=>({name:exercise.name,sets:null,reps:null,weight:null,weight_unit:checklistWeightRequired(exercise,template.category)?'lb':'none',notes:'',source_exercise_id:exercise.id,planned_details:workoutPrescriptionLines(exercise).join('\n'),completed:false,completion_basis:'as_prescribed',weight_required:checklistWeightRequired(exercise,template.category),...(exercise.completion_group?{completion_group:exercise.completion_group}:{})}))};
+  return {title:template.name,category:template.category,source_template_id:template.id,entry_mode:'plan_checklist',...(template.equipment_mode?{equipment_mode:template.equipment_mode}:{}),exercises:template.exercises.map(exercise=>({name:exercise.name,sets:null,reps:null,weight:null,weight_unit:checklistWeightRequired(exercise,template.category)?'lb':'none',notes:'',source_exercise_id:exercise.id,planned_details:workoutPrescriptionLines(exercise).join('\n'),completed:false,completion_basis:'as_prescribed',weight_required:checklistWeightRequired(exercise,template.category),...(exercise.completion_group?{completion_group:exercise.completion_group}:{}),...(exercise.home_tracking?{home_tracking:{...exercise.home_tracking},home_result:null}:{})}))};
 }
 export function workoutExerciseRecorded(exercise){
+  if(exercise.home_tracking){const plan=exercise.home_tracking;return exercise.completed===true&&exercise.home_result?.unit===plan.unit&&Number.isInteger(exercise.home_result?.value)&&exercise.home_result.value>=plan.target;}
   if(typeof exercise.completed==='boolean')return exercise.completed&&(!exercise.weight_required||['bodyweight','none'].includes(exercise.weight_unit)||typeof exercise.weight==='number');
   return (Number.isInteger(exercise.sets)&&Number.isInteger(exercise.reps)&&(!['lb','kg'].includes(exercise.weight_unit)||typeof exercise.weight==='number'))||Boolean(exercise.notes?.trim());
 }
@@ -25,12 +26,20 @@ export function validateWorkoutChecklist(record){
   const template=WORKOUT_TEMPLATES.find(t=>t.id===record.source_template_id);
   if(!template||template.log_enabled===false)throw new TypeError('Choose an available workout or throwing routine.');
   const expected=workoutChecklistDraft(template);
+  if((record.equipment_mode??'gym')!==(template.equipment_mode??'gym'))throw new TypeError('Keep the selected equipment option with its workout.');
   if(record.category!==expected.category||record.title!==expected.title)throw new TypeError('Keep the selected workout name and type with its checklist.');
   if(record.exercises.length!==expected.exercises.length)throw new TypeError('Keep every planned exercise in the checklist; leave unfinished exercises unchecked.');
   for(const[index,exercise]of record.exercises.entries()){
     const plan=expected.exercises[index];
     if(exercise.source_exercise_id!==plan.source_exercise_id||exercise.name!==plan.name||exercise.planned_details!==plan.planned_details||exercise.weight_required!==plan.weight_required||exercise.completion_basis!=='as_prescribed'||typeof exercise.completed!=='boolean')throw new TypeError('The exercise checklist does not match its selected workout plan.');
     if(exercise.completion_group!==plan.completion_group)throw new TypeError('Keep the source routine’s alternative exercise groups.');
+    if(JSON.stringify(exercise.home_tracking)!==JSON.stringify(plan.home_tracking))throw new TypeError('Keep the home workout’s prescribed sets and targets.');
+    if(plan.home_tracking){
+      const result=exercise.home_result;
+      if(exercise.weight!==null||exercise.weight_unit!=='none'||exercise.load_entry!==undefined||exercise.plate_load!==undefined)throw new TypeError('Home workouts record reps or hold time; keep weight blank.');
+      if(result!==null&&(!result||result.unit!==plan.home_tracking.unit||!Number.isInteger(result.value)||result.value<1||result.value>(result.unit==='seconds'?3600:999)))throw new TypeError(`${exercise.name}: enter a valid whole number of reps or seconds.`);
+      if(exercise.completed&&!workoutExerciseRecorded(exercise))throw new TypeError(`${exercise.name}: record at least ${plan.home_tracking.target} ${plan.home_tracking.unit} for each listed set, or leave it unchecked for a partial workout.`);
+    }else if(exercise.home_result!==undefined)throw new TypeError('Home results must match a home exercise.');
     if(template.completion_only&&(exercise.weight!==null||exercise.weight_unit!=='none'||exercise.load_entry!==undefined||exercise.plate_load!==undefined))throw new TypeError('Throwing routines log completion checkboxes only; no measured loads or velocities are entered here.');
     if(exercise.sets!==null||exercise.reps!==null)throw new TypeError('Checklist completion confirms the listed sets/reps. Use the detailed editor for different actual sets/reps.');
     if(exercise.completed&&exercise.weight_required&&['lb','kg'].includes(exercise.weight_unit)&&exercise.weight===null)throw new TypeError(`${exercise.name}: enter the weight used, or select Bodyweight / no added load.`);
