@@ -60,5 +60,5 @@ export function startPulse({players,scope,element:$,download,onChange}){
   });
   $('pulse-coach-device').addEventListener('click',()=>{snapshot=null;coachCode='';$('pulse-coach-code').value='';$('pulse-coach-error').hidden=true;renderCoach();});
   $('pulse-coach-export').addEventListener('click',()=>download('rangers-pulse-coach-records.csv',pulseRecordsToCsv(snapshot?.records??records)));
-  loadDay();renderHistory();renderCoach();return {records:()=>records,refresh:()=>{if(!snapshot)renderCoach();}};
+  loadDay();renderHistory();renderCoach();return {clearPlayer(name){if(!players.includes(name))return false;persist(records.filter(r=>r.player!==name));if($('pulse-player').value===name)loadDay();renderHistory();return true;},records:()=>records,refresh:()=>{if(!snapshot)renderCoach();}};
 }

@@ -1,6 +1,7 @@
-import {workoutProgramProgress,workoutIsLocked,workoutRound,workoutCoverage} from './workout-program.mjs?v=compact-workouts-20261025';
+import {isAxeWorkout} from './axe-progress.mjs?v=coach-access-programs-20261025';
+import {workoutProgramProgress,workoutIsLocked,workoutRound,workoutCoverage,workoutCycleLocked} from './workout-program.mjs?v=coach-access-programs-20261025';
 import { isThrowingWorkout, isThrowingOffDay, THROWING_OFF_DAY_SOURCE, previousWorkoutLoad, previousWorkoutLoadText } from './workout-record-tools.mjs?v=schedule-auto-refresh-20261025';
-import { createWorkoutLoadFields } from './workout-load-ui.mjs?v=schedule-auto-refresh-20261025';
+import { createWorkoutLoadFields } from './workout-load-ui.mjs?v=coach-access-programs-20261025';
 import { plateLoadDescription } from './workout-load.mjs?v=schedule-auto-refresh-20261025';
 import { WORKOUT_LIBRARY } from './library.mjs?v=schedule-auto-refresh-20261025';
 import { appendDrivelineBallText } from './driveline-colors.mjs?v=schedule-auto-refresh-20261025';
@@ -14,7 +15,7 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
   const number=input=>input.value.trim()===''?null:input.valueAsNumber;
   const now=new Date(),today=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
   const key='rangers-workouts-v1-'+scope,throwing=variant==='throwing',listeners=new Set();
-  const inScope=record=>isThrowingWorkout(record)===throwing;
+  const inScope=record=>!isAxeWorkout(record)&&isThrowingWorkout(record)===throwing;
   let records=[],readable=true,saved=true,editing=null,dirty=false,selectedPlayer='',sourceId='',mode='empty',selection={cycle:'1',program:'',day:'',week:''};
   try{
     const raw=sharedStore?null:localStorage.getItem(key);
@@ -104,18 +105,20 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
     $('workout-exercises').classList.toggle('is-checklist',mode==='checklist');
     $('workout-exercises-title').textContent=manual?'Actual exercise details':mode==='reference'?'Throwing routine · reference only':'Exercise checklist';
     $('workout-exercise-help').textContent=manual?'Enter the sets, reps and loads you completed, or add time / distance details.':'A check confirms you finished the listed sets and reps. Unfinished exercises stay unchecked.';
-    $('workout-save-help').textContent=manual?'Confirm your actual results before saving. For a partial workout, explain changes in session notes.':mode==='reference'?'Actual PlyoCare throw entry remains on hold.':'Check completed exercises and enter weight or plates used. Plate counts cover the whole bar.';
+    $('workout-save-help').textContent=manual?'Confirm your actual results before saving. For a partial workout, explain changes in session notes.':mode==='reference'?'Actual PlyoCare throw entry remains on hold.':'Check completed exercises and enter the total weight used in lb or kg.';
   }
   function resetDraft({allowLocked=false}={}){
     editing=null;sourceId='';$('workout-date').value=today;$('workout-title').value='';$('workout-category').value='strength';$('workout-completion').value='';$('workout-confirm').checked=false;$('workout-duration').value='';$('workout-effort').value='';$('workout-notes').value='';$('workout-exercises').replaceChildren();$('workout-error').hidden=true;$('workout-cancel-edit').hidden=true;$('workout-mode-label').textContent='CHOOSE & COMPLETE';$('workout-form-title').textContent=throwing?'Your throwing routine':'Your workout';$('workout-save').textContent=throwing?'Save throwing routine +':'Save workout +';
-    const template=pickedTemplate(),locked=!throwing&&!allowLocked&&template&&workoutIsLocked(template,workoutProgramProgress(records,$('workout-player').value));setMode(locked?'locked':$('library-program').value==='custom'?'manual':template?(template.log_enabled===false?'reference':'checklist'):'empty');renderPlanHeading(template);
+    const progress=workoutProgramProgress(records,$('workout-player').value);if(!throwing)for(const option of $('library-cycle').children)option.disabled=Number(option.value)>progress.unlocked_cycle;
+    const template=pickedTemplate(),cycleLocked=!throwing&&!allowLocked&&template&&workoutCycleLocked(template,progress),locked=cycleLocked||!throwing&&!allowLocked&&template&&workoutIsLocked(template,progress);setMode(locked?'locked':$('library-program').value==='custom'?'manual':template?(template.log_enabled===false?'reference':'checklist'):'empty');renderPlanHeading(template);
     $('library-cycle-note').hidden=$('library-program').value!=='throwing-routine';
     $('workout-template-status').hidden=!template;$('workout-template-status').textContent=mode==='reference'?'Reference only. Original ball colors and effort notes are retained. Actual PlyoCare entry remains on hold.':template?'Check each exercise after completing its listed plan. Enter the actual weight used; planned loads are not filled in.':'';
     if(template?.completion_only){$('workout-exercises-title').textContent='Throwing routine checklist';$('workout-exercise-help').textContent='Check completed warm-up, throwing and recovery exercises. Where the workbook lists alternatives, choose one.';$('workout-template-status').textContent='Log routine completion with checkboxes. Ball colours, listed sets and effort notes are retained; no PlyoCare velocities are entered here.';$('workout-save-help').textContent='Save full or partial routine completion. No velocity or load entry is needed.';}
     if(mode==='checklist'){const draft=workoutChecklistDraft(template);sourceId=draft.source_template_id;$('workout-title').value=draft.title;$('workout-category').value=draft.category;draft.exercises.forEach(addCheck);}
     else if(mode==='reference')referenceRows(template);else if(mode==='manual')addManual();else $('workout-exercises').append(make('p','workout-empty','Choose a workout above to begin.'));
     $('workout-extra-demos').replaceChildren();if(template?.completion_only){const box=$('workout-extra-demos');box.append(make('h4','','More throwing & recovery demos'));for(const item of [WORKOUT_LIBRARY.drills['Step Backs'],...WORKOUT_LIBRARY.throwing_extras]){const link=demo(item);if(link)box.append(link);}}
-    if(locked){$('workout-template-status').hidden=false;$('workout-template-status').textContent='Completed workout locked until all three cycles are finished. Choose another scheduled day, or edit the original entry in history to correct it.';}
+    if(cycleLocked){$('workout-template-status').hidden=false;$('workout-template-status').textContent=`Finish Cycle ${progress.unlocked_cycle} before starting the next cycle.`;}
+    else if(locked){$('workout-template-status').hidden=false;$('workout-template-status').textContent='Completed workout locked until all three cycles are finished. Choose another scheduled day, or edit the original entry in history to correct it.';}
     refreshCount();dirty=false;
   }
   function chosen(){return records.filter(r=>r.player===$('workout-player').value&&inScope(r)).sort((a,b)=>b.session_date.localeCompare(a.session_date)||String(b.created_at??'').localeCompare(String(a.created_at??'')));}
@@ -156,6 +159,7 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
   fillPrograms($('library-cycle').value,initialProgram);fillDays(initialDay);fillWeeks(initialWeek);captureSelection();
   for(const id of ['library-cycle','library-program','library-day','library-week'])$(id).addEventListener('change',()=>{
     if((dirty||editing)&&!window.confirm('Change the workout and clear your unsaved entries?')){restoreSelection();return;}
+    if(!throwing&&id==='library-cycle'&&workoutCycleLocked($('library-cycle').value,workoutProgramProgress(records,$('workout-player').value))){restoreSelection();$('workout-error').textContent='Finish the current cycle before starting the next cycle.';$('workout-error').hidden=false;return;}
     if(id==='library-cycle'){fillPrograms($('library-cycle').value,selection.program);fillDays();fillWeeks();}else if(id==='library-program'){fillDays();fillWeeks();}else if(id==='library-day')fillWeeks($('library-week').value);captureSelection();resetDraft();
   });
   $('workout-form').addEventListener('input',event=>{if(!['workout-player','library-cycle','library-program','library-day','library-week','workout-plan-cycle','workout-plan-week','workout-plan-day'].includes(event.target.id))dirty=true;});
@@ -166,7 +170,7 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
   $('workout-form').addEventListener('submit',event=>{
     event.preventDefault();if(!['manual','checklist'].includes(mode))return;const existing=records.find(r=>r.id===editing),timestamp=new Date().toISOString(),exercises=[...$('workout-exercises').children].map(exerciseFields);
     const record={id:editing??globalThis.crypto?.randomUUID?.()??`workout-${Date.now()}-${Math.random().toString(36).slice(2)}`,player:$('workout-player').value,session_date:$('workout-date').value,title:$('workout-title').value.trim(),category:$('workout-category').value,duration_minutes:number($('workout-duration')),effort:$('workout-effort').value,notes:$('workout-notes').value.trim(),exercises,completion_status:mode==='checklist'?(workoutChecklistProgress({exercises}).all?'completed':'partial'):$('workout-completion').value,completion_confirmed:mode==='checklist'||$('workout-confirm').checked,created_at:existing?.created_at??timestamp,updated_at:timestamp};if(sourceId)record.source_template_id=sourceId;if(mode==='checklist')record.entry_mode='plan_checklist';
-    if(!throwing&&sourceId&&workoutCoverage(sourceId).length){const progress=workoutProgramProgress(records,record.player);if(!editing&&workoutIsLocked(sourceId,progress)){$('workout-error').hidden=false;$('workout-error').textContent='This workout is already completed. Finish all three cycles before starting it again, or edit its saved entry to correct a mistake.';return;}record.program_round=existing?workoutRound(existing):progress.round;}
+    if(!throwing&&sourceId&&workoutCoverage(sourceId).length){const progress=workoutProgramProgress(records,record.player);if(!editing&&(workoutIsLocked(sourceId,progress)||workoutCycleLocked(sourceId,progress))){$('workout-error').hidden=false;$('workout-error').textContent=workoutCycleLocked(sourceId,progress)?`Finish Cycle ${progress.unlocked_cycle} before starting the next cycle.`:'This workout is already completed. Finish all three cycles before starting it again, or edit its saved entry to correct a mistake.';return;}record.program_round=existing?workoutRound(existing):progress.round;}
     try{persist(upsertWorkout(records,record,players));}catch(error){$('workout-error').hidden=false;$('workout-error').textContent=error.message;return;}
     const wasEditing=Boolean(editing),progress=record.entry_mode==='plan_checklist'?workoutChecklistProgress(record):null;
     if(throwing){editing=null;sourceId='';dirty=false;mode='empty';$('workout-exercises').replaceChildren();$('workout-save').disabled=true;$('workout-cancel-edit').hidden=true;$('workout-form').hidden=true;}else resetDraft();
@@ -197,7 +201,7 @@ export function startWorkoutFlow({players,scope,element:$,download,onChange,vari
   }
   function openScheduledTemplate({template_id,player}){
     const template=WORKOUT_TEMPLATES.find(t=>t.id===template_id);
-    if(throwing||!template||!players.includes(player)||workoutIsLocked(template,workoutProgramProgress(records,player)))return false;
+    if(throwing||!template||!players.includes(player)||workoutIsLocked(template,workoutProgramProgress(records,player))||workoutCycleLocked(template,workoutProgramProgress(records,player)))return false;
     const round=workoutProgramProgress(records,player).round,partial=records.find(r=>r.player===player&&r.source_template_id===template_id&&workoutRound(r)===round&&r.completion_status==='partial');
     if(partial)return edit(partial)===true;
     if((dirty||editing)&&!window.confirm('Change the workout and clear your unsaved entries?'))return false;

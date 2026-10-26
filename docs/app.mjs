@@ -1,18 +1,21 @@
+import {startCoachAccess} from './coach-access.mjs?v=coach-access-programs-20261025';
+import {prepareDemoReset,runDemoReset} from './demo-reset.mjs?v=coach-access-programs-20261025';
+import {isAxeWorkout} from './axe-progress.mjs?v=coach-access-programs-20261025';
 import {startPlayerAccess} from './player-access.mjs?v=password-label-20261025';
-import {startAxePrograms} from './axe-program-ui.mjs?v=compact-workouts-20261025';
-import {startWorkoutSchedule} from './workout-schedule-ui.mjs?v=compact-workouts-20261025';
+import {startAxePrograms} from './axe-program-ui.mjs?v=coach-access-programs-20261025';
+import {startWorkoutSchedule} from './workout-schedule-ui.mjs?v=coach-access-programs-20261025';
 import { startTeamSchedule } from './team-schedule-ui.mjs?v=calendar-location-20261025';
 import { installGoogleBridge } from './google-bridge.mjs?v=schedule-auto-refresh-20261025';
 import { startTabPlayers } from './tab-players.mjs?v=player-jersey-check-20261025';
 import { startThrowingCalendar } from './throwing-calendar-ui.mjs?v=throwing-save-close-20261025';
 import { isThrowingWorkout } from './workout-record-tools.mjs?v=schedule-auto-refresh-20261025';
-import { startOverSpeedProgression } from './overspeed-progression-ui.mjs?v=compact-workouts-20261025';
-import { startPulse } from './pulse-ui.mjs?v=schedule-auto-refresh-20261025';
-import { startBlastPcr } from './blast-pcr-ui.mjs?v=schedule-auto-refresh-20261025';
-import { startWorkoutFlow } from './workout-flow.mjs?v=throwing-save-close-20261025';
+import { startOverSpeedProgression } from './overspeed-progression-ui.mjs?v=coach-access-programs-20261025';
+import { startPulse } from './pulse-ui.mjs?v=coach-access-programs-20261025';
+import { startBlastPcr } from './blast-pcr-ui.mjs?v=coach-access-programs-20261025';
+import { startWorkoutFlow } from './workout-flow.mjs?v=coach-access-programs-20261025';
 import { OVERSPEED_LIBRARY } from './overspeed-library.mjs?v=schedule-auto-refresh-20261025';
 import { BAT_CONFIGURATIONS, BAT_SPEED_DEVICES, validateBatSpeedSet, upsertBatSpeedSet, summarizeBatSpeeds, batSpeedContext, batSpeedProgress, batSpeedCsv } from './overspeed.mjs?v=schedule-auto-refresh-20261025';
-import { startOverSpeed } from './overspeed-ui.mjs?v=schedule-auto-refresh-20261025';
+import { startOverSpeed } from './overspeed-ui.mjs?v=coach-access-programs-20261025';
 import { workoutActivity, workoutActivityCsv, workoutWeek } from './accountability.mjs?v=schedule-auto-refresh-20261025';
 import { startWorkoutAccountability } from './accountability-ui.mjs?v=compact-workouts-20261025';
 import { PLAYER_READING } from './reading-guide.mjs?v=schedule-auto-refresh-20261025';
@@ -49,6 +52,7 @@ let overspeedLog = null;
 let workoutOverview = null;
 let teamJournal = null;
 let tabPlayers = null;
+let axePrograms = null;
 let rows = null;
 let currentResult = null;
 let selectedColor = 'all';
@@ -62,6 +66,7 @@ const STORAGE_ROSTER_LABELS = Object.freeze(["Aidan", "Ambrose", "Andre", "Carso
 const PLAYER_JERSEY_HASHES = {"Aidan": "d820eaab4138ce6ed9d2bef9f85ab5be965c84f6d7ad5b418117b1b70baed9de", "Ambrose": "7d3485569c1e4a429fcd9ffb5652f7c11a98ad97278b376902f07a2afe97704b", "Andre": "3e23aa592a7d68062ca54bda131699774549797e8e465354a770ba397eb65ca8", "Carson": "372f6ae4f3e8a664b0a83f1607d4ae5947605b500bd65002c0901dfaff7a6d75", "Carter": "f71a3086a0350c919f2254579b26f303b658a8ba2d8890553b0ef20bfb66c4f8", "Jayden": "a47237bdb4db1565499f29845dc173905fecdc65c91ea3d15e82663f0c301b52", "Joseph": "e982ae723a712ed12541ce83849fd1bc6ea4d29eac9c1f1cf36be8269ede0070", "Josh": "0ab8eb9a43b907aa5a9756cd07f8f6b115c9561128ab6f0c1a531d45eb74a8e9", "Max": "9968de214233809cf796ab0d29f091eb6f93cf7615002d2a0d1c1263e7342c9a", "Michael": "a8feaf46625647a204b2ed65195a3749d9d18f02805d9cbd9f619857077532fc", "Nathan": "fd7838ff9064d3901f27fa1a7991b6311f637145f99844088afd66c280a9fa76", "Raiden": "134d3a9cbf133c9b6bdb7051c17e51e75f82c87703117ad55712452b0464034a", "Rory": "62f86272188ad8144865875fe28be66ddb8f220f8430e9a109ce0a4b045c8b4d", "Walker": "cc066611ee58629c433bf9bf79dd220ee17fe765c2f38f85759358ea7ffcc9b8", "Dominic": "ecfe6054d685b49b9a54b551cbbdf3caffa05c176358f75b066321dedc607f3d", "Marcus": "532d7863b8ef863ce0e90f593b7c5f7e42d23ba6f60f3a94d0a275e650a7c5f9", "Demo": "e8ca8e2759343d9e1064e7701db86f301ba8b8f5f2e1d148f8320670df8d098d"};
 let rosterHash=2166136261;
 for(const char of JSON.stringify(STORAGE_ROSTER_LABELS)) rosterHash=Math.imul(rosterHash^char.charCodeAt(0),16777619)>>>0;
+const demoResetState=prepareDemoReset(localStorage,rosterHash.toString(16),PLAYER_LABELS);
 function populatePlayerDropdown(id) {
   const select = $(id);
   const prompt = el('option', '', 'Choose a player');
@@ -405,23 +410,27 @@ $('baseball-export').addEventListener('click',()=>{const records=chosenBaseballS
 $('baseball-delete-player').addEventListener('click',()=>{const player=$('baseball-player').value,count=chosenBaseballSessions().length;if(!count||!window.confirm(`Delete all ${count} baseball sessions for ${player} from this device? Export first if needed.`))return;persistBaseball(baseballRecords.filter(r=>r.player!==player));resetBaseballDraft();renderBaseballHistory();$('baseball-announcement').textContent=baseballDeviceSaved?'Player baseball sessions deleted from this device.':'Removed from this page; device saving is unavailable.';});
 resetBaseballDraft();renderBaseballHistory();
 
-workoutOverview=startWorkoutAccountability({players:PLAYER_LABELS,getRecords:()=>workoutFlow.records(),element:$,download:downloadFile,summarize:workoutActivity,toCsv:workoutActivityCsv,weekFor:workoutWeek,onSessionAction:(action,record,{remote})=>{const flow=isThrowingWorkout(record)?throwingFlow:workoutFlow;return action==='restart'?flow.restartSession(record,{confirm:false,journal:!remote}):flow.deleteSession(record,{confirm:false,journal:!remote});}});
+workoutOverview=startWorkoutAccountability({players:PLAYER_LABELS,getRecords:()=>workoutFlow.records(),element:$,download:downloadFile,summarize:workoutActivity,toCsv:workoutActivityCsv,weekFor:workoutWeek,onSessionAction:(action,record,{remote})=>{const flow=isAxeWorkout(record)?axePrograms:isThrowingWorkout(record)?throwingFlow:workoutFlow;return action==='restart'?flow.restartSession(record,{confirm:false,journal:!remote}):flow.deleteSession(record,{confirm:false,journal:!remote});}});
 const overspeedProtocol=startOverSpeedProgression({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,download:downloadFile,onChange:(before,after)=>teamJournal?.record('overspeed_session',before,after),onProgressChange:()=>overspeedLog?.refreshAccess(),readShared:player=>teamJournal.readOverSpeedProgress(player)});
 overspeedLog=startOverSpeed({protocol:overspeedProtocol,library:OVERSPEED_LIBRARY,players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,download:downloadFile,validate:validateBatSpeedSet,upsert:upsertBatSpeedSet,summarize:summarizeBatSpeeds,contextFor:batSpeedContext,progressFor:batSpeedProgress,toCsv:batSpeedCsv,configurations:BAT_CONFIGURATIONS,devices:BAT_SPEED_DEVICES,onChange:(before,after)=>teamJournal?.record('overspeed',before,after),canUseProgram:(id,player,date)=>overspeedProtocol.canUse(id,player,date),beforePlayerChange:()=>overspeedProtocol.confirmPlayerChange(),onPlayerChanged:()=>overspeedProtocol.playerChanged()});
+$('overspeed-player').addEventListener('change',()=>{$('overspeed-clear-entries').disabled=!$('overspeed-player').value;});
+$('overspeed-clear-entries').addEventListener('click',()=>{const player=$('overspeed-player').value;if(!player)return;const count=overspeedLog.records().filter(r=>r.player===player).length+overspeedProtocol.records().filter(r=>r.player===player).length;if(!count){$('overspeed-announcement').textContent='No saved entries to clear.';return;}if(!window.confirm(`Clear all saved OverSpeed readings and workout progress for ${player}, and reset the current forms? Other players and trackers are kept.`))return;overspeedLog.clearPlayer(player);overspeedProtocol.clearPlayer(player);$('overspeed-announcement').textContent='OverSpeed entries cleared for the selected player.';});
 const pulseLog=startPulse({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,download:downloadFile,onChange:(before,after)=>teamJournal?.record('pulse',before,after)});
 startPlayerReading(PLAYER_READING);
 const teamSchedule=startTeamSchedule({config:TEAM_SCHEDULE_CONFIG,element:$,download:downloadFile,readRemote:()=>{if(!teamJournal)throw Error('Connect with your player code in Coach desk to refresh the schedule.');return teamJournal.readTeamSchedule();}});
 document.querySelector('[data-nav="schedule"]').addEventListener('click',()=>{if(location.hash==='#schedule')void teamSchedule.activate();});
 startThrowingCalendar({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,flow:throwingFlow,subscribe:listener=>workoutFlow.subscribe(listener)});
-const axePrograms=startAxePrograms({element:$});
+axePrograms=startAxePrograms({element:$,players:PLAYER_LABELS,flow:workoutFlow,download:downloadFile,onNavigate:()=>{tabPlayers?.setCurrent($('axe-player').value);location.hash='#axe';}});
 tabPlayers=startTabPlayers({players:PLAYER_LABELS,element:$});
 const playerAccess=startPlayerAccess({players:PLAYER_LABELS,hashes:PLAYER_JERSEY_HASHES,element:$});
+const coachAccess=startCoachAccess({element:$,onUnlock:()=>{workoutOverview?.refresh();pulseLog.refresh();}});
 const routeLabels = { workouts: 'WORKOUT LOG', throwing: 'THROWING ROUTINE', schedule:'TEAM SCHEDULE', targets: 'PLYOCARE LAB', tracker: 'BASEBALL THROWS', pulse: 'DRIVELINE PULSE', blast: 'BLAST MOTION', overspeed: 'OVERSPEED PROGRAM', axe:'AXE BATS', reading: 'PLAYER READING', approach: 'TRAINING APPROACH', coach: 'COACH DESK' };
 function route() {
   const key = location.hash.slice(1);
   const view = Object.hasOwn(routeLabels, key) ? key : 'workouts';
   tabPlayers.activate(view);
   playerAccess.activate(view);
+  coachAccess.activate(view);
   for (const name of Object.keys(routeLabels)) {
     $(`view-${name}`).hidden = name !== view;
   }
@@ -433,7 +442,7 @@ function route() {
   $('breadcrumb-current').textContent = routeLabels[view];
   if(view==='schedule')teamSchedule.activate();
   if(view==='blast')renderBlastHistory();
-  if(view==='coach'){workoutOverview?.refresh();pulseLog.refresh();}
+  if(view==='coach'&&coachAccess.isVerified()){workoutOverview?.refresh();pulseLog.refresh();}
   document.title = `Rangers | ${view === 'targets' ? 'PlyoCare Lab' : {throwing:'Throwing routine',schedule:'Team schedule',tracker:'Baseball throws',pulse:'Driveline Pulse',blast:'Blast Motion',workouts:'Workout log',overspeed:'OverSpeed program',axe:'Axe Bats',reading:'Player reading',approach:'Training approach',coach:'Coach desk'}[view]}`;
   if (started) {
     const heading = $(`view-${view}`).querySelector('h1');
@@ -453,6 +462,8 @@ document.querySelectorAll('.close-dialog').forEach(button => button.addEventList
 dialog.addEventListener('click', event => { if (event.target === dialog) {const rect=dialog.getBoundingClientRect(); if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();} });
 
 teamJournal=startTeamJournal({players:PLAYER_LABELS,scope:rosterHash.toString(16),getRecords:()=>({blast:blastRecords,blast_pcr:blastPcrLog.records(),workout:workoutFlow.records(),baseball:baseballRecords,overspeed_session:overspeedProtocol.records(),overspeed:overspeedLog.records(),pulse:pulseLog.records()}),element:$,download:downloadFile,changes:journalChanges,toCsv:journalToCsv,validate:validateJournalEvent});
+
+if(demoResetState.pending){try{runDemoReset({storage:localStorage,scope:rosterHash.toString(16),state:demoResetState,clear:[name=>{persistBlast(blastRecords.filter(r=>r.player!==name));clearBlastMetrics();renderBlastHistory();},name=>blastPcrLog.clearPlayer(name),name=>workoutFlow.commit(workoutFlow.records().filter(r=>r.player!==name)),name=>{persistBaseball(baseballRecords.filter(r=>r.player!==name));resetBaseballDraft();renderBaseballHistory();},name=>pulseLog.clearPlayer(name),name=>overspeedLog.clearPlayer(name),name=>overspeedProtocol.clearPlayer(name)]});$('demo-reset-status').textContent='Demo entries and progress have been reset on this device.';$('demo-reset-status').hidden=false;}catch(error){$('demo-reset-status').textContent=error.message;$('demo-reset-status').hidden=false;}}
 
 try {
   const response = await fetch('./data.json');

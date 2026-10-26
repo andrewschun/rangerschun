@@ -1,3 +1,4 @@
+import {startAxeCompletion} from './axe-completion-ui.mjs?v=coach-access-programs-20261025';
 import {AXE_PROGRAMS} from './axe-programs.mjs?v=compact-workouts-20261025';
 
 export function axeProgramPage(activity,season,week){
@@ -10,10 +11,11 @@ export function axeProgramPage(activity,season,week){
  else{page=(season==='in_season'?0:6)+Math.ceil(w/2);crop={x:0,y:w%2?0:.5,width:1,height:.5};}
  return {program,page,asset:program.pages[page-1],crop,week:w};
 }
-export function startAxePrograms({element:$}){
+export function startAxePrograms({element:$,players,flow,download,onNavigate}){
  const option=(value,label)=>{const n=document.createElement('option');n.value=String(value);n.textContent=label;return n;};
  const showImage=(image,asset,label)=>{image.src=asset.image;image.alt=label;image.width=asset.width;image.height=asset.height;};
  let previousActivity='';
+ const completion=startAxeCompletion({element:$,players,flow,download,onNavigate,refresh:()=>render()});
  function guide(program,page){
   const asset=program.pages[Number(page)-1];if(!asset)return;
   showImage($('axe-guide-image'),asset,`${program.source} · PDF page ${asset.page}`);$('axe-guide-full').href=asset.image;
@@ -30,6 +32,7 @@ export function startAxePrograms({element:$}){
    if(program)$('axe-guide-page').value=activity==='mini_plyos'?'3':activity==='bat_speed'?'7':'13';
    previousActivity=activity;
   }
+  completion.sync();
   const selection=axeProgramPage(activity,season,$('axe-week').value);
   $('axe-program-view').hidden=!player||!selection;
   $('axe-program-prompt').hidden=Boolean(player&&selection);
@@ -45,12 +48,12 @@ export function startAxePrograms({element:$}){
   else{frame.style.aspectRatio='auto';image.style.width='100%';image.style.left='0';image.style.top='0';}
   const messages=[];
   if(activity==='mini_plyos')messages.push('The supplied Mini Plyos guide has one six-week plan, with no separate in-season version. Both season choices display that same source plan.');
-  if(activity==='mini_plyos'&&week===6)messages.push('Coach confirmation needed: the overview lists four days and ten drills, while the Week 6 detail page lists six days and eleven drills.');
+  if(activity==='mini_plyos'&&week===6)messages.push('Your coach selected six sessions from the detailed Week 6 page. The overview lists four days; the detailed page lists six days and eleven drills.');
   if(activity==='mini_plyos'&&week===4)messages.push('Coach confirmation needed: the source labels this workout 75 swings, while its listed sets and reps total 82.');
   $('axe-program-note').textContent=messages.join(' ');$('axe-program-note').hidden=!messages.length;
   guide(program,$('axe-guide-page').value);
  }
  for(const id of ['axe-player','axe-activity','axe-season','axe-week'])$(id).addEventListener('change',render);
  $('axe-guide-page').addEventListener('change',()=>{const p=AXE_PROGRAMS.find(p=>p.id===$('axe-activity').value);if(p)guide(p,$('axe-guide-page').value);});
- render();return {refresh:render};
+ render();return {refresh:render,...completion};
 }

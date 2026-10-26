@@ -48,5 +48,5 @@ export function startBlastPcr({players,scope,element:$,download,onChange}){
   });
   $('blast-pcr-export').addEventListener('click',()=>{if(selected().length)download('rangers-blast-session-summaries.csv',blastPcrRecordsToCsv(selected()));});
   $('blast-pcr-delete-player').addEventListener('click',()=>{const all=selected();if(!all.length||!window.confirm(`Delete all ${all.length} PCR sessions for ${player()} from this device? Export first if needed.`))return;persist(records.filter(record=>record.player!==player()));resetDraft(true);render();$('blast-pcr-announcement').textContent=saved?'Player PCR sessions deleted from this device.':'Removed from this page; export before closing.';});
-  resetDraft();render();return {records:()=>records,hasDraft:()=>dirty||Boolean(editing),changePlayer:()=>{resetDraft();render();$('blast-pcr-announcement').textContent='';}};
+  resetDraft();render();return {clearPlayer(name){if(!players.includes(name))return false;persist(records.filter(r=>r.player!==name));if(player()===name)resetDraft(true);render();return true;},records:()=>records,hasDraft:()=>dirty||Boolean(editing),changePlayer:()=>{resetDraft();render();$('blast-pcr-announcement').textContent='';}};
 }
