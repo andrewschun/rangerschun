@@ -83,5 +83,9 @@ export function startTeamJournal({players,scope,getRecords,element,download,chan
       finishSettings(true);render();void flush();
     }).withFailureHandler(()=>{clearTimeout(timer);finishSettings(false);lastError='The coach connection did not load. Reload to retry; entries remain on this device.';render();}).getConnectionSettings();
   }
-  return {record,readOverSpeedProgress,readTeamSchedule,readConcentrationSummary};
+  function concentrationHistory(){
+    let history=events;try{const stored=JSON.parse(localStorage.getItem(key)||'null');if(stored?.version===1&&Array.isArray(stored.events))history=[...history,...stored.events];}catch{}
+    return history.filter(e=>e?.kind==='workout'&&e.record?.source_template_id==='concentration-grid-100').map(e=>e.record);
+  }
+  return {record,readOverSpeedProgress,readTeamSchedule,readConcentrationSummary,concentrationHistory};
 }
