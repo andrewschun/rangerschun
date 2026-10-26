@@ -1,3 +1,4 @@
+import {startTargetBaseline} from './target-baseline.mjs?v=schedule-auto-refresh-20261025';
 import {startVisionVideos} from './vision-videos.mjs?v=schedule-auto-refresh-20261025';
 import { startConcentrationGrid } from './concentration-grid.mjs?v=schedule-auto-refresh-20261025';
 import {startCoachAccess} from './coach-access.mjs?v=rangers-organization-20261025';
@@ -56,6 +57,7 @@ let tabPlayers = null;
 let axePrograms = null;
 let rows = null;
 let currentResult = null;
+let targetBaseline = null;
 let selectedColor = 'all';
 const sourceMasses = { green: 1000, blue: 450, red: 225, orange: 350, gray: 100 };
 let equipmentMode = 'dubs';
@@ -179,17 +181,19 @@ $('target-form').addEventListener('submit', event => {
   event.preventDefault();
   renderTargets(true);
 });
-$('velocity').addEventListener('input', () => renderTargets(false));
-$('player').addEventListener('change', () => {renderTargets(true); if(!blastDirty&&!blastEditingId&&!blastPcrLog?.hasDraft()){$('blast-player').value=$('player').value;blastSelectedPlayer=$('player').value;clearBlastMetrics();$('blast-bat').value='';resetBlastFilters();renderBlastHistory();blastPcrLog?.changePlayer();}});
+$('velocity').addEventListener('input', () => {targetBaseline?.manual($('velocity').value);renderTargets(false);});
+$('player').addEventListener('change', () => {targetBaseline?.select();renderTargets(true); if(!blastDirty&&!blastEditingId&&!blastPcrLog?.hasDraft()){$('blast-player').value=$('player').value;blastSelectedPlayer=$('player').value;clearBlastMetrics();$('blast-bat').value='';resetBlastFilters();renderBlastHistory();blastPcrLog?.changePlayer();}});
 for (const [id, delta] of [['decrease', -1], ['increase', 1]]) {
   $(id).addEventListener('click', () => {
     const value = $('velocity').valueAsNumber;
     $('velocity').value = Math.min(86, Math.max(70, Number.isFinite(value) ? Math.round((value + delta) * 10) / 10 : 75));
+    targetBaseline?.manual($('velocity').value);
     renderTargets(true);
   });
 }
 $('reset-baseline').addEventListener('click', () => {
   $('velocity').value = 75;
+  targetBaseline?.manual($('velocity').value);
   renderTargets(true);
   $('velocity').focus();
 });
@@ -207,8 +211,9 @@ function downloadFile(name, content, type = 'text/csv;charset=utf-8') {
 const csv = value => `"${String(value ?? '').replaceAll('"', '""')}"`;
 $('export-targets').addEventListener('click', () => {
   if (!currentResult?.cells.length) return;
-  const header = ['mound_mph','equipment_view','ball_model','ball_color','nominal_mass_g','labeled_mass_oz','drill','reference_mph','source_value_status','application_status','source_color','source_screenshots','projection_method','projection_basis_json'];
-  const data = currentResult.cells.map(cell=>[currentResult.mound_mph,equipmentMode,cell.ball_model??'',cell.ball_color,cell.mass_g??(equipmentMode==='driveline'?sourceMasses[cell.ball_color]:''),cell.mass_oz??'',cell.drill,cell.target_mph,cell.status,cell.application_status??'original_driveline_reference',cell.source_color??(equipmentMode==='driveline'?cell.ball_color:''),cell.sources.join(' | '),cell.projection?.method??'',cell.projection?JSON.stringify(cell.projection):'']);
+  const baseline=targetBaseline?.snapshot();
+  const header = ['mound_mph','equipment_view','ball_model','ball_color','nominal_mass_g','labeled_mass_oz','drill','reference_mph','source_value_status','application_status','source_color','source_screenshots','projection_method','projection_basis_json','baseline_origin','baseline_session_id','baseline_throwing_context'];
+  const data = currentResult.cells.map(cell=>[currentResult.mound_mph,equipmentMode,cell.ball_model??'',cell.ball_color,cell.mass_g??(equipmentMode==='driveline'?sourceMasses[cell.ball_color]:''),cell.mass_oz??'',cell.drill,cell.target_mph,cell.status,cell.application_status??'original_driveline_reference',cell.source_color??(equipmentMode==='driveline'?cell.ball_color:''),cell.sources.join(' | '),cell.projection?.method??'',cell.projection?JSON.stringify(cell.projection):'',baseline?.origin??'manual',baseline?.source?.session_id??'',baseline?.source?.context??'']);
   downloadFile(`rangers-${equipmentMode}-references-${currentResult.mound_mph}mph.csv`,[header,...data].map(row=>row.map(csv).join(',')).join('\r\n'));
 });
 $('download-template').addEventListener('click', () => {
@@ -352,7 +357,7 @@ $('blast-delete-player').addEventListener('click',()=>{
 renderBlastHistory();
 blastPcrLog=startBlastPcr({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,download:downloadFile,onChange:(before,after)=>teamJournal?.record('blast_pcr',before,after)});
 
-// Regular-baseball readings only. PlyoCare target references do not receive these entries.
+// Saved regular-baseball sessions also supply the editable Velocity Targets baseline.
 populatePlayerDropdown('baseball-player');
 const baseballStorageKey='rangers-baseball-throws-v1-'+rosterHash.toString(16);
 let baseballRecords=[],baseballStorageReadable=true,baseballDeviceSaved=true,baseballEditingId=null,baseballDirty=false,baseballSelectedPlayer='';
@@ -364,9 +369,10 @@ try{
   const saved=localStorage.getItem(baseballStorageKey);
   if(saved){const parsed=JSON.parse(saved);if(parsed.version!==1||!Array.isArray(parsed.records))throw new Error('Unrecognized session data.');const ids=new Set();for(const r of parsed.records){validateBaseballSession(r,PLAYER_LABELS);if(ids.has(r.id))throw new Error('Duplicate session identity.');ids.add(r.id);}baseballRecords=parsed.records;}
 }catch{baseballStorageReadable=false;baseballDeviceSaved=false;$('baseball-storage-status').textContent='Device storage could not be read. New sessions stay only in this open page; export before closing. Existing device data will not be overwritten.';}
+targetBaseline=startTargetBaseline({element:$,getRecords:()=>baseballRecords,getPlayer:()=>$('player').value,onChange:reason=>renderTargets(reason==='reset')});
 function persistBaseball(next){
   teamJournal?.record('baseball',baseballRecords,next);
-  if(baseballStorageReadable){try{localStorage.setItem(baseballStorageKey,JSON.stringify({version:1,records:next}));baseballDeviceSaved=true;$('baseball-storage-status').textContent='';}catch{baseballDeviceSaved=false;$('baseball-storage-status').textContent='Device storage is unavailable or full. Changes stay in this open page; export before closing. Edits and deletions could not be saved to the device.';}}else baseballDeviceSaved=false;baseballRecords=next;
+  if(baseballStorageReadable){try{localStorage.setItem(baseballStorageKey,JSON.stringify({version:1,records:next}));baseballDeviceSaved=true;$('baseball-storage-status').textContent='';}catch{baseballDeviceSaved=false;$('baseball-storage-status').textContent='Device storage is unavailable or full. Changes stay in this open page; export before closing. Edits and deletions could not be saved to the device.';}}else baseballDeviceSaved=false;baseballRecords=next;targetBaseline?.refresh();
 }
 function baseballThrows(){return Array.from({length:8},(_,i)=>{const input=$('baseball-throw-'+(i+1));return input.validity.badInput?NaN:input.value.trim()===''?null:input.valueAsNumber;});}
 function renderBaseballStats(){
