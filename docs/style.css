@@ -231,3 +231,5 @@ select option,select optgroup{background-color:var(--dropdown-bg)}
 .concentration-daily-status{padding:10px 12px;margin:14px 0;background:#eef7fc;border:1px solid #d2e6f1;border-radius:6px;color:#315f7b;font-size:12px;line-height:1.6}.concentration-actions button:disabled{opacity:.55;cursor:not-allowed}
 
 .concentration-completed{margin-top:22px;padding-top:18px;border-top:1px solid #d7e3ec}.concentration-completed h3{font-size:16px;margin:0 0 10px}.concentration-completed .concentration-results{font-size:11px;padding-left:18px;max-height:220px;overflow-y:auto}.concentration-completed .delete-button{font-size:11px;padding:8px 12px;min-height:34px}
+
+.concentration-comparison .concentration-stats{gap:6px;margin:18px 0;padding:14px 0;border-top:1px solid #d7e3ec;border-bottom:1px solid #d7e3ec}.concentration-comparison .concentration-stats span{font-size:9px;letter-spacing:.4px}.concentration-comparison .concentration-stats strong{font-size:20px;margin-top:8px;white-space:nowrap}
