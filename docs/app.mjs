@@ -417,7 +417,7 @@ overspeedLog=startOverSpeed({protocol:overspeedProtocol,library:OVERSPEED_LIBRAR
 $('overspeed-player').addEventListener('change',()=>{$('overspeed-clear-entries').disabled=!$('overspeed-player').value;});
 $('overspeed-clear-entries').addEventListener('click',()=>{const player=$('overspeed-player').value;if(!player)return;const count=overspeedLog.records().filter(r=>r.player===player).length+overspeedProtocol.records().filter(r=>r.player===player).length;if(!count){$('overspeed-announcement').textContent='No saved entries to clear.';return;}if(!window.confirm(`Clear all saved OverSpeed readings and workout progress for ${player}, and reset the current forms? Other players and trackers are kept.`))return;overspeedLog.clearPlayer(player);overspeedProtocol.clearPlayer(player);$('overspeed-announcement').textContent='OverSpeed entries cleared for the selected player.';});
 const pulseLog=startPulse({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,download:downloadFile,onChange:(before,after)=>teamJournal?.record('pulse',before,after)});
-startConcentrationGrid({element:$});
+const concentrationGrid=startConcentrationGrid({element:$,players:PLAYER_LABELS,flow:workoutFlow,readRemote:()=>teamJournal.readConcentrationSummary()});
 const teamSchedule=startTeamSchedule({config:TEAM_SCHEDULE_CONFIG,element:$,download:downloadFile,readRemote:()=>{if(!teamJournal)throw Error('Connect with your player code in Coach desk to refresh the schedule.');return teamJournal.readTeamSchedule();}});
 document.querySelector('[data-nav="schedule"]').addEventListener('click',()=>{if(location.hash==='#schedule')void teamSchedule.activate();});
 startThrowingCalendar({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,flow:throwingFlow,subscribe:listener=>workoutFlow.subscribe(listener)});
@@ -443,6 +443,7 @@ function route() {
   $('breadcrumb-current').textContent = routeLabels[view];
   if(view==='schedule')teamSchedule.activate();
   if(view==='blast')renderBlastHistory();
+  if(view==='concentration')void concentrationGrid.refreshTeam();
   if(view==='coach'&&coachAccess.isVerified()){workoutOverview?.refresh();pulseLog.refresh();}
   document.title = `Rangers | ${view === 'targets' ? 'PlyoCare Lab' : {throwing:'Throwing routine',schedule:'Team schedule',tracker:'Baseball throws',pulse:'Driveline Pulse',blast:'Blast Motion',workouts:'Workout log',overspeed:'OverSpeed program',axe:'Axe Bats',concentration:'Concentration Grid',approach:'Training approach',coach:'Coach desk'}[view]}`;
   if (started) {

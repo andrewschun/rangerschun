@@ -63,6 +63,11 @@ export function startTeamJournal({players,scope,getRecords,element,download,chan
     if(!remote||!settingsReady||(!publicEntry&&!credentials))throw Error('The coach connection is not ready. Try again shortly.');
     return new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('Schedule refresh timed out.')),25000);globalThis.google.script.run.withSuccessHandler(value=>{clearTimeout(timer);resolve(value);}).withFailureHandler(()=>{clearTimeout(timer);reject(Error('Schedule refresh was not confirmed. Try again.'));}).getTeamSchedule(publicEntry?{}:{player:credentials.player,code:credentials.code});});
   }
+  async function readConcentrationSummary(){
+    if(remote&&!settingsReady)await settingsLoaded;
+    if(!remote||!settingsReady||(!publicEntry&&!credentials))throw Error('The team connection is not ready.');
+    return new Promise((resolve,reject)=>{globalThis.google.script.run.withSuccessHandler(resolve).withFailureHandler(()=>reject(Error('The team average could not be refreshed.'))).getConcentrationSummary(publicEntry?{}:{player:credentials.player,code:credentials.code});});
+  }
   if(remote){
     const timer=setTimeout(()=>{finishSettings(false);lastError='The coach connection did not load. Reload to retry; entries remain on this device.';render();},25000);
     globalThis.google.script.run.withSuccessHandler(settings=>{
@@ -78,5 +83,5 @@ export function startTeamJournal({players,scope,getRecords,element,download,chan
       finishSettings(true);render();void flush();
     }).withFailureHandler(()=>{clearTimeout(timer);finishSettings(false);lastError='The coach connection did not load. Reload to retry; entries remain on this device.';render();}).getConnectionSettings();
   }
-  return {record,readOverSpeedProgress,readTeamSchedule};
+  return {record,readOverSpeedProgress,readTeamSchedule,readConcentrationSummary};
 }
