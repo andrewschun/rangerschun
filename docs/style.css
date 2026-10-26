@@ -198,3 +198,5 @@ select option,select optgroup{background-color:var(--dropdown-bg)}
 .nav-link[data-nav="workouts"],.nav-link[data-nav="workouts"]:hover,.nav-link[data-nav="workouts"].active{color:#ff7777}#workouts-title{color:#c62828}
 .nav-link[data-nav="schedule"],.nav-link[data-nav="schedule"]:hover,.nav-link[data-nav="schedule"].active{color:#ffb45e}#team-schedule-title{color:#a94900}
 .coach-access-panel{max-width:480px;margin:24px 0;padding:26px;background:#fff;border:1px solid #d6e2eb;border-radius:10px}.coach-access-panel h2{margin:0 0 10px;font-size:23px}.coach-access-panel p{font-size:14px;line-height:1.6;color:#52677d}.coach-access-panel label{display:block;font-weight:650;font-size:14px}.coach-access-panel input{display:block;width:100%;margin:9px 0 18px;padding:13px;border:1px solid #cad9e5;border-radius:6px;font-size:18px}.coach-access-toolbar{display:flex;justify-content:flex-end;margin-bottom:18px}#coach-access-content[hidden],#coach-access-panel[hidden]{display:none!important}
+
+.nav-link[data-nav="throwing"],.nav-link[data-nav="throwing"]:hover,.nav-link[data-nav="throwing"].active,#throwing-page-title{color:#4b9cd3}
