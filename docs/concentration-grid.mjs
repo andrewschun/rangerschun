@@ -48,7 +48,7 @@ export function startConcentrationGrid({element,players=[],flow,readRemote,getDa
     data.forEach(([label,value,note],i)=>{const row=make('div','concentration-chart-row'),heading=make('div','concentration-chart-label');heading.append(make('strong','',label),make('span','',value===null?'—':concentrationTime(value)));const track=make('div','concentration-bar-track'),bar=make('div','concentration-bar concentration-bar-'+i);bar.style.height=value===null?'0%':Math.max(.5,value/max*100)+'%';track.setAttribute('aria-hidden','true');track.append(bar);row.append(heading,track,make('small','',note));chart.append(row);});
     const history=element('concentration-history');history.replaceChildren();if(!player||!mine.length)history.append(make('p','field-help','Complete a grid to start collecting your times.'));
     else{const list=make('ol','concentration-results');for(const result of mine)list.append(make('li','',`${result.session_date} · ${concentrationTime(result.elapsed_ms)}`));history.append(list);}
-    element('concentration-clear').disabled=!player||!mine.length;refreshDaily();
+    refreshDaily();
   }
   async function refreshTeam(){
     if(refreshing||!player||!readRemote)return;refreshing=true;const version=++refreshVersion;element('concentration-refresh').disabled=true;element('concentration-team-status').textContent='Refreshing team average…';
@@ -69,7 +69,6 @@ export function startConcentrationGrid({element,players=[],flow,readRemote,getDa
   });
   element('concentration-refresh').addEventListener('click',()=>void refreshTeam());
   element('concentration-retry').addEventListener('click',saveTime);
-  element('concentration-clear').addEventListener('click',()=>{if(!player||!window.confirm(`Clear all concentration times for ${player} from this device and send their deletion to the coach sheet? Other activities are kept.`))return;flow.commit(flow.records().filter(r=>r.player!==player||r.source_template_id!==CONCENTRATION_SOURCE));results();void refreshTeam();});
   flow.subscribe(results);
   const stop=()=>{if(timer!==null){clearTimer(timer);timer=null;}};
   function update(){
