@@ -3226,7 +3226,7 @@ function route() {
   if(view==='blast')renderBlastHistory();
   if(view==='concentration'){visionVideos.refresh();void concentrationGrid.refreshTeam();}
   if(view==='coach'&&coachAccess.isVerified()){workoutOverview?.refresh();pulseLog.refresh();}
-  document.title = `Rangers | ${view === 'targets' ? 'PlyoCare Lab' : {throwing:'Throwing routine',schedule:'Team schedule',tracker:'Baseball throws',pulse:'Driveline Pulse',blast:'Blast Motion',workouts:'Workout log',overspeed:'OverSpeed program',axe:'Axe Bats',concentration:'Vision Training',approach:'Training approach',coach:'Coach desk'}[view]}`;
+  document.title = `Rangers | ${view === 'targets' ? 'PlyoCare Lab' : {throwing:'Throwing routine',tracker:'Baseball throws',pulse:'Driveline Pulse',blast:'Blast Motion',workouts:'Workout log',overspeed:'OverSpeed program',axe:'Axe Bats',concentration:'Vision Training',approach:'Training approach',coach:'Coach desk'}[view]}`;
   if (started) {
     const heading = $(`view-${view}`).querySelector('h1');
     heading.tabIndex = -1;
