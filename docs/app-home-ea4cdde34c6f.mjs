@@ -866,171 +866,6 @@ export function startThrowingCalendar({players,scope,element:$,flow,subscribe}){
  $('throwing-form').hidden=true;subscribe(()=>render());render();return {render};
 }
 
-const SCHEDULE_LIMIT=2000000;
-function scheduleText(value=''){return value.replace(/\\([nN,;\\])/g,(_,char)=>/[nN]/.test(char)?'\n':char);}
-function scheduleProperty(line){let quoted=false,colon=-1;for(let i=0;i<line.length;i++){if(line[i]==='"')quoted=!quoted;else if(line[i]===':'&&!quoted){colon=i;break;}}if(colon<1)return null;const [name,...parts]=line.slice(0,colon).split(';'),params={};for(const part of parts){const i=part.indexOf('=');if(i>0)params[part.slice(0,i).toUpperCase()]=part.slice(i+1).replace(/^"|"$/g,'');}return {name:name.toUpperCase(),params,value:line.slice(colon+1)};}
-function scheduleParts(timestamp,zone){return Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(timestamp).filter(p=>p.type!=='literal').map(p=>[p.type,Number(p.value)]));}
-function scheduleWallTime(value,zone){
- const match=value.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z)?$/);if(!match)throw Error('Unsupported calendar date.');const [year,month,day,hour,minute,second]=match.slice(1,7).map(Number),wall=Date.UTC(year,month-1,day,hour,minute,second),date=new Date(wall);
- if(date.getUTCFullYear()!==year||date.getUTCMonth()!==month-1||date.getUTCDate()!==day||hour>23||minute>59||second>59)throw Error('Invalid calendar date.');if(match[7])return wall;
- const offsets=new Set();for(const sample of [wall-86400000,wall,wall+86400000]){const p=scheduleParts(sample,zone);offsets.add(Date.UTC(p.year,p.month-1,p.day,p.hour,p.minute,p.second)-sample);}const candidates=[...offsets].map(offset=>wall-offset).filter(timestamp=>{const p=scheduleParts(timestamp,zone);return p.year===year&&p.month===month&&p.day===day&&p.hour===hour&&p.minute===minute&&p.second===second;});if(!candidates.length)throw Error('This event time cannot be resolved in its timezone.');return Math.min(...candidates);
-}
-function scheduleDate(property,zone){
- if(!property)return null;if(property.params.VALUE==='DATE'||/^\d{8}$/.test(property.value)){const match=property.value.match(/^(\d{4})(\d{2})(\d{2})$/);if(!match)throw Error('Invalid all-day date.');const key=`${match[1]}-${match[2]}-${match[3]}`,utc=Date.parse(key+'T00:00:00Z');if(!Number.isFinite(utc)||new Date(utc).toISOString().slice(0,10)!==key)throw Error('Invalid all-day date.');return {all_day:true,date:key,timestamp:utc};}
- return {all_day:false,timestamp:scheduleWallTime(property.value,property.params.TZID||zone)};
-}
-export function parseTeamCalendar(ical){
- if(typeof ical!=='string'||ical.length>SCHEDULE_LIMIT||!ical.trimStart().startsWith('BEGIN:VCALENDAR'))throw Error('The calendar feed is unavailable or invalid.');
- const lines=ical.replace(/^\uFEFF/,'').replace(/\r\n/g,'\n').replace(/\r/g,'\n').replace(/\n[ \t]/g,'').split('\n'),stack=[],raw=[],calendar={};let event=null;
- for(const line of lines){const property=scheduleProperty(line);if(!property)continue;if(property.name==='BEGIN'){stack.push(property.value.toUpperCase());if(property.value.toUpperCase()==='VEVENT')event=[];continue;}if(property.name==='END'){if(stack.at(-1)!==property.value.toUpperCase())throw Error('The calendar feed is incomplete.');if(property.value.toUpperCase()==='VEVENT'&&event){raw.push(event);event=null;}stack.pop();continue;}if(stack.at(-1)==='VEVENT'&&event)event.push(property);else if(stack.length===1&&stack[0]==='VCALENDAR')calendar[property.name]=property.value;}
- if(!lines.some(line=>line==='END:VCALENDAR'))throw Error('The calendar feed is incomplete.');
- const zone=calendar['X-WR-TIMEZONE']||'America/Toronto';try{scheduleParts(Date.now(),zone);}catch{throw Error('The calendar timezone is not supported.');}
- const events=new Map();let skipped=0,recurring=0;
- for(const properties of raw){const get=name=>properties.find(p=>p.name===name);try{
-  const start=scheduleDate(get('DTSTART'),zone);if(!start)throw Error();const end=scheduleDate(get('DTEND'),zone);if(end&&end.all_day!==start.all_day||end&&end.timestamp<start.timestamp)throw Error();
-  const uid=get('UID')?.value??'event-'+raw.indexOf(properties),recurrence=get('RECURRENCE-ID')?.value??'',key=uid+'|'+recurrence,sequence=Number(get('SEQUENCE')?.value??0),modified=get('LAST-MODIFIED')?.value??get('DTSTAMP')?.value??'';
-  const item={id:key,title:scheduleText(get('SUMMARY')?.value||'Team event'),location:scheduleText(get('LOCATION')?.value||''),location_checked_at:get('X-RANGERS-LOCATION-CHECKED')?.value||'',description:scheduleText(get('DESCRIPTION')?.value||''),cancelled:get('STATUS')?.value.toUpperCase()==='CANCELLED',start,end,source_zone:zone,sequence:Number.isFinite(sequence)?sequence:0,modified,recurrence_unexpanded:properties.some(p=>['RRULE','RDATE','EXDATE'].includes(p.name))};
-  const prior=events.get(key);if(!prior||item.sequence>prior.sequence||item.sequence===prior.sequence&&item.modified>=prior.modified)events.set(key,item);
- }catch{skipped++;}}
- const result=[...events.values()].sort((a,b)=>a.start.timestamp-b.start.timestamp||a.title.localeCompare(b.title));recurring=result.filter(e=>e.recurrence_unexpanded).length;
- return {name:scheduleText(calendar['X-WR-CALNAME']||'Team schedule'),timezone:zone,events:result,skipped,recurring};
-}
-export function scheduleDateKey(timestamp,zone='America/Toronto'){const parts=scheduleParts(timestamp,zone);return `${parts.year}-${String(parts.month).padStart(2,'0')}-${String(parts.day).padStart(2,'0')}`;}
-export function selectTeamEvents(calendar,{view='upcoming',query='',now=Date.now(),zone='America/Toronto'}={}){
- const today=scheduleDateKey(now,zone),needle=query.trim().toLocaleLowerCase();return calendar.events.filter(event=>{
-  const future=event.start.all_day?(event.end?event.end.date>today:event.start.date>=today):(event.end?.timestamp??event.start.timestamp)>=now;
-  return (view==='all'||future)&&(!needle||[event.title,event.location,event.description].join(' ').toLocaleLowerCase().includes(needle));
- });
-}
-export function formatTeamEventTime(event,zone='America/Toronto'){
- if(event.start.all_day){if(!event.end||event.end.timestamp-event.start.timestamp<=86400000)return 'All day';const last=new Date(event.end.timestamp-86400000);return 'All day · through '+new Intl.DateTimeFormat('en-CA',{month:'short',day:'numeric',timeZone:'UTC'}).format(last);}
- const format=new Intl.DateTimeFormat('en-CA',{timeZone:zone,hour:'numeric',minute:'2-digit',hour12:true}),start=format.format(event.start.timestamp);if(!event.end)return start;
- const sameDay=scheduleDateKey(event.start.timestamp,zone)===scheduleDateKey(event.end.timestamp,zone);return start+' – '+(sameDay?'':new Intl.DateTimeFormat('en-CA',{timeZone:zone,month:'short',day:'numeric'}).format(event.end.timestamp)+' ')+format.format(event.end.timestamp);
-}
-
-export function teamCalendarMonth(year,month){
- if(!Number.isInteger(year)||!Number.isInteger(month)||month<0||month>11)throw new TypeError('Choose a valid calendar month.');
- const first=Date.UTC(year,month,1,12),offset=new Date(first).getUTCDay();
- return Array.from({length:42},(_,index)=>{const day=new Date(first+(index-offset)*86400000);return {date:day.toISOString().slice(0,10),day:day.getUTCDate(),in_month:day.getUTCFullYear()===year&&day.getUTCMonth()===month};});
-}
-export function teamEventOnDate(event,date,zone='America/Toronto'){
- if(event.start.all_day)return event.start.date<=date&&(event.end?date<event.end.date:date===event.start.date);
- const first=scheduleDateKey(event.start.timestamp,zone),last=scheduleDateKey(event.end&&event.end.timestamp>event.start.timestamp?event.end.timestamp-1:event.start.timestamp,zone);return first<=date&&date<=last;
-}
-
-/** Public event types, times and requested venue locations; no player names or notes. */
-export function publicTeamCalendarSnapshot(ical,fetched_at,{locations_from=null,locations_current=true}={}){
- const calendar=parseTeamCalendar(ical);
- if(calendar.skipped||calendar.recurring)throw Error('Some TeamSnap dates could not be read.');
- if(typeof fetched_at!=='string'||!Number.isFinite(Date.parse(fetched_at)))throw Error('Invalid calendar retrieval time.');
- const date=value=>value.all_day?value.date.replace(/-/g,''):new Date(value.timestamp).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');
- const type=event=>/practice|training|workout|bullpen/i.test(event.title)?'Practice':/game|vs\.?|@|tournament|scrimmage/i.test(event.title)?'Game':'Team event';
- const escape=value=>value.replace(/\\/g,'\\\\').replace(/\r\n|\r|\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;');
- let prior=new Map();if(!locations_current&&locations_from){try{prior=new Map(parseTeamCalendar(locations_from.ical_text).events.map(e=>[e.id,e]));}catch{}}
- const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Rangers//Team schedule//EN','X-WR-TIMEZONE:America/Toronto'];
- for(const event of calendar.events){
-  // A stable anonymous UID avoids duplicates when an event is added or rescheduled.
-  let hashA=2166136261,hashB=5381;for(const char of event.id){const n=char.charCodeAt(0);hashA=Math.imul(hashA^n,16777619);hashB=Math.imul(hashB,33)^n;}
-  const uid=/^event-[a-f0-9]{2,16}@rangers-schedule\|$/.test(event.id)?event.id.slice(0,-1):'event-'+(hashA>>>0).toString(16)+(hashB>>>0).toString(16)+'@rangers-schedule';
-  let location=event.location,checked=event.location_checked_at||fetched_at;
-  const previous=prior.get(uid+'|');
-  // An older Google version omits locations. Retain a dated saved location only
-  // for an unchanged event; a reschedule or new source revision invalidates it.
-  if(previous&&previous.sequence===event.sequence&&previous.start.timestamp===event.start.timestamp&&previous.end?.timestamp===event.end?.timestamp&&previous.cancelled===event.cancelled){
-   const priorStamp=previous.location_checked_at||locations_from.fetched_at;
-   if(previous.location&&(!location||Date.parse(priorStamp)>Date.parse(checked))){location=previous.location;checked=priorStamp;}
-  }
-  lines.push('BEGIN:VEVENT','UID:'+uid,'SEQUENCE:'+Math.max(0,Math.trunc(event.sequence)),'DTSTAMP:'+( /^\d{8}T\d{6}Z$/.test(event.modified)?event.modified:date({timestamp:Date.parse(fetched_at)})),'DTSTART'+(event.start.all_day?';VALUE=DATE':'')+':'+date(event.start));
-  if(event.end)lines.push('DTEND'+(event.end.all_day?';VALUE=DATE':'')+':'+date(event.end));
-  lines.push('SUMMARY:'+type(event));if(location){lines.push('LOCATION:'+escape(location));if(Number.isFinite(Date.parse(checked)))lines.push('X-RANGERS-LOCATION-CHECKED:'+checked);}if(event.cancelled)lines.push('STATUS:CANCELLED');lines.push('END:VEVENT');
- }
- lines.push('END:VCALENDAR');
- const folded=lines.flatMap(line=>{const parts=[];let part='',bytes=0;for(const char of line){const size=encodeURIComponent(char).replace(/%[A-F0-9]{2}/g,'x').length;if(bytes+size>75){parts.push(part);part=' ';bytes=1;}part+=char;bytes+=size;}return [...parts,part];});
- return {ical_text:folded.join('\r\n')+'\r\n',fetched_at,source:'TeamSnap',stale:false,schema_version:2,locations_current};
-}
-
-export function teamCalendarServiceUrl(endpoint){
- const url=new URL(endpoint);
- if(url.origin!=='https://script.google.com'||!/^\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(url.pathname)||url.search||url.hash||url.username||url.password)throw Error('Invalid calendar connection.');
- url.searchParams.set('mode','team-calendar');return url;
-}
-export function readPublicTeamSchedule(endpoint,{document=globalThis.document,host=globalThis,timeoutMs=20000}={}){
- const url=teamCalendarServiceUrl(endpoint),callback='rangersCalendar_'+globalThis.crypto.randomUUID().replace(/-/g,'');
- url.searchParams.set('callback',callback);url.searchParams.set('_',String(Date.now()));
- return new Promise((resolve,reject)=>{
-  const script=document.createElement('script');let timer;
-  const clean=()=>{clearTimeout(timer);script.remove();delete host[callback];};
-  host[callback]=result=>{clean();if(result?.ok===true&&result.schedule)resolve(result.schedule);else reject(Error('The team calendar could not refresh.'));};
-  script.async=true;script.referrerPolicy='no-referrer';script.src=url.href;script.onerror=()=>{clean();reject(Error('The calendar connection is unavailable.'));};
-  timer=setTimeout(()=>{clean();reject(Error('The calendar connection timed out.'));},timeoutMs);document.head.append(script);
- });
-}
-export function startTeamSchedule({config,element:$,download,readRemote,readPublic=readPublicTeamSchedule,fetcher=globalThis.fetch,now=()=>Date.now(),storage=globalThis.localStorage}){
- const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;},zone='America/Toronto';let calendar=null,payload=null,busy=false,layout='grid',selectedDate=scheduleDateKey(now(),zone),monthKey=selectedDate.slice(0,7);let [year,month]=monthKey.split('-').map(Number);month--;
- const hasFeed=config&&/^https:\/\/ical-cdn\.teamsnap\.com\/team_schedule\/[a-zA-Z0-9-]+\.ics$/.test(config.feed_url),valid=hasFeed||config?.remote===true;
- const postedSubscription=typeof config?.subscription_url==='string'&&/^https:\/\/ical-cdn\.teamsnap\.com\/team_schedule\/[a-zA-Z0-9-]+\.ics$/.test(config.subscription_url)?config.subscription_url:null,subscriptionUrl=postedSubscription||(hasFeed?config.feed_url:null);
- function status(message){$('team-schedule-status').textContent=message;}
- function eventCard(event,expanded=false){
-  const card=make('article','schedule-event'+(event.cancelled?' is-cancelled':'')),time=make('p','schedule-event-time',formatTeamEventTime(event,zone));card.dataset.eventId=event.id;card.append(time,make('h3','',event.title));const first=event.start.all_day?event.start.date:scheduleDateKey(event.start.timestamp,zone),last=event.end?(event.start.all_day?new Date(event.end.timestamp-86400000).toISOString().slice(0,10):scheduleDateKey(event.end.timestamp>event.start.timestamp?event.end.timestamp-1:event.start.timestamp,zone)):first;if(expanded&&last!==first)card.append(make('p','schedule-event-dates',dateLabel(first)+' – '+dateLabel(last)));if(event.cancelled)card.append(make('span','status-pill','Cancelled'));if(event.location){card.append(make('p','schedule-event-location','Location: '+event.location));if(payload?.locations_current===false&&event.location_checked_at)card.append(make('small','schedule-location-checked','Location last checked: '+new Intl.DateTimeFormat('en-CA',{timeZone:zone,dateStyle:'medium',timeStyle:'short'}).format(new Date(event.location_checked_at))+' Eastern.'));}
-  if(event.description){if(expanded)card.append(make('p','schedule-detail-notes',event.description));else{const detail=make('details','schedule-event-notes'),summary=make('summary','','Event notes');detail.append(summary,make('p','',event.description));card.append(detail);}}return card;
- }
- function dateLabel(date){return new Intl.DateTimeFormat('en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric',timeZone:'UTC'}).format(new Date(date+'T12:00:00Z'));}
- function showDay(date,focus=false,eventId=null){
-  selectedDate=date;[year,month]=date.slice(0,7).split('-').map(Number);month--;render();if(focus){const heading=$('team-schedule-selected-date');heading.focus({preventScroll:true});const card=[...$('team-schedule-day-events').children].find(n=>n.dataset.eventId===eventId);(card??$('team-schedule-day-details')).scrollIntoView({behavior:'smooth',block:'nearest'});}
- }
- function render(){
-  const list=$('team-schedule-events');list.replaceChildren();$('team-schedule-download').disabled=!payload;
-  $('team-schedule-month-controls').hidden=layout!=='grid';$('team-schedule-day-details').hidden=layout!=='grid'||!calendar;$('team-schedule-grid-mode').setAttribute('aria-pressed',String(layout==='grid'));$('team-schedule-list-mode').setAttribute('aria-pressed',String(layout==='list'));
-  if(!calendar){$('team-schedule-count').textContent='';list.append(make('p','library-empty',valid?'The schedule has not loaded yet. Select Refresh schedule.':'The coach’s team calendar is not connected in this copy.'));return;}
-  const events=selectTeamEvents(calendar,{view:$('team-schedule-view').value,query:$('team-schedule-search').value,now:now(),zone});
-  const warnings=[calendar.skipped?`${calendar.skipped} event${calendar.skipped===1?' needs':'s need'} to be checked in the original calendar.`:'',calendar.recurring?'Repeating dates are not expanded here. Subscribe to the calendar for all occurrences.':''].filter(Boolean);$('team-schedule-warning').hidden=!warnings.length;$('team-schedule-warning').textContent=warnings.join(' ');
-  if(layout==='list'){
-   $('team-schedule-count').textContent=`${events.length} event${events.length===1?'':'s'} · Eastern time`;
-   if(!events.length){list.append(make('p','library-empty',$('team-schedule-search').value?'No events match your search.':'No upcoming events in the current feed. Choose All events to view the full schedule.'));return;}
-   let group='';for(const event of events){const key=event.start.all_day?event.start.date:scheduleDateKey(event.start.timestamp,zone);if(key!==group){group=key;list.append(make('h2','schedule-date-heading',dateLabel(key)));}list.append(eventCard(event));}return;
-  }
-  const cells=teamCalendarMonth(year,month),monthLabel=new Intl.DateTimeFormat('en-CA',{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(Date.UTC(year,month,1,12)));$('team-schedule-month').textContent=monthLabel;
-  const count=new Set(cells.filter(cell=>cell.in_month).flatMap(cell=>events.filter(event=>teamEventOnDate(event,cell.date,zone)).map(event=>event.id))).size;$('team-schedule-count').textContent=`${count} event${count===1?'':'s'} this month · Eastern time`;
-  const table=make('table','schedule-calendar'),caption=make('caption','sr-only',monthLabel+' team calendar · Eastern time');table.append(caption);const head=make('thead'),days=make('tr');for(const label of ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']){const th=make('th','',label);th.setAttribute('scope','col');days.append(th);}head.append(days);table.append(head);const body=make('tbody'),today=scheduleDateKey(now(),zone);
-  for(let week=0;week<6;week++){const row=make('tr');for(const cell of cells.slice(week*7,week*7+7)){
-   const items=events.filter(event=>teamEventOnDate(event,cell.date,zone)),td=make('td','schedule-calendar-day'+(!cell.in_month?' is-outside':'')+(cell.date===today?' is-today':'')+(cell.date===selectedDate?' is-selected':''));td.dataset.date=cell.date;
-   const choose=make('button','schedule-day-select');choose.type='button';choose.dataset.date=cell.date;choose.setAttribute('aria-label',`${dateLabel(cell.date)} · ${items.length} event${items.length===1?'':'s'}`);choose.setAttribute('aria-pressed',String(cell.date===selectedDate));if(cell.date===today)choose.setAttribute('aria-current','date');choose.append(make('span','schedule-day-number',String(cell.day)));if(items.length){const dots=make('span','schedule-day-dots');dots.setAttribute('aria-hidden','true');for(const event of items.slice(0,3))dots.append(make('i',event.cancelled?'is-cancelled':''));choose.append(dots,make('span','schedule-mobile-count',`${items.length} event${items.length===1?'':'s'}`));}choose.addEventListener('click',()=>showDay(cell.date,true));td.append(choose);
-   for(const event of items){const button=make('button','schedule-grid-event'+(event.cancelled?' is-cancelled':''));button.type='button';button.dataset.eventId=event.id;button.setAttribute('aria-label',`${event.cancelled?'Cancelled · ':''}${event.title} · ${formatTeamEventTime(event,zone)} · ${dateLabel(cell.date)}`);button.title=[event.title,formatTeamEventTime(event,zone),event.location].filter(Boolean).join(' · ');const starts=event.start.all_day||scheduleDateKey(event.start.timestamp,zone)===cell.date;button.append(make('span','schedule-grid-time',event.start.all_day?'All day':starts?new Intl.DateTimeFormat('en-CA',{timeZone:zone,hour:'numeric',minute:'2-digit',hour12:true}).format(event.start.timestamp):'Continues'),make('span','schedule-grid-title',event.title));if(event.location)button.append(make('span','schedule-grid-location',event.location.split(/\r?\n/)[0]));button.addEventListener('click',()=>showDay(cell.date,true,event.id));td.append(button);}row.append(td);
-  }body.append(row);}table.append(body);list.append(table);
-  if(!count)list.append(make('p','library-empty',$('team-schedule-search').value?'No events match your search in this month.':'No events in this month. Use the arrows to browse other months.'));
-  $('team-schedule-selected-date').textContent=dateLabel(selectedDate);const details=$('team-schedule-day-events');details.replaceChildren();const selected=events.filter(event=>teamEventOnDate(event,selectedDate,zone));if(!selected.length)details.append(make('p','library-empty','No events on this day.'));else for(const event of selected)details.append(eventCard(event,true));
- }
- function accept(next,{cached=false}={}){
-  if(!next||typeof next.fetched_at!=='string'||!Number.isFinite(Date.parse(next.fetched_at)))throw Error('The calendar update has no valid retrieval time.');
-  let locationSource=payload;
-  if(payload&&Date.parse(next.fetched_at)<Date.parse(payload.fetched_at)){if(next.schema_version>=2)locationSource=next;next=payload;cached=true;}
-  if(config.public_url)next={...publicTeamCalendarSnapshot(next.ical_text,next.fetched_at,{locations_from:locationSource,locations_current:next.schema_version>=2&&next.locations_current!==false}),stale:next.stale===true};
-  const parsed=parseTeamCalendar(next.ical_text);calendar=parsed;payload=next;if(config.cache_key){try{storage?.setItem(config.cache_key,JSON.stringify(next));}catch{}}render();const stamp=new Intl.DateTimeFormat('en-CA',{timeZone:zone,dateStyle:'medium',timeStyle:'short'}).format(new Date(next.fetched_at));$('team-schedule-updated').textContent='Last retrieved: '+stamp+' Eastern.';status(`${cached?'Saved schedule':'Schedule retrieved'} · ${stamp} Eastern. ${next.stale?'Refresh unavailable; showing the saved schedule.':'TeamSnap may take time to publish changes.'}`);
- }
- let savedLoad=null;
- async function loadSaved(){
-  if(!config.snapshot_url)return;
-  savedLoad??=(async()=>{const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),5000);try{const response=await fetcher(config.snapshot_url,{cache:'no-store',signal:controller.signal});if(!response.ok)throw Error();accept(await response.json(),{cached:true});}catch{/* A live refresh can still recover an unavailable published copy. */}finally{clearTimeout(timer);}})();try{await savedLoad;}finally{savedLoad=null;}
- }
- async function refresh(){
-  if(busy||!valid)return;busy=true;$('team-schedule-refresh').disabled=true;
-  await loadSaved();status(payload?'Checking for changes… The saved schedule remains available.':'Refreshing TeamSnap schedule…');
-  try{let next;if(config.public_url){next=await readPublic(config.public_url);if(!subscriptionUrl){const feed=teamCalendarServiceUrl(config.public_url).href;$('team-schedule-subscribe').href=feed.replace(/^https:/,'webcal:');$('team-schedule-subscribe').hidden=false;}}
-   else if(config.remote||globalThis.google?.script?.run){if(!readRemote)throw Error('The schedule connection is unavailable.');next=await readRemote();}
-   else{if(!/^https?:$/.test(globalThis.location?.protocol??''))throw Error('This file shows a saved schedule. Open the local website to refresh it.');const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);try{const local=['127.0.0.1','localhost'].includes(globalThis.location?.hostname),endpoint=local&&config.local_refresh_url?config.local_refresh_url:'/api/team-schedule';const response=await fetcher(endpoint,{cache:'no-store',signal:controller.signal});if(!response.ok)throw Error();next=await response.json();}finally{clearTimeout(timer);}}
-   accept(next);
-  }catch(error){status(payload?'Could not refresh. The saved schedule remains displayed with its retrieval time.':'Could not load the schedule. Try again or open the calendar feed.');if(error.message.includes('player code')||error.message.includes('This file'))status(error.message+(payload?' The saved schedule remains available.':''));}
-  finally{busy=false;$('team-schedule-refresh').disabled=false;}
- }
- $('team-schedule-view').addEventListener('change',render);$('team-schedule-search').addEventListener('input',()=>{if(calendar&&layout==='grid'&&$('team-schedule-search').value.trim()){const matches=selectTeamEvents(calendar,{view:$('team-schedule-view').value,query:$('team-schedule-search').value,now:now(),zone}),cells=teamCalendarMonth(year,month).filter(cell=>cell.in_month);if(matches.length&&!cells.some(cell=>matches.some(event=>teamEventOnDate(event,cell.date,zone)))){const upcoming=new Set(selectTeamEvents(calendar,{view:'upcoming',query:$('team-schedule-search').value,now:now(),zone}).map(event=>event.id)),next=matches.find(event=>upcoming.has(event.id))??matches[0];selectedDate=next.start.all_day?next.start.date:scheduleDateKey(next.start.timestamp,zone);[year,month]=selectedDate.slice(0,7).split('-').map(Number);month--;}}render();});
- function changeMonth(delta){const date=new Date(Date.UTC(year,month+delta,1,12));year=date.getUTCFullYear();month=date.getUTCMonth();selectedDate=date.toISOString().slice(0,10);render();}
- $('team-schedule-previous').addEventListener('click',()=>changeMonth(-1));$('team-schedule-next').addEventListener('click',()=>changeMonth(1));$('team-schedule-today').addEventListener('click',()=>showDay(scheduleDateKey(now(),zone)));for(const [id,mode]of [['team-schedule-grid-mode','grid'],['team-schedule-list-mode','list']])$(id).addEventListener('click',()=>{layout=mode;render();});$('team-schedule-refresh').addEventListener('click',()=>void refresh());$('team-schedule-download').addEventListener('click',()=>{if(payload)download('rangers-team-schedule.ics',payload.ical_text,'text/calendar;charset=utf-8');});
- $('team-schedule-subscribe').hidden=!subscriptionUrl;
- if(subscriptionUrl){$('team-schedule-subscribe').href=subscriptionUrl.replace(/^https:/,'webcal:');}
- if(valid){if(hasFeed){$('team-schedule-subscribe').href=config.feed_url.replace(/^https:/,'webcal:');}for(const next of [config.initial,(()=>{try{return config.cache_key?JSON.parse(storage?.getItem(config.cache_key)??'null'):null;}catch{return null;}})()]){try{if(next)accept(next,{cached:true});}catch{status('The saved schedule could not be read. Refresh to try again.');}}}
- else{$('team-schedule-refresh').disabled=true;status('Team calendar connection pending.');}render();
- return {activate:()=>{render();return refresh();},refresh};
-}
 
 
 // Minimum durations/frequencies from the coach-supplied OverSpeed training-cycle chart.
@@ -2970,7 +2805,6 @@ export function startOverSpeed({library,players,scope,element,download,validate,
 
 const GOOGLE_BACKEND_CONFIG = {...{"url": "https://script.google.com/macros/s/AKfycby83qDRwh5DzSU-h-45CdqJBGbO8NcVzssZnTpore_FH8psVHYUtxRpEHIgiJISOISL0g/exec", "origin": "https://andrewschun.github.io"},origin:globalThis.location?.origin==='https://rangerschun.github.io'?'https://rangerschun.github.io':'https://andrewschun.github.io'};
 installGoogleBridge(GOOGLE_BACKEND_CONFIG);
-const TEAM_SCHEDULE_CONFIG = {remote:true,public_url:'https://script.google.com/macros/s/AKfycby83qDRwh5DzSU-h-45CdqJBGbO8NcVzssZnTpore_FH8psVHYUtxRpEHIgiJISOISL0g/exec',snapshot_url:'./team-schedule.json',cache_key:'rangers-team-schedule-v1',subscription_url:"https://ical-cdn.teamsnap.com/team_schedule/896a42c8-2cb3-4e91-a8af-a056eafd6026.ics"};
 const $ = id => document.getElementById(id);
 const names = Object.fromEntries(COLORS.map(color => [color, color[0].toUpperCase() + color.slice(1)]));
 const swatches = { green: '#00a768', blue: '#087ab9', red: '#df493d', orange: '#ef9c11', gray: '#7f858b' };
@@ -3367,14 +3201,12 @@ $('overspeed-clear-entries').addEventListener('click',()=>{const player=$('overs
 const pulseLog=startPulse({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,download:downloadFile,onChange:(before,after)=>teamJournal?.record('pulse',before,after)});
 const visionVideos=startVisionVideos({element:$});
 const concentrationGrid=startConcentrationGrid({element:$,players:PLAYER_LABELS,flow:workoutFlow,getDailyRecords:()=>teamJournal?.concentrationHistory()??[],readRemote:()=>teamJournal.readConcentrationSummary()});
-const teamSchedule=startTeamSchedule({config:TEAM_SCHEDULE_CONFIG,element:$,download:downloadFile,readRemote:()=>{if(!teamJournal)throw Error('Connect with your player code in Coach desk to refresh the schedule.');return teamJournal.readTeamSchedule();}});
-document.querySelector('[data-nav="schedule"]').addEventListener('click',()=>{if(location.hash==='#schedule')void teamSchedule.activate();});
 startThrowingCalendar({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,flow:throwingFlow,subscribe:listener=>workoutFlow.subscribe(listener)});
 axePrograms=startAxePrograms({element:$,players:PLAYER_LABELS,flow:workoutFlow,download:downloadFile,onNavigate:()=>{tabPlayers?.setCurrent($('axe-player').value);location.hash='#axe';}});
 tabPlayers=startTabPlayers({players:PLAYER_LABELS,element:$});
 const playerAccess=startPlayerAccess({players:PLAYER_LABELS,hashes:PLAYER_JERSEY_HASHES,element:$});
 const coachAccess=startCoachAccess({element:$,onUnlock:()=>{workoutOverview?.refresh();pulseLog.refresh();}});
-const routeLabels = { workouts: 'WORKOUT LOG', throwing: 'THROWING ROUTINE', schedule:'TEAM SCHEDULE', targets: 'PLYOCARE LAB', tracker: 'BASEBALL THROWS', pulse: 'DRIVELINE PULSE', blast: 'BLAST MOTION', overspeed: 'OVERSPEED PROGRAM', axe:'AXE BATS', concentration: 'VISION TRAINING', approach: 'TRAINING APPROACH', coach: 'COACH DESK' };
+const routeLabels = { workouts: 'WORKOUT LOG', throwing: 'THROWING ROUTINE', targets: 'PLYOCARE LAB', tracker: 'BASEBALL THROWS', pulse: 'DRIVELINE PULSE', blast: 'BLAST MOTION', overspeed: 'OVERSPEED PROGRAM', axe:'AXE BATS', concentration: 'VISION TRAINING', approach: 'TRAINING APPROACH', coach: 'COACH DESK' };
 function route() {
   const key = location.hash.slice(1);
   const view = Object.hasOwn(routeLabels, key) ? key : 'workouts';
@@ -3390,7 +3222,6 @@ function route() {
     if (active) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
   });
   $('breadcrumb-current').textContent = routeLabels[view];
-  if(view==='schedule')teamSchedule.activate();
   if(view==='blast')renderBlastHistory();
   if(view==='concentration'){visionVideos.refresh();void concentrationGrid.refreshTeam();}
   if(view==='coach'&&coachAccess.isVerified()){workoutOverview?.refresh();pulseLog.refresh();}
