@@ -598,7 +598,7 @@ export function startAxePrograms({element:$,players,flow,download,onNavigate}){
 
 // GitHub Pages has no Apps Script runtime. A hidden Google HTML-service page
 // relays only the existing, validated server methods and returns real receipts.
-export const GOOGLE_BRIDGE_METHODS=Object.freeze(['getConnectionSettings','verifyPlayer','writeJournal','getTeamSchedule','getConcentrationSummary','getMyOverSpeedSessions','getCoachWorkouts','getCoachPulse','mutateCoachWorkout']);
+export const GOOGLE_BRIDGE_METHODS=Object.freeze(['getConnectionSettings','verifyPlayer','writeJournal','getMyPlayerRecords','getTeamSchedule','getConcentrationSummary','getMyOverSpeedSessions','getCoachWorkouts','getCoachPulse','mutateCoachWorkout']);
 export function isGoogleBridgeOrigin(origin){
  try{const url=new URL(origin);return url.origin===origin&&url.protocol==='https:'&&(url.hostname==='script.google.com'||url.hostname==='script.googleusercontent.com'||url.hostname.endsWith('-script.googleusercontent.com'));}catch{return false;}
 }
