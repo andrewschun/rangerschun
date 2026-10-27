@@ -243,3 +243,6 @@ select option,select optgroup{background-color:var(--dropdown-bg)}
 
 /* The old-address saved-entry migration banner has been removed from the team site. */
 #site-address-notice{display:none!important}
+
+/* Remove Team schedule from the player navigation. */
+.nav-link[href="#schedule"],#view-schedule{display:none!important}
