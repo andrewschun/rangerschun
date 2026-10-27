@@ -4,7 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#111b60"><meta name="description" content="Etobicoke Rangers 16U development workspace. Explore Driveline and DUBS references, labeled interpolation, Blast Motion, post-throwing Pulse data, and player workout journals.">
 <title>Rangers | Workout log</title>
-<link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css?v=remove-team-schedule-tab-20261027">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css?v=delete-team-schedule-20261027">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -20,7 +20,7 @@
   <nav aria-label="Main navigation">
     <a href="#workouts" data-nav="workouts" class="nav-link active" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4v16m8-16v16M4 7v10m16-10v10M8 12h8"/></svg>WORKOUT LOG</a>
     <a href="#throwing" data-nav="throwing" class="nav-link"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="15" cy="5" r="2"/><path d="m12 10 4-2 3 4M5 6l6 4-2 6-5 5m5-5 7 5"/></svg>Throwing routine</a>
-    <a href="#schedule" data-nav="schedule" class="nav-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v16H4zM8 2v6m8-6v6M4 10h16M8 14h2m4 0h2M8 18h2"/></svg>Team schedule</a>
+    
     <a href="#targets" data-nav="targets" class="nav-link"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".6"/></svg>Velocity targets<span class="nav-arrow">↗</span></a>
     <a href="#tracker" data-nav="tracker" class="nav-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18V11m7 7V5m7 13V8M3 21h18"/></svg>Baseball throws</a>
     <a href="#blast" data-nav="blast" class="nav-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 3-9 11h7l-2 7 9-12h-7l2-6Z"/></svg>Blast Motion</a>
@@ -39,20 +39,6 @@
   <main id="main" tabindex="-1">
     <aside id="site-address-notice" class="blast-storage-note" hidden aria-label="New team website"><strong>Rangers team website</strong><p id="site-address-message"></p><a id="site-new-address" href="https://rangerschun.github.io/" class="secondary-button" hidden>Open rangerschun.github.io ↗</a><button id="device-copy-entries" type="button" class="secondary-button" hidden>Copy saved entries from old address</button><p id="device-copy-status" role="status" aria-live="polite"></p></aside>
     <p id="demo-reset-status" class="coverage-note" role="status" hidden></p>
-    <section id="view-schedule" class="view" aria-labelledby="team-schedule-title" hidden>
-      <div class="page-heading simple-heading"><div><div class="eyebrow">ETOBICOKE RANGERS / TEAMSNAP</div><h1 id="team-schedule-title">Team schedule</h1><p>Games, practices and team events from the team calendar.<br>All event times are shown in Eastern time.</p></div><img class="page-team-logo" src="./assets/rangers-logo.jpeg" alt="Etobicoke Rangers Baseball Club" width="128" height="128"></div>
-      <section class="schedule-controls workout-entry-card" aria-label="Calendar controls">
-        <div class="schedule-actions"><button id="team-schedule-refresh" class="primary-button" type="button">Refresh schedule</button><a id="team-schedule-subscribe" class="secondary-button" href="webcal://ical-cdn.teamsnap.com/team_schedule/896a42c8-2cb3-4e91-a8af-a056eafd6026.ics">Subscribe to team calendar ↗</a><button id="team-schedule-download" class="secondary-button" type="button" disabled>Download calendar ↓</button></div>
-        <p id="team-schedule-status" class="field-help" role="status">Loading team calendar…</p><p id="team-schedule-updated" class="field-help"></p>
-        <div class="workout-context-fields"><label for="team-schedule-view">Show<select id="team-schedule-view"><option value="all">All events</option><option value="upcoming">Upcoming events</option></select></label><label for="team-schedule-search">Find an event<input id="team-schedule-search" type="search" placeholder="Event or location" autocomplete="off"></label></div>
-        <p class="field-help">Opening this tab checks TeamSnap automatically. No player name is needed. Subscribe to add team events to your calendar app; that app controls its own refresh timing.</p>
-      </section>
-      <p id="team-schedule-warning" class="coverage-note" role="status" hidden></p>
-      <div class="schedule-display-bar"><div class="schedule-layout-switch" role="group" aria-label="Schedule layout"><button id="team-schedule-grid-mode" class="secondary-button" type="button" aria-pressed="true">Calendar</button><button id="team-schedule-list-mode" class="secondary-button" type="button" aria-pressed="false">List</button></div><span id="team-schedule-count" class="field-help"></span></div>
-      <div id="team-schedule-month-controls" class="schedule-month-controls"><h2 id="team-schedule-month" aria-live="polite">Team calendar</h2><div><button id="team-schedule-previous" class="secondary-button" type="button" aria-label="Previous month">←</button><button id="team-schedule-today" class="secondary-button" type="button">Today</button><button id="team-schedule-next" class="secondary-button" type="button" aria-label="Next month">→</button></div></div>
-      <div id="team-schedule-events" class="team-schedule-events"></div>
-      <section id="team-schedule-day-details" class="schedule-day-details" aria-labelledby="team-schedule-selected-date"><h2 id="team-schedule-selected-date" tabindex="-1">Selected day</h2><div id="team-schedule-day-events"></div></section>
-    </section>
     <section id="view-targets" class="view" aria-labelledby="targets-title" hidden data-player-access="locked">
       <div class="tab-player-bar"><div class="player-field"><label for="player"><span class="step-number">01</span> SELECT PLAYER</label><div class="select-wrap"><select id="player" aria-describedby="player-help"><option value="">Choose a player</option><option value="Aidan">Aidan</option><option value="Ambrose">Ambrose</option><option value="Andre">Andre</option><option value="Carson">Carson</option><option value="Carter">Carter</option><option value="Jayden">Jayden</option><option value="Joseph">Joseph</option><option value="Josh">Josh</option><option value="Max">Max</option><option value="Michael">Michael</option><option value="Nathan">Nathan</option><option value="Raiden">Raiden</option><option value="Rory">Rory</option><option value="Walker">Walker</option><option value="Marcus">Marcus</option><option value="Dominic">Dominic</option><option value="Demo">Demo</option></select></div><p id="player-help" class="field-help">Choose your name for this session</p></div></div>
       <p id="access-message-targets" class="player-access-message" role="status">Choose your name and enter your password to continue.</p>
