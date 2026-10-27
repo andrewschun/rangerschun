@@ -4,7 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#111b60"><meta name="description" content="Etobicoke Rangers 16U development workspace. Explore Driveline and DUBS references, labeled interpolation, Blast Motion, post-throwing Pulse data, and player workout journals.">
 <title>Rangers | Workout log</title>
-<link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css?v=delete-team-schedule-20261027">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css?v=ball-brand-below-baseline-20261027">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -45,7 +45,7 @@
       <div class="page-heading"><div><div class="eyebrow">THE TARGET IS A STARTING POINT.</div><h1 id="targets-title">Velocity targets</h1><p>Choose DUBS, Driveline or MARV ball references.<br class="desktop-break"> Bring a clear purpose to the work.</p></div><div class="hero-emblem" aria-hidden="true"><div class="emblem-orbit orbit-one"></div><div class="emblem-orbit orbit-two"></div><span class="emblem-cross cross-one">+</span><span class="emblem-cross cross-two">+</span><img class="hero-logo" src="./assets/rangers-logo.jpeg" alt="" width="160" height="160"><div class="hero-coordinate">PLYOCARE / VELOCITY LAB</div></div></div>
       <div class="coverage-note"><span class="note-symbol">i</span><p><strong>Screenshot coverage: 70–86 mph.</strong> Whole-mph inputs use the exact readings from your 17 screenshots. Decimal inputs use labeled interpolation. Colors, drill labels, and blanks are preserved.</p><button type="button" class="text-button" data-open="method-dialog">About the data <span>↗</span></button></div>
       <div class="equipment-note"><span class="eyebrow">DUBS / DRIVELINE / MARV</span><p>Choose your ball brand below. DUBS includes labeled reference estimates; MARV shows colours and ounce weights.</p><a href="#coach">Compare equipment ↗</a></div>
-      <div class="target-options"><div><span class="option-label">BALL BRAND</span><div class="equipment-switch" role="group" aria-label="Choose ball brand"><button type="button" data-equipment-mode="dubs" class="selected" aria-pressed="true">DUBS</button><button type="button" data-equipment-mode="driveline" aria-pressed="false">Driveline</button><button type="button" data-equipment-mode="marv" aria-pressed="false">MARV</button></div></div></div>
+      
       <nav class="drill-demos" aria-label="Watch PlyoCare drill demonstrations"><span>WATCH THE DRILL</span><div id="target-drill-demos"></div><small>Driveline demonstrations · opens a video in a new tab</small></nav>
       <form id="target-form" class="setup-card" novalidate>
         
@@ -53,7 +53,7 @@
         <div class="update-field"><button class="primary-button" type="submit">View my targets <span>↗</span></button><p class="field-help">Reference only · no throws recorded</p></div>
         <p class="form-error" id="velocity-error" role="alert" hidden></p>
       </form>
-      
+      <div class="target-options"><div><span class="option-label">BALL BRAND</span><div class="equipment-switch" role="group" aria-label="Choose ball brand"><button type="button" data-equipment-mode="dubs" class="selected" aria-pressed="true">DUBS</button><button type="button" data-equipment-mode="driveline" aria-pressed="false">Driveline</button><button type="button" data-equipment-mode="marv" aria-pressed="false">MARV</button></div></div></div>
       <div class="results-heading"><div><div class="eyebrow" id="result-player">DUBS · REFERENCES + 150 G PROJECTIONS</div><h2 id="result-heading">DUBS references &amp; estimates at 75 mph</h2></div><span class="status-pill interpolated" id="result-status">Unvalidated · includes projections</span></div>
       <div id="dubs-transfer-note" class="dubs-transfer-note"><strong>Provisional reference · DUBS output not validated</strong><p>Five ball weights use copied Driveline references. Dark green 150 g shows PROJECTED values for Step Backs, Janitors, Drop Steps and Walking Windups: 60% of the 100 g reference + 40% of the 225 g reference. Roll-Ins stay blank. This assumes a straight-line change with mass; no 150 g or DUBS readings validate that assumption. Decimal mound baselines also use interpolation.</p></div><div id="marv-reference-note" class="dubs-transfer-note" hidden><strong>MARV ball colours &amp; weights</strong><p>3.5 oz light blue · 5 oz white · 7.5 oz red · 10 oz yellow · 16 oz orange · 32 oz dark gray. No MARV velocity targets have been supplied.</p><a href="https://marvtraining.com/products/marv-balls-velo-set" target="_blank" rel="noopener noreferrer">MARV Velo Set details ↗</a></div><div class="filter-bar"><div id="ball-filters" class="ball-filters" role="group" aria-label="Filter by ball color"></div><button class="export-button" id="export-targets" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5"/></svg><span>Export targets</span></button></div>
       <p id="result-announcement" class="sr-only" role="status" aria-live="polite"></p>
