@@ -136,7 +136,7 @@
 
 /* Compact numbered activity cards. Reading order follows source order across rows. */
 .workout-unified{container-type:inline-size}
-.workout-exercises.is-checklist{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:start}
+.workout-exercises.is-checklist{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;align-items:start}
 /* Workout Log follows the three-column checklist; narrower containers adapt below. */
 .workout-exercises.is-checklist .workout-checklist-row{min-width:0;border-radius:6px}
 .workout-unified .is-checklist label.checklist-complete{gap:9px;padding:12px;min-height:54px;align-items:flex-start}
