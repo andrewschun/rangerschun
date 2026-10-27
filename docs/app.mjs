@@ -8,7 +8,6 @@ import {isAxeWorkout} from './axe-progress.mjs?v=rangers-organization-20261025';
 import {startPlayerAccess} from './player-access.mjs?v=password-label-20261025';
 import {startAxePrograms} from './axe-program-ui.mjs?v=rangers-organization-20261025';
 import {startWorkoutSchedule} from './workout-schedule-ui.mjs?v=rangers-organization-20261025';
-import { startTeamSchedule } from './team-schedule-ui.mjs?v=calendar-location-20261025';
 import { installGoogleBridge } from './google-bridge.mjs?v=rangers-organization-20261025';
 import { startTabPlayers } from './tab-players.mjs?v=player-jersey-check-20261025';
 import { startThrowingCalendar } from './throwing-calendar-ui.mjs?v=throwing-save-close-20261025';
@@ -30,7 +29,6 @@ import { isWorkoutVideoUrl } from './library-tools.mjs?v=compact-workouts-202610
 
 const GOOGLE_BACKEND_CONFIG = {...{"url": "https://script.google.com/macros/s/AKfycby83qDRwh5DzSU-h-45CdqJBGbO8NcVzssZnTpore_FH8psVHYUtxRpEHIgiJISOISL0g/exec", "origin": "https://andrewschun.github.io"},origin:globalThis.location?.origin==='https://rangerschun.github.io'?'https://rangerschun.github.io':'https://andrewschun.github.io'};
 installGoogleBridge(GOOGLE_BACKEND_CONFIG);
-const TEAM_SCHEDULE_CONFIG = {remote:true,public_url:'https://script.google.com/macros/s/AKfycby83qDRwh5DzSU-h-45CdqJBGbO8NcVzssZnTpore_FH8psVHYUtxRpEHIgiJISOISL0g/exec',snapshot_url:'./team-schedule.json',cache_key:'rangers-team-schedule-v1',subscription_url:"https://ical-cdn.teamsnap.com/team_schedule/896a42c8-2cb3-4e91-a8af-a056eafd6026.ics"};
 const $ = id => document.getElementById(id);
 const names = Object.fromEntries(COLORS.map(color => [color, color[0].toUpperCase() + color.slice(1)]));
 const swatches = { green: '#00a768', blue: '#087ab9', red: '#df493d', orange: '#ef9c11', gray: '#7f858b' };
@@ -427,14 +425,12 @@ $('overspeed-clear-entries').addEventListener('click',()=>{const player=$('overs
 const pulseLog=startPulse({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,download:downloadFile,onChange:(before,after)=>teamJournal?.record('pulse',before,after)});
 const visionVideos=startVisionVideos({element:$});
 const concentrationGrid=startConcentrationGrid({element:$,players:PLAYER_LABELS,flow:workoutFlow,getDailyRecords:()=>teamJournal?.concentrationHistory()??[],readRemote:()=>teamJournal.readConcentrationSummary()});
-const teamSchedule=startTeamSchedule({config:TEAM_SCHEDULE_CONFIG,element:$,download:downloadFile,readRemote:()=>{if(!teamJournal)throw Error('Connect with your player code in Coach desk to refresh the schedule.');return teamJournal.readTeamSchedule();}});
-document.querySelector('[data-nav="schedule"]').addEventListener('click',()=>{if(location.hash==='#schedule')void teamSchedule.activate();});
 startThrowingCalendar({players:PLAYER_LABELS,scope:rosterHash.toString(16),element:$,flow:throwingFlow,subscribe:listener=>workoutFlow.subscribe(listener)});
 axePrograms=startAxePrograms({element:$,players:PLAYER_LABELS,flow:workoutFlow,download:downloadFile,onNavigate:()=>{tabPlayers?.setCurrent($('axe-player').value);location.hash='#axe';}});
 tabPlayers=startTabPlayers({players:PLAYER_LABELS,element:$});
 const playerAccess=startPlayerAccess({players:PLAYER_LABELS,hashes:PLAYER_JERSEY_HASHES,element:$});
 const coachAccess=startCoachAccess({element:$,onUnlock:()=>{workoutOverview?.refresh();pulseLog.refresh();}});
-const routeLabels = { workouts: 'WORKOUT LOG', throwing: 'THROWING ROUTINE', schedule:'TEAM SCHEDULE', targets: 'PLYOCARE LAB', tracker: 'BASEBALL THROWS', pulse: 'DRIVELINE PULSE', blast: 'BLAST MOTION', overspeed: 'OVERSPEED PROGRAM', axe:'AXE BATS', concentration: 'VISION TRAINING', approach: 'TRAINING APPROACH', coach: 'COACH DESK' };
+const routeLabels = { workouts: 'WORKOUT LOG', throwing: 'THROWING ROUTINE', targets: 'PLYOCARE LAB', tracker: 'BASEBALL THROWS', pulse: 'DRIVELINE PULSE', blast: 'BLAST MOTION', overspeed: 'OVERSPEED PROGRAM', axe:'AXE BATS', concentration: 'VISION TRAINING', approach: 'TRAINING APPROACH', coach: 'COACH DESK' };
 function route() {
   const key = location.hash.slice(1);
   const view = Object.hasOwn(routeLabels, key) ? key : 'workouts';
@@ -450,11 +446,10 @@ function route() {
     if (active) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
   });
   $('breadcrumb-current').textContent = routeLabels[view];
-  if(view==='schedule')teamSchedule.activate();
   if(view==='blast')renderBlastHistory();
   if(view==='concentration'){visionVideos.refresh();void concentrationGrid.refreshTeam();}
   if(view==='coach'&&coachAccess.isVerified()){workoutOverview?.refresh();pulseLog.refresh();}
-  document.title = `Rangers | ${view === 'targets' ? 'PlyoCare Lab' : {throwing:'Throwing routine',schedule:'Team schedule',tracker:'Baseball throws',pulse:'Driveline Pulse',blast:'Blast Motion',workouts:'Workout log',overspeed:'OverSpeed program',axe:'Axe Bats',concentration:'Vision Training',approach:'Training approach',coach:'Coach desk'}[view]}`;
+  document.title = `Rangers | ${view === 'targets' ? 'PlyoCare Lab' : {throwing:'Throwing routine',tracker:'Baseball throws',pulse:'Driveline Pulse',blast:'Blast Motion',workouts:'Workout log',overspeed:'OverSpeed program',axe:'Axe Bats',concentration:'Vision Training',approach:'Training approach',coach:'Coach desk'}[view]}`;
   if (started) {
     const heading = $(`view-${view}`).querySelector('h1');
     heading.tabIndex = -1;
