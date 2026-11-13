@@ -23,7 +23,7 @@ export function copyDeviceEntries(storage,bundle,scope){
  for(const [key,value]of incoming){
   const raw=storage.getItem(key),current=raw===null?null:readMigrationValue(key,raw,scope);
   if(typeof value==='string'){writes.set(key,value);continue;}
-  if(key==='rangers-throwing-calendar-v1-'+scope){writes.set(key,JSON.stringify({version:1,starts:{...value.starts,...current?.starts}}));continue;}
+  if(key==='rangers-throwing-calendar-v1-'+scope){writes.set(key,JSON.stringify({version:1,starts:{...value.starts,...current?.starts},skips:{...value.skips,...current?.skips}}));continue;}
   const field=key===journalKey?'events':'records',id=field==='events'?'event_id':'id',existing=current?.[field]??[],known=new Set(existing.map(r=>r[id])),kind=Object.entries(DEVICE_COLLECTIONS).find(([prefix])=>key===prefix+scope)?.[1];
   const append=value[field].filter(r=>{if(known.has(r[id])){kept++;return false;}if(protectedRecords.has((field==='events'?r.kind:kind)+'/'+(field==='events'?r.record?.id:r.id))){kept++;return false;}known.add(r[id]);if(field==='records')added++;return true;});
   writes.set(key,JSON.stringify({version:1,[field]:field==='events'?[...append,...existing]:[...existing,...append]}));
